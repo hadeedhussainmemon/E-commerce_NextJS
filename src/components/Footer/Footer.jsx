@@ -87,7 +87,7 @@ const Footer = () => {
                 <li key={item}>
                   <Link
                     href={`/${item.toLowerCase().replace(' ', '-')}`}
-                    className="text-sm text-slate-400 hover:text-emerald-400 hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="text-sm text-slate-400 hover:text-emerald-400 hover:translate-x-1 transition-all duration-200 inline-block font-medium"
                   >
                     {item}
                   </Link>
@@ -99,13 +99,20 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-semibold mb-6 tracking-wide text-sm uppercase">Support</h3>
             <ul className="space-y-4">
-              {['Order Tracking', 'Contact Us', 'FAQ', 'Shipping Policy', 'Returns'].map((item) => (
-                <li key={item}>
+              {[
+                { name: 'About Us', path: '/about-us' },
+                { name: 'Order Tracking', path: '/track-order' },
+                { name: 'Contact Us', path: '/contact-us' },
+                { name: 'FAQ', path: '/faq' },
+                { name: 'Shipping Policy', path: '/shipping-policy' },
+                { name: 'Returns', path: '/returns' }
+              ].map((item) => (
+                <li key={item.name}>
                   <Link
-                    href={`/${item.toLowerCase().replace(' ', '-')}`}
-                    className="text-sm text-slate-400 hover:text-emerald-400 hover:translate-x-1 transition-all duration-200 inline-block"
+                    href={item.path}
+                    className="text-sm text-slate-400 hover:text-emerald-400 hover:translate-x-1 transition-all duration-200 inline-block font-medium"
                   >
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}

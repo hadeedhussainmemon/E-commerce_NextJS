@@ -8,8 +8,7 @@ import config from '../../config';
 import imageCompression from 'browser-image-compression';
 import { triggerPremiumFeedback } from '../../utils/feedback';
 
-const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories = [] }) => {
-    const router = useRouter();
+const AddProduct = ({ onClose, onProductAdded, product = null, existingCategories = [] }) => {
     const [formData, setFormData] = useState({
         title: '',
         price: '',
@@ -22,20 +21,17 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
         colors: ''
     });
 
-    // Category State
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [newCategory, setNewCategory] = useState('');
-
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
 
-    const API_BASE_URL = config.api.baseUrl;
-    const isEditing = !!initialData;
+    const isEditing = !!product;
 
     useEffect(() => {
-        if (initialData) {
+        if (product) {
             setFormData({
                 title: product.title || '',
                 price: product.price || '',
@@ -48,14 +44,12 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                 colors: Array.isArray(product.colors) ? product.colors.join(', ') : (product.colors || '')
             });
 
-            // Handle Categories
             if (Array.isArray(product.category)) {
                 setSelectedCategories(product.category);
             } else if (typeof product.category === 'string') {
                 setSelectedCategories(product.category.split(',').map(c => c.trim()).filter(Boolean));
             }
 
-            // Handle existing image for preview
             if (product.image) {
                 setImagePreview(getImageUrl(product.image));
             }
@@ -71,39 +65,23 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
     };
 
     const handleCategoryToggle = (cat) => {
-        setSelectedCategories(prev => {
-            if (prev.includes(cat)) {
-                return prev.filter(c => c !== cat);
-            } else {
-                return [...prev, cat];
-            }
-        });
+        setSelectedCategories(prev =>
+            prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+        );
     };
 
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Compress Image
-            const options = {
-                maxSizeMB: 0.5, // Max 500KB
-                maxWidthOrHeight: 1200,
-                useWebWorker: true,
-            };
-
+            const options = { maxSizeMB: 0.5, maxWidthOrHeight: 1200, useWebWorker: true };
             try {
                 const compressedFile = await imageCompression(file, options);
-                setImageFile(compressedFile); // Use compressed file
-
-                // Preview
+                setImageFile(compressedFile);
                 const reader = new FileReader();
-                reader.onloadend = () => {
-                    setImagePreview(reader.result);
-                };
+                reader.onloadend = () => setImagePreview(reader.result);
                 reader.readAsDataURL(compressedFile);
-
-            } catch (error) {
-                console.error("Image compression error:", error);
-                setError('Failed to process image');
+            } catch (err) {
+                setError('Signal processing failed');
             }
         }
     };
@@ -111,182 +89,203 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
     const generateMagicDescription = () => {
         if (!formData.title) return;
         const templates = [
-            `Elevate your style with the ${formData.title}. Crafted from premium ${formData.material || 'materials'}, this piece embodies modern luxury and exceptional craftsmanship. Perfect for ${selectedCategories[0] || 'any occasion'}.`,
-            `Introducing the ${formData.title}: where sophistication meets utility. Features high-quality ${formData.material || 'textures'} and a silhouette designed for the discerning individual. A standout addition to our ${selectedCategories[0] || 'exclusive'} range.`,
-            `The ${formData.title} isn't just a product—it's a statement. Expertly made using ${formData.material || 'fine materials'}, it offers unparalleled durability and a sleek, contemporary aesthetic. Uniquely yours.`
+            `Emanating absolute sophistication, the OBSIDIAN ${formData.title} marks a new meridian in design. Engineered with precision ${formData.material || 'elements'}, this node features a silhouette that defies temporal standards. Synchronized for the modern vanguard.`,
+            `Protocol: VANGUARD. Asset: ${formData.title}. A master-class in structural integrity and aesthetic flow, utilizing high-density ${formData.material || 'polymers'}. Designed for high-velocity environments where performance and prestige converge.`,
+            `The ${formData.title} exists at the intersection of utility and art. Forged from elite ${formData.material || 'composites'}, it offers a tactile experience redefined. A pivotal expansion to the ${selectedCategories[0] || 'Neural'} cluster.`
         ];
         const random = templates[Math.floor(Math.random() * templates.length)];
         setFormData(prev => ({ ...prev, description: random }));
-        triggerPremiumFeedback('success', 'light');
+        triggerPremiumFeedback('success', 'dark');
     };
 
-    const product = initialData;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setError('');
+
+        try {
+            const finalFormData = new FormData();
+            const categoriesToSubmit = [...selectedCategories];
+            if (newCategory.trim()) categoriesToSubmit.push(newCategory.trim());
+
+            Object.keys(formData).forEach(key => finalFormData.append(key, formData[key]));
+            finalFormData.append('category', JSON.stringify(categoriesToSubmit));
+            if (imageFile) finalFormData.append('image', imageFile);
+
+            const url = isEditing
+                ? `${config.api.baseUrl}/products/${product.id}`
+                : `${config.api.baseUrl}/products`;
+
+            const method = isEditing ? 'PUT' : 'POST';
+            const response = await fetch(url, {
+                method,
+                body: finalFormData,
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
+            });
+
+            if (!response.ok) throw new Error('Transmission interrupted');
+
+            triggerPremiumFeedback('success', 'dark');
+            onProductAdded();
+            onClose();
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="bg-[#020617] rounded-[2.5rem] border border-white/5 shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative selection:bg-emerald-500/30">
-                {/* Visual Flair */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-500">
+            <div className="bg-slate-900 border border-white/10 rounded-[2.5rem] shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden relative flex flex-col">
+                {/* Tactical Accent */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-                <div className="flex items-center justify-between p-8 border-b border-white/5 sticky top-0 bg-[#020617]/80 backdrop-blur-xl z-20">
+                {/* Header */}
+                <div className="flex items-center justify-between px-10 py-8 border-b border-white/5 bg-white/[0.02] relative z-10">
                     <div>
-                        <h2 className="text-2xl font-playfair font-black text-white italic tracking-tight">{isEditing ? 'Edit Masterpiece' : 'New Masterpiece'}</h2>
-                        <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Product Configuration</p>
+                        <h2 className="text-3xl font-playfair font-black text-white italic tracking-tighter">{isEditing ? 'Sync Entity' : 'Forging Asset'}</h2>
+                        <p className="text-[10px] text-emerald-500 font-black uppercase tracking-[0.3em] mt-1">Configuration Matrix</p>
                     </div>
                     <button
                         onClick={onClose}
-                        className="p-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-2xl transition-all"
+                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-all transform hover:rotate-90"
                     >
-                        <X size={24} />
+                        <X size={20} />
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-10 space-y-10 custom-scrollbar relative z-10">
                     {error && (
-                        <div className="p-4 bg-red-50 text-red-700 rounded-xl flex items-center gap-2 text-sm">
-                            <AlertCircle size={16} />
-                            {error}
+                        <div className="p-5 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-3xl flex items-center gap-3 text-[10px] font-black uppercase tracking-widest animate-pulse">
+                            <AlertCircle size={18} />
+                            Critical Error: {error}
                         </div>
                     )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                            {/* Image Upload */}
-                            <div>
-                                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 px-2">Hero Image</label>
-                                <div className="border border-white/5 bg-white/[0.02] rounded-3xl p-8 text-center hover:bg-white/[0.04] transition-all cursor-pointer relative group border-dashed">
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                    />
-                                    {imagePreview ? (
-                                        <div className="relative aspect-square w-full max-w-[240px] mx-auto rounded-3xl overflow-hidden shadow-2xl">
-                                            <div className="relative w-full h-full">
-                                                <Image
-                                                    src={imagePreview}
-                                                    alt="Preview"
-                                                    fill
-                                                    className="object-cover"
-                                                />
-                                            </div>
-                                            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <Upload size={24} className="text-white mb-2" />
-                                                <span className="text-white text-[10px] font-black uppercase tracking-widest">Update</span>
-                                            </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        {/* Visual Source (Image Upload) */}
+                        <div className="lg:col-span-4 space-y-6">
+                            <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4 ml-2">Visual Source</label>
+                            <div className="relative group aspect-square rounded-[2rem] overflow-hidden bg-black/40 border-2 border-dashed border-white/10 flex flex-col items-center justify-center transition-all hover:border-emerald-500/40 hover:bg-emerald-500/5">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                />
+                                {imagePreview ? (
+                                    <div className="relative w-full h-full">
+                                        <Image src={imagePreview} alt="Target" fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                                        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+                                            <Upload size={32} className="text-emerald-400 mb-2" />
+                                            <span className="text-white text-[10px] font-black uppercase tracking-widest">Update Stream</span>
                                         </div>
-                                    ) : (
-                                        <div className="py-12">
-                                            <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                                <Upload className="h-8 w-8 text-emerald-400" />
-                                            </div>
-                                            <p className="text-white text-sm font-bold">Upload Source</p>
-                                            <p className="text-slate-500 text-[10px] uppercase font-black tracking-widest mt-2">RAW, PNG, JPG (HQ)</p>
+                                    </div>
+                                ) : (
+                                    <div className="text-center p-8">
+                                        <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/10 group-hover:scale-110 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 transition-all duration-500">
+                                            <Upload className="h-6 w-6 text-emerald-500" />
                                         </div>
-                                    )}
-                                </div>
+                                        <p className="text-white text-[10px] font-black uppercase tracking-[0.2em]">Upload RAW Signal</p>
+                                        <p className="text-slate-600 text-[8px] font-black uppercase tracking-widest mt-2 px-4">HQ PNG, JPG (Max 5MB)</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
-                        <div className="space-y-4">
+                        {/* Core Parameters */}
+                        <div className="lg:col-span-8 space-y-8">
                             <div>
-                                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-2">Title</label>
+                                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Entity Title</label>
                                 <input
                                     type="text"
                                     name="title"
                                     required
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full px-6 py-4 bg-white/[0.02] border border-white/5 rounded-2xl text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all font-bold placeholder:text-slate-700"
-                                    placeholder="e.g. Midnight Chronograph"
+                                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-2xl text-white font-black uppercase tracking-widest focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all placeholder:text-slate-800 text-lg"
+                                    placeholder="DESIGNATE ASSET NAME..."
                                 />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Selling Price</label>
+                                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Export Velocity (Rs)</label>
                                     <input
                                         type="number"
                                         name="price"
                                         required
-                                        min="0"
                                         value={formData.price}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:border-emerald-500/50 outline-none transition-all"
                                         placeholder="0.00"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Purchase Price</label>
+                                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Network Yield (Rs)</label>
                                     <input
                                         type="number"
                                         name="purchasePrice"
-                                        min="0"
                                         value={formData.purchasePrice}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:border-emerald-500/50 outline-none transition-all"
                                         placeholder="0.00"
                                     />
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Inventory Depth</label>
                                     <input
                                         type="number"
                                         name="stock"
                                         required
-                                        min="0"
                                         value={formData.stock}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                                        placeholder="Qty"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:border-emerald-500/50 outline-none transition-all"
+                                        placeholder="UNITS"
                                     />
                                 </div>
-                                <div className="grid grid-cols-1 gap-4">
-                                    <div>
-                                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-2">Classification</label>
-                                        <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 max-h-48 overflow-y-auto space-y-3 mb-3">
+                                <div>
+                                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Classification Cluster</label>
+                                    <div className="relative">
+                                        <select
+                                            multiple
+                                            value={selectedCategories}
+                                            onChange={(e) => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))}
+                                            className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-black uppercase tracking-widest text-[10px] focus:border-emerald-500/50 outline-none transition-all h-32 custom-scrollbar appearance-none"
+                                        >
                                             {existingCategories.map(cat => (
-                                                <div key={cat} className="flex items-center gap-3 group">
-                                                    <input
-                                                        type="checkbox"
-                                                        id={`cat-${cat}`}
-                                                        checked={selectedCategories.includes(cat)}
-                                                        onChange={() => handleCategoryToggle(cat)}
-                                                        className="w-4 h-4 text-emerald-500 bg-slate-900 border-white/10 rounded focus:ring-emerald-500"
-                                                    />
-                                                    <label htmlFor={`cat-${cat}`} className="text-sm font-bold text-slate-400 group-hover:text-white cursor-pointer select-none transition-colors">
-                                                        {cat}
-                                                    </label>
-                                                </div>
+                                                <option key={cat} value={cat} className="bg-slate-900 py-2 px-4 hover:bg-emerald-500/20 cursor-pointer">{cat}</option>
                                             ))}
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={newCategory}
-                                            onChange={(e) => setNewCategory(e.target.value)}
-                                            className="w-full px-5 py-3 bg-white/[0.02] border border-white/5 rounded-xl text-sm font-bold text-white focus:ring-2 focus:ring-emerald-500 outline-none placeholder:text-slate-700"
-                                            placeholder="+ New Category"
-                                        />
+                                        </select>
+                                        <div className="absolute bottom-4 right-4 text-[8px] font-black text-slate-600 uppercase tracking-widest pointer-events-none">Hold CMD/CTRL to multi-select</div>
                                     </div>
+                                    <input
+                                        type="text"
+                                        value={newCategory}
+                                        onChange={(e) => setNewCategory(e.target.value)}
+                                        className="w-full mt-3 px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400 focus:border-emerald-500/50 outline-none placeholder:text-slate-700"
+                                        placeholder="+ INITIALIZE NEW CLUSTER"
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="relative">
-                        <div className="flex items-center justify-between mb-3 px-2">
-                            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Description</label>
+                    {/* Neural Narrative */}
+                    <div className="relative group">
+                        <div className="flex items-center justify-between mb-4 px-2">
+                            <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Neural Narrative</label>
                             <button
                                 type="button"
                                 onClick={generateMagicDescription}
-                                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/5 group"
+                                className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 px-5 py-2.5 rounded-full border border-emerald-500/20 transition-all hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] active:scale-95 group"
                             >
-                                <Wand2 size={12} className="group-hover:rotate-12 transition-transform" />
-                                AI Magic Assist
+                                <Wand2 size={14} className="group-hover:rotate-45 transition-transform duration-500" />
+                                Initiate Magic Protocol
                             </button>
                         </div>
                         <textarea
@@ -295,90 +294,106 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                             rows={6}
                             value={formData.description}
                             onChange={handleChange}
-                            className="w-full px-6 py-5 bg-white/[0.02] border border-white/5 rounded-3xl text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all min-h-[160px] resize-y font-medium text-lg leading-relaxed placeholder:text-slate-700"
-                            placeholder="Craft a compelling story about this masterpiece..."
+                            className="w-full px-8 py-8 bg-white/5 border border-white/10 rounded-[2rem] text-white font-medium text-lg leading-relaxed focus:border-emerald-500/50 outline-none transition-all min-h-[200px] resize-none placeholder:text-slate-800"
+                            placeholder="TRANSMIT ASSET SPECIFICATIONS..."
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Material</label>
-                            <input
-                                type="text"
-                                name="material"
-                                value={formData.material}
-                                onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                                placeholder="e.g. Leather, Steel"
-                            />
+                            <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4 ml-4">Structural Analysis</label>
+                            <div className="p-8 bg-black/20 border border-white/5 rounded-[2rem] space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <label htmlFor="isCustomizable" className="text-[10px] font-black text-slate-400 uppercase tracking-widest cursor-pointer">Dynamic Customization</label>
+                                    <div className="relative inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            id="isCustomizable"
+                                            name="isCustomizable"
+                                            checked={formData.isCustomizable}
+                                            onChange={handleChange}
+                                            className="sr-only peer"
+                                        />
+                                        <div className="w-12 h-6 bg-slate-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600 shadow-inner"></div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <label htmlFor="isVisible" className="text-[10px] font-black text-slate-400 uppercase tracking-widest cursor-pointer">Network Visibility</label>
+                                    <div className="relative inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            id="isVisible"
+                                            name="isVisible"
+                                            checked={formData.isVisible}
+                                            onChange={handleChange}
+                                            className="sr-only peer"
+                                        />
+                                        <div className="w-12 h-6 bg-slate-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600 shadow-inner"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Colors (comma separated)</label>
-                            <input
-                                type="text"
-                                name="colors"
-                                value={formData.colors}
-                                onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                                placeholder="e.g. Red, Blue, Black"
-                            />
+
+                        <div className="space-y-6">
+                            <div>
+                                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Material Composition</label>
+                                <input
+                                    type="text"
+                                    name="material"
+                                    value={formData.material}
+                                    onChange={handleChange}
+                                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:border-emerald-500/50 outline-none transition-all placeholder:text-slate-800"
+                                    placeholder="DESIGNATE COMPOSITION..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Chroma Variants</label>
+                                <input
+                                    type="text"
+                                    name="colors"
+                                    value={formData.colors}
+                                    onChange={handleChange}
+                                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:border-emerald-500/50 outline-none transition-all placeholder:text-slate-800"
+                                    placeholder="COMMA DELIMITED..."
+                                />
+                            </div>
                         </div>
                     </div>
+                </form>
 
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            id="isCustomizable"
-                            name="isCustomizable"
-                            checked={formData.isCustomizable}
-                            onChange={handleChange}
-                            className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
-                        />
-                        <label htmlFor="isCustomizable" className="text-sm font-medium text-gray-700">This product is customizable</label>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            id="isVisible"
-                            name="isVisible"
-                            checked={formData.isVisible}
-                            onChange={handleChange}
-                            className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
-                        />
-                        <label htmlFor="isVisible" className="text-sm font-medium text-gray-700">Visible on Website</label>
-                    </div>
-
-                    <div className="pt-4 flex items-center justify-end gap-3 border-t border-gray-100">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="px-5 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-xl transition-all"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
+                {/* Footer Controls */}
+                <div className="px-10 py-8 bg-black/40 border-t border-white/5 flex items-center justify-between relative z-10">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-white transition-all"
+                    >
+                        [ Abort ]
+                    </button>
+                    <button
+                        onClick={handleSubmit}
+                        disabled={isSubmitting}
+                        className="group relative px-10 py-4 bg-emerald-600 text-white rounded-2xl overflow-hidden transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-lg shadow-emerald-500/20"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <span className="relative z-10 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.3em]">
                             {isSubmitting ? (
                                 <>
                                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                    {isEditing ? 'Saving...' : 'Adding...'}
+                                    Synchronizing...
                                 </>
                             ) : (
                                 <>
                                     <Save size={18} />
-                                    {isEditing ? 'Save Changes' : 'Add Product'}
+                                    {isEditing ? 'COMMIT CHANGES' : 'DEPLOY ASSET'}
                                 </>
                             )}
-                        </button>
-                    </div>
-                </form>
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     );
-}
+};
 
 export default AddProduct;

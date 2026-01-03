@@ -5,9 +5,21 @@ import Image from 'next/image';
 import getImageUrl from '@/utils/imageUrl';
 import { ArrowLeft } from 'lucide-react';
 
-// Since this is a server component in (store), we can fetch data directly
-// But for now let's just create a basic placeholder structure that works
-// We will need params to get the category slug
+// Server-side fetch for metadata
+export async function generateMetadata({ params }) {
+    const { category } = await params;
+    const decodedCategory = decodeURIComponent(category).replace(/-/g, ' ');
+
+    return {
+        title: `${decodedCategory.toUpperCase()} | Vanguard OS`,
+        description: `Explore our exclusive collection of premium ${decodedCategory}. Curated for excellence, engineered for style.`,
+        openGraph: {
+            title: `${decodedCategory} - Vanguard Collection`,
+            description: `Browse the finest ${decodedCategory} at Vanguard.`,
+            type: 'website',
+        },
+    };
+}
 
 export default async function CategoryPage({ params }) {
     // Await params first (Next.js 15+ requirement, good practice generally)

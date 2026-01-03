@@ -4,7 +4,7 @@ import config from "../config";
 import Providers from "../components/Providers";
 import ScrollProgress from "../components/UI/ScrollProgress";
 import { ToastProvider } from "../context/ToastContext";
-import CustomCursor from "../components/UI/CustomCursor";
+import NeuralCursor from "../components/UI/NeuralCursor";
 import FloatingHearts from "../components/UI/FloatingHearts";
 
 const playfair = Playfair_Display({
@@ -19,10 +19,31 @@ const inter = Inter({
 
 export const metadata = {
   title: {
-    default: config.appName,
-    template: `%s | ${config.appName}`,
+    default: "Vanguard OS | Premium Digital Atelier",
+    template: "%s | Vanguard OS"
   },
-  description: config.description,
+  description: "Experience the zenith of digital curation. Vanguard OS provides a sanctuary for elite connoisseurs seeking masterpieces in horology, leather craft, and lifestyle technology.",
+  keywords: ["vanguard", "premium store", "luxury watches", "leather goods", "exclusive accessories"],
+  authors: [{ name: "Vanguard Engineering" }],
+  creator: "Vanguard OS",
+  publisher: "Vanguard OS",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://vanguard-os.co",
+    siteName: "Vanguard OS",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vanguard OS | Premium Digital Atelier",
+    description: "Experience the zenith of digital curation.",
+    creator: "@vanguard_os",
+  },
   manifest: '/manifest.json',
 };
 
@@ -35,7 +56,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <ToastProvider>
             <ScrollProgress />
-            <CustomCursor />
+            <NeuralCursor />
             <FloatingHearts />
             {children}
           </ToastProvider>

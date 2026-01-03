@@ -7,7 +7,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useCartAnimation } from "../../context/CartAnimationContext";
-import SearchAutocomplete from "../Search/SearchAutocomplete";
 import GlobalSearchOverlay from "../Search/GlobalSearchOverlay";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";

@@ -169,22 +169,22 @@ export default function HomeClient({ initialProducts = null, initialCategories =
                 </div>
 
                 {/* Premium Benefits Section */}
-                <section className="py-12 bg-white">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <section className="py-16 bg-white border-y border-slate-50">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.1 }}
-                                className="flex items-center gap-5 p-6 rounded-3xl bg-slate-50 border border-slate-100 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-300"
+                                className="flex items-center gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100/50 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-500 hover:shadow-xl hover:shadow-emerald-900/5"
                             >
-                                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                                    <Truck className="w-7 h-7 text-emerald-600" />
+                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500 group-hover:rotate-3">
+                                    <Truck className="w-8 h-8 text-emerald-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-slate-900 group-hover:text-emerald-900">Fast Delivery</h3>
-                                    <p className="text-sm text-slate-500 group-hover:text-emerald-700">Orders delivered within 3-5 days</p>
+                                    <h3 className="font-black text-slate-900 group-hover:text-emerald-900 tracking-tight">Fast Delivery</h3>
+                                    <p className="text-xs font-medium text-slate-500 group-hover:text-emerald-700/70 mt-1">Orders delivered within 3-5 days</p>
                                 </div>
                             </motion.div>
 
@@ -193,14 +193,14 @@ export default function HomeClient({ initialProducts = null, initialCategories =
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.2 }}
-                                className="flex items-center gap-5 p-6 rounded-3xl bg-slate-50 border border-slate-100 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-300"
+                                className="flex items-center gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100/50 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-500 hover:shadow-xl hover:shadow-emerald-900/5"
                             >
-                                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                                    <ShieldCheck className="w-7 h-7 text-emerald-600" />
+                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500 group-hover:-rotate-3">
+                                    <ShieldCheck className="w-8 h-8 text-emerald-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-slate-900 group-hover:text-emerald-900">Quality Assured</h3>
-                                    <p className="text-sm text-slate-500 group-hover:text-emerald-700">100% authentic premium gear</p>
+                                    <h3 className="font-black text-slate-900 group-hover:text-emerald-900 tracking-tight">Quality Assured</h3>
+                                    <p className="text-xs font-medium text-slate-500 group-hover:text-emerald-700/70 mt-1">100% authentic premium gear</p>
                                 </div>
                             </motion.div>
 
@@ -209,21 +209,21 @@ export default function HomeClient({ initialProducts = null, initialCategories =
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.3 }}
-                                className="flex items-center gap-5 p-6 rounded-3xl bg-slate-50 border border-slate-100 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-300"
+                                className="hidden lg:flex items-center gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100/50 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-500 hover:shadow-xl hover:shadow-emerald-900/5"
                             >
-                                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                                    <Star className="w-7 h-7 text-emerald-600" />
+                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500 group-hover:rotate-6">
+                                    <Star className="w-8 h-8 text-emerald-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-slate-900 group-hover:text-emerald-900">Premium Support</h3>
-                                    <p className="text-sm text-slate-500 group-hover:text-emerald-700">Dedicated assistance for you</p>
+                                    <h3 className="font-black text-slate-900 group-hover:text-emerald-900 tracking-tight">Premium Support</h3>
+                                    <p className="text-xs font-medium text-slate-500 group-hover:text-emerald-700/70 mt-1">Dedicated assistance for you</p>
                                 </div>
                             </motion.div>
                         </div>
                     </div>
                 </section>
 
-                <BrandStories />
+                <BrandStories products={products} />
 
                 <CategoryGrid categoriesFromSSR={categoryData} />
 

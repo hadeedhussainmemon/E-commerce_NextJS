@@ -450,112 +450,95 @@ function AdminProducts() {
             </div>
 
             {/* Mobile Card View */}
-            <div className="md:hidden space-y-3 p-3">
+            <div className="md:hidden space-y-4 p-4 bg-black/40">
               {paginatedProducts.map((product) => {
                 const profit = calculateProfit(product);
                 const isLowStock = product.stock < 10;
                 const isSoldOut = product.stock === 0;
 
                 return (
-                  <div key={product.id} className="bg-white rounded-xl border-2 border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:border-emerald-200 transition-all">
-                    <div className="p-4">
-                      <div className="flex gap-3">
+                  <div key={product.id} className="bg-slate-900/60 backdrop-blur-xl rounded-[2rem] border border-white/5 overflow-hidden shadow-xl group">
+                    <div className="p-6">
+                      <div className="flex gap-4">
                         {/* Picture */}
-                        <div className="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 shadow-sm">
+                        <div className="w-20 h-20 flex-shrink-0 rounded-2xl overflow-hidden bg-white/[0.02] border border-white/5 shadow-inner flex items-center justify-center">
                           {product.image ? (
-                            <img
+                            <Image
                               src={getImageUrl(product.image, { width: 100, crop: 'fill' })}
                               alt={product.title}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"%3E%3Crect width="24" height="24" fill="%23f3f4f6"/%3E%3C/svg%3E';
-                              }}
+                              width={100}
+                              height={100}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <span className="text-gray-400 text-xs">No image</span>
-                            </div>
+                            <Package size={24} className="text-slate-700" />
                           )}
                         </div>
 
                         {/* Details */}
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 mb-1">{product.title}</h3>
-                          <p className="text-xs text-gray-500 mb-2">ID: {product.id}</p>
+                          <h3 className="font-black text-white text-sm leading-tight line-clamp-2 mb-2 italic tracking-tight uppercase">{product.title}</h3>
+                          <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-3">ID: {product.id.slice(-8).toUpperCase()}</p>
 
-                          <div className="flex items-center gap-2">
-                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${isSoldOut
-                              ? 'bg-rose-100 text-rose-700 border-rose-200'
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className={`inline-flex items-center px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${isSoldOut
+                              ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                               : isLowStock
-                                ? 'bg-amber-100 text-amber-700 border-amber-200'
-                                : 'bg-emerald-100 text-emerald-700 border-emerald-200'
+                                ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]'
                               }`}>
-                              {product.stock || 0} in stock
+                              {product.stock || 0} In Field
                             </span>
                             {product.isVisible === false && (
-                              <span className="bg-gray-100 text-gray-500 text-[10px] sm:text-xs px-2 py-0.5 rounded border border-gray-200 font-medium">Hidden</span>
+                              <span className="bg-slate-800 text-slate-500 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded border border-white/5">Stealth</span>
                             )}
                           </div>
                         </div>
                       </div>
 
                       {/* Price Section */}
-                      <div className="mt-3 pt-3 border-t border-gray-100">
-                        <div className="grid grid-cols-3 gap-2 text-center">
+                      <div className="mt-6 pt-6 border-t border-white/5">
+                        <div className="grid grid-cols-3 gap-4 text-center">
                           <div>
-                            <p className="text-xs font-medium text-gray-500">Purchase</p>
-                            <p className="font-bold text-sm text-gray-800">Rs. {(product.purchasePrice || 0).toLocaleString()}</p>
+                            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Source</p>
+                            <p className="font-bold text-xs text-slate-400 italic">Rs. {(product.purchasePrice || 0).toLocaleString()}</p>
                           </div>
                           <div>
-                            <p className="text-xs font-medium text-gray-500">Selling</p>
-                            <p className="font-bold text-sm text-gray-800">Rs. {(product.price || 0).toLocaleString()}</p>
+                            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Export</p>
+                            <p className="font-black text-xs text-white">Rs. {(product.price || 0).toLocaleString()}</p>
                           </div>
                           <div>
-                            <p className={`text-xs font-medium ${profit > 0 ? 'text-emerald-600' : profit < 0 ? 'text-red-600' : 'text-gray-500'
-                              }`}>
-                              Profit
-                            </p>
-                            <p className={`font-bold text-sm ${profit > 0 ? 'text-emerald-700' : profit < 0 ? 'text-red-700' : 'text-gray-800'
-                              }`}>
-                              Rs. {profit.toLocaleString()}
+                            <p className={`text-[9px] font-black uppercase tracking-widest mb-1 ${profit > 0 ? 'text-emerald-500' : profit < 0 ? 'text-rose-500' : 'text-slate-500'}`}>Yield</p>
+                            <p className={`font-black text-xs ${profit > 0 ? 'text-emerald-400 shadow-emerald-500/20' : profit < 0 ? 'text-rose-400' : 'text-white'}`}>
+                              {profit > 0 ? '+' : ''}Rs. {profit.toLocaleString()}
                             </p>
                           </div>
                         </div>
                       </div>
 
                       {/* Actions */}
-                      <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-end gap-2">
+                      <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between gap-3">
                         <button
-                          title={product.isVisible ? "Hide from website" : "Show on website"}
+                          title={product.isVisible ? "Stealth Mode" : "Reveal Mode"}
                           onClick={() => handleToggleVisibility(product)}
-                          className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all flex items-center gap-1 shadow-sm hover:shadow ${product.isVisible ? 'text-emerald-700 bg-emerald-50 hover:bg-emerald-100' : 'text-gray-600 bg-gray-100 hover:bg-gray-200'}`}
+                          className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border ${product.isVisible ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-slate-500 bg-slate-800 border-white/5'}`}
                         >
-                          {product.isVisible ? (
-                            <>
-                              <Eye size={14} />
-                              Visible
-                            </>
-                          ) : (
-                            <>
-                              <EyeOff size={14} />
-                              Hidden
-                            </>
-                          )}
+                          {product.isVisible ? <><Eye size={16} /> Online</> : <><EyeOff size={16} /> Stealth</>}
                         </button>
                         <button
-                          title="Edit"
+                          title="Edit Protocol"
                           onClick={() => handleEditProduct(product)}
-                          className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-all flex items-center gap-1 shadow-sm hover:shadow"
+                          className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-white/[0.05] text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95"
                         >
-                          <Edit2 size={14} />
-                          Edit
+                          <Edit2 size={16} />
+                          Forge
                         </button>
                         <button
-                          title="Delete"
+                          title="Terminate Entry"
                           onClick={() => handleDeleteProduct(product)}
-                          className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition-all shadow-sm hover:shadow border border-rose-200 hover:border-rose-300"
+                          className="w-12 h-12 flex items-center justify-center text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded-2xl transition-all active:scale-95"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={18} />
                         </button>
                       </div>
                     </div>
@@ -571,23 +554,23 @@ function AdminProducts() {
                   <button
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
-                    className="w-full sm:w-auto px-6 py-2.5 border border-white/5 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 bg-white/[0.02] hover:bg-white/[0.05] disabled:opacity-20 transition-all"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-white/[0.02] border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:bg-white/[0.05] disabled:opacity-20 transition-all active:scale-95"
                   >
-                    ← Previous Page
+                    ← Temporal Shift Back
                   </button>
 
                   <div className="flex items-center gap-4">
                     <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                      Stage <strong className="text-white">{currentPage}</strong> of <strong className="text-white">{totalPages}</strong>
+                      Node Segment <strong className="text-white bg-white/5 px-2 py-1 rounded-md ml-2">{currentPage}</strong> <span className="mx-2 text-slate-700">|</span> Total <strong className="text-white">{totalPages}</strong>
                     </span>
                   </div>
 
                   <button
                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
-                    className="w-full sm:w-auto px-6 py-2.5 border border-white/5 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 bg-white/[0.02] hover:bg-white/[0.05] disabled:opacity-20 transition-all"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-white/[0.02] border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:bg-white/[0.05] disabled:opacity-20 transition-all active:scale-95"
                   >
-                    Next Page →
+                    Forward Trajectory →
                   </button>
                 </div>
               </div>
@@ -609,7 +592,7 @@ function AdminProducts() {
           />
         )
       }
-    </div >
+    </div>
   );
 }
 

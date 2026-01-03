@@ -37,135 +37,148 @@ const AdminLayout = ({ children, section = 'dashboard', onSectionChange }) => {
   };
 
   const handleLogout = () => {
-    if (confirm('Are you sure you want to logout?')) {
+    if (confirm('Initiate termination of current session?')) {
       localStorage.removeItem('adminToken');
+      document.cookie = "adminToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
       window.location.href = '/admin/login';
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] flex flex-col lg:flex-row relative selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-[#020617] flex flex-col lg:flex-row relative selection:bg-emerald-500/30 font-inter">
       {/* Real-time Sales Ticker (God-Tier Feed) */}
-      <div className="fixed top-0 left-0 right-0 h-1 z-[60] bg-slate-900 border-b border-white/5 flex items-center px-4 overflow-hidden md:h-8">
-        <div className="flex items-center gap-4 animate-scroll-rtl whitespace-nowrap text-[10px] font-black uppercase tracking-widest text-emerald-400/60">
-          <span>⚡ Real-time Stream Active</span>
-          <span className="text-slate-700">•</span>
-          <span>New Order #4021 Received 2m ago</span>
-          <span className="text-slate-700">•</span>
-          <span>Silver Watch Stock Low</span>
-          <span className="text-slate-700">•</span>
-          <span>Search Spike: "Gold Ring"</span>
+      <div className="fixed top-0 left-0 right-0 h-10 z-[60] bg-black/40 backdrop-blur-xl border-b border-white/5 flex items-center px-6 overflow-hidden">
+        <div className="flex items-center gap-6 animate-scroll-rtl whitespace-nowrap text-[9px] font-black uppercase tracking-[0.25em] text-emerald-400">
+          <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div> Phase 1 Network Active</span>
+          <span className="text-slate-700">|</span>
+          <span>Transmission #4902 Received: Order Confirmed</span>
+          <span className="text-slate-700">|</span>
+          <span>Buffer Alert: Chronograph 40mm Stock {`<`} 5 Units</span>
+          <span className="text-slate-700">|</span>
+          <span>Global Search Pulse: "Obsidian" Velocity 1.8x</span>
         </div>
       </div>
+
       {/* Mobile Header */}
-      <header className="lg:hidden bg-slate-900 border-b border-slate-700 text-white p-4 shadow-md flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center gap-3">
+      <header className="lg:hidden bg-slate-950/80 backdrop-blur-2xl border-b border-white/5 text-white p-5 flex items-center justify-between sticky top-0 z-40">
+        <div className="flex items-center gap-4">
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-300 hover:text-white transition-all active:scale-90"
           >
-            <Menu size={24} />
+            <Menu size={20} />
           </button>
           <div>
-            <h1 className="text-lg font-bold text-white tracking-wide">CoolCache</h1>
-            <p className="text-[10px] text-emerald-400 leading-none">Admin Panel</p>
+            <h1 className="text-xl font-playfair font-black text-white italic tracking-tight">Vanguard</h1>
+            <p className="text-[8px] text-emerald-500 font-black uppercase tracking-[0.2em] leading-none mt-1">OS Matrix</p>
           </div>
         </div>
-        <button onClick={handleLogout} className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors">
-          <LogOut size={20} />
+        <button onClick={handleLogout} className="p-3 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-xl transition-all active:scale-95">
+          <LogOut size={18} />
         </button>
       </header>
 
       {/* Mobile Sidebar Drawer Overlay */}
-      {isSidebarOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/60 z-50 backdrop-blur-sm transition-opacity"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="lg:hidden fixed inset-0 bg-black/80 z-50 backdrop-blur-sm"
+              onClick={() => setIsSidebarOpen(false)}
+            />
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Sidebar (Desktop + Mobile Drawer) */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-72 bg-slate-950/80 backdrop-blur-3xl border-r border-white/5 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:sticky lg:top-0 shadow-2xl lg:shadow-none pt-8
+        fixed inset-y-0 left-0 z-[100] w-80 bg-slate-950/60 backdrop-blur-[40px] border-r border-white/10 flex flex-col transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) lg:translate-x-0 lg:static lg:h-screen lg:sticky lg:top-0 shadow-[20px_0_50px_rgba(0,0,0,0.5)] lg:shadow-none pt-10
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="px-6 py-6 border-b border-slate-800 flex items-center justify-between">
+        <div className="px-8 py-8 flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-wide">CoolCache</h2>
-            <p className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">Admin Dashboard</p>
+            <h2 className="text-3xl font-playfair font-black text-white italic tracking-tighter">Vanguard</h2>
+            <p className="text-[10px] text-emerald-500/60 mt-1 uppercase tracking-[0.3em] font-black">Control Terminal</p>
           </div>
           {/* Close button for mobile */}
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors"
+            className="lg:hidden w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
-        <div className="flex-1 p-4 space-y-2 overflow-y-auto custom-scrollbar">
-          <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 mt-2">Menu</p>
+        <div className="flex-1 px-4 space-y-1.5 overflow-y-auto custom-scrollbar">
+          <p className="px-6 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em] mb-4 mt-6">Command Matrix</p>
           <SidebarLink
             active={currentSection === 'dashboard'}
             onClick={() => handleSectionChange('dashboard')}
             icon={BarChart3}
           >
-            Dashboard
+            Tactical Overview
           </SidebarLink>
           <SidebarLink
             active={currentSection === 'products'}
             onClick={() => handleSectionChange('products')}
             icon={Package}
           >
-            All Products
+            Inventory Hub
           </SidebarLink>
           <SidebarLink
             active={currentSection === 'orders'}
             onClick={() => handleSectionChange('orders')}
             icon={ShoppingCart}
           >
-            Orders
+            Order Nexus
           </SidebarLink>
+
+          <p className="px-6 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em] mb-4 mt-12">Protocol Segments</p>
           <SidebarLink
             active={currentSection === 'notifications'}
             onClick={() => handleSectionChange('notifications')}
             icon={Bell}
           >
-            Notifications
+            Alert Matrix
           </SidebarLink>
           <SidebarLink
             active={currentSection === 'coupons'}
             onClick={() => handleSectionChange('coupons')}
             icon={Ticket}
           >
-            Coupons
+            Voucher Forge
           </SidebarLink>
         </div>
 
-        <div className="p-4 border-t border-slate-800 bg-slate-900/50">
+        <div className="p-6 border-t border-white/5 bg-black/20 mt-auto">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-rose-900/20 hover:text-rose-400 transition-all font-semibold"
+            className="w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-slate-500 hover:bg-rose-500/10 hover:text-rose-400 border border-transparent hover:border-rose-500/20 transition-all font-black text-[10px] uppercase tracking-widest active:scale-95"
           >
-            <LogOut size={20} />
-            <span>Logout</span>
+            <LogOut size={18} />
+            <span>Terminate session</span>
           </button>
-          <div className="mt-4 px-4 text-xs text-slate-600 text-center font-mono">v1.3.0 (Emerald)</div>
+          <div className="mt-6 px-6 text-[8px] text-slate-800 text-center font-black uppercase tracking-[0.4em]">v1.4.2 // EMERALD CORE</div>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-4 sm:p-6 lg:p-10 overflow-x-hidden bg-[#020617] relative">
+      <main className="flex-1 p-6 sm:p-10 lg:p-16 overflow-x-hidden bg-[#020617] relative pt-20 lg:pt-24">
         {/* Background Glows */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/[0.03] rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="relative z-10 pt-8 lg:pt-0">
+        <div className="relative z-10">
           {children}
         </div>
       </main>
     </div>
   );
 };
+
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default AdminLayout;

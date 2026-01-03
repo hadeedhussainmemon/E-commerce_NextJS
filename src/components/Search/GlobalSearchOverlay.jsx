@@ -88,32 +88,43 @@ export default function GlobalSearchOverlay({ isOpen, onClose }) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="fixed inset-0 z-[150] bg-white/95 backdrop-blur-3xl"
+                    className="fixed inset-0 z-[200] bg-[#020617]/95 backdrop-blur-[80px]"
                 >
-                    <div className="max-w-5xl mx-auto h-full flex flex-col px-6">
+                    <div className="max-w-5xl mx-auto h-full flex flex-col px-6 relative">
+                        {/* Background Glows */}
+                        <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+                        <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+
                         {/* Search Input Area */}
-                        <div className="pt-12 md:pt-24 pb-12">
+                        <div className="pt-12 md:pt-32 pb-12 relative z-10">
                             <form onSubmit={handleSearch} className="relative group">
-                                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors w-8 h-8" />
+                                <div className="absolute inset-0 bg-emerald-500/5 rounded-[2.5rem] blur-xl group-focus-within:bg-emerald-500/10 transition-all duration-700" />
+                                <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors w-10 h-10" />
                                 <input
                                     autoFocus
                                     type="text"
                                     placeholder="Search for perfection..."
                                     value={query}
                                     onChange={(e) => setQuery(e.target.value)}
-                                    className="w-full bg-slate-50 border-none rounded-3xl py-10 pl-20 pr-16 text-2xl md:text-5xl font-playfair font-black text-slate-900 focus:ring-4 focus:ring-emerald-500/10 placeholder:text-slate-300 transition-all outline-none"
+                                    className="w-full bg-white/[0.03] border border-white/10 rounded-[2.5rem] py-12 pl-24 pr-20 text-3xl md:text-6xl font-playfair font-black text-white focus:ring-4 focus:ring-emerald-500/20 placeholder:text-slate-700 transition-all outline-none tracking-tight italic"
                                 />
                                 <button
                                     type="button"
                                     onClick={onClose}
-                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 transition-colors p-2"
+                                    className="absolute right-8 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-all p-3 hover:rotate-90"
                                 >
-                                    <X size={32} />
+                                    <X size={40} />
                                 </button>
                             </form>
-                            <div className="mt-4 flex items-center justify-between text-slate-400 text-sm px-4">
-                                <span>Press <kbd className="font-sans font-bold bg-slate-100 px-1.5 py-0.5 rounded">ESC</kbd> to close</span>
-                                <span>Type at least 2 characters</span>
+                            <div className="mt-8 flex items-center justify-between text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] px-8">
+                                <span className="flex items-center gap-2">
+                                    <kbd className="font-sans bg-white/5 border border-white/10 px-2 py-1 rounded-lg text-white">ESC</kbd>
+                                    to terminate
+                                </span>
+                                <span className="flex items-center gap-2">
+                                    <Zap size={12} className="text-emerald-500" />
+                                    Query intensity: {query.length} / 2 min
+                                </span>
                             </div>
                         </div>
 
@@ -133,7 +144,7 @@ export default function GlobalSearchOverlay({ isOpen, onClose }) {
                                                     <button
                                                         key={s}
                                                         onClick={() => { setQuery(s); triggerPremiumFeedback('pop', 'light'); }}
-                                                        className="block w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold transition-colors truncate"
+                                                        className="block w-full text-left px-4 py-3 rounded-xl hover:bg-white/5 text-slate-400 font-bold transition-colors truncate border border-transparent hover:border-white/10"
                                                     >
                                                         {s}
                                                     </button>
@@ -152,7 +163,7 @@ export default function GlobalSearchOverlay({ isOpen, onClose }) {
                                                 <button
                                                     key={t}
                                                     onClick={() => { setQuery(t); triggerPremiumFeedback('pop', 'light'); }}
-                                                    className="px-5 py-2.5 rounded-full bg-slate-50 border border-slate-100 text-slate-600 font-bold text-sm hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-all active:scale-95"
+                                                    className="px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-slate-400 font-bold text-sm hover:bg-emerald-500/10 hover:border-emerald-500/20 hover:text-emerald-400 transition-all active:scale-95"
                                                 >
                                                     {t}
                                                 </button>
@@ -183,23 +194,23 @@ export default function GlobalSearchOverlay({ isOpen, onClose }) {
                                                     onClick={onClose}
                                                     className="group"
                                                 >
-                                                    <div className="relative aspect-[4/5] rounded-3xl bg-slate-50 border border-slate-100 overflow-hidden mb-3">
+                                                    <div className="relative aspect-[4/5] rounded-[2rem] bg-white/[0.02] border border-white/10 overflow-hidden mb-4 group-hover:border-emerald-500/30 transition-all shadow-2xl">
                                                         <Image
                                                             src={getImageUrl(p.image)}
                                                             alt={p.title}
                                                             fill
-                                                            className="object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                                                            className="object-contain p-6 group-hover:scale-110 transition-transform duration-700"
                                                         />
                                                     </div>
-                                                    <h4 className="text-sm font-bold text-slate-900 truncate">{p.title}</h4>
-                                                    <p className="text-xs text-emerald-600 font-black">{p.price} PKR</p>
+                                                    <h4 className="text-sm font-bold text-white truncate px-2">{p.title}</h4>
+                                                    <p className="text-xs text-emerald-500 font-black px-2 mt-1 uppercase tracking-tight">{p.price} PKR</p>
                                                 </Link>
                                             ))}
                                         </div>
                                     ) : (
-                                        <div className="py-20 text-center bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-                                            <p className="text-slate-400 font-medium">
-                                                {query.length > 0 ? "No matches found. Try something else?" : "Start typing to search..."}
+                                        <div className="py-20 text-center bg-white/[0.02] rounded-[2.5rem] border-2 border-dashed border-white/5">
+                                            <p className="text-slate-600 font-black uppercase tracking-widest text-xs">
+                                                {query.length > 0 ? "Zero matches in current sector" : "Awaiting search query..."}
                                             </p>
                                         </div>
                                     )}
@@ -207,9 +218,9 @@ export default function GlobalSearchOverlay({ isOpen, onClose }) {
                                     {results.length > 0 && (
                                         <button
                                             onClick={handleSearch}
-                                            className="w-full mt-8 py-4 border-2 border-slate-100 rounded-2xl text-slate-400 font-bold hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2"
+                                            className="w-full mt-8 py-5 border border-white/10 rounded-2xl text-slate-400 font-black uppercase tracking-widest text-xs hover:border-emerald-500/30 hover:text-emerald-400 transition-all flex items-center justify-center gap-3 bg-white/[0.02] active:scale-95"
                                         >
-                                            See All Results
+                                            Access Full Result Matrix
                                             <ArrowRight size={18} />
                                         </button>
                                     )}

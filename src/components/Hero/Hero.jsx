@@ -163,29 +163,33 @@ const Hero = ({ images = null, interval = 4000 }) => {
                       <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
                       Limited Collection
                     </motion.div>
-                    <h1 className="text-5xl lg:text-7xl font-display font-black leading-[1.1] text-white drop-shadow-2xl">
+                    <h1 className="text-5xl lg:text-8xl font-display font-black leading-[0.95] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] tracking-tighter">
                       {config.tagline.split(' ').map((word, i) => (
                         <span key={i} className={i === 1 ? "text-emerald-500" : ""}>{word} </span>
                       ))}
                     </h1>
-                    <p className="mt-6 text-lg text-slate-300 leading-relaxed font-medium">
+                    <p className="mt-8 text-xl text-slate-300 leading-relaxed font-medium drop-shadow-lg max-w-md">
                       {config.description}
                     </p>
-                    <div className="mt-10 flex items-center gap-6">
+                    <div className="mt-12 flex flex-wrap items-center gap-8">
                       <motion.a
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                         href="#products"
-                        className="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-2xl shadow-xl shadow-emerald-900/20 transition-all flex items-center gap-3 group"
+                        className="px-10 py-5 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-[2rem] shadow-2xl shadow-emerald-900/40 transition-all flex items-center gap-3 group uppercase text-xs tracking-[0.2em]"
                       >
-                        Shop the collection
-                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                        Initiate Store
+                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                       </motion.a>
-                      <button className="text-sm font-bold text-slate-400 hover:text-white transition-colors flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center">
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                      <button className="flex items-center gap-4 group">
+                        <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center bg-white/5 backdrop-blur-md relative group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-all duration-500">
+                          <div className="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <svg className="w-5 h-5 text-white group-hover:text-emerald-500 transition-colors fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                         </div>
-                        Watch Video
+                        <div className="text-left">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-emerald-500 transition-colors">Visual Archive</p>
+                          <p className="text-sm font-bold text-white uppercase tracking-tight">Watch Identity</p>
+                        </div>
                       </button>
                     </div>
                   </motion.div>

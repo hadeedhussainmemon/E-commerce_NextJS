@@ -136,12 +136,12 @@ export default function AdminOverview({ onChangeSection }) {
             {/* Monthly Sales Chart */}
             <div className="bg-slate-900/40 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 shadow-2xl">
                 <div className="flex items-center justify-between mb-8">
-                    <h3 className="text-xl font-black text-white italic tracking-tight">Growth Projection</h3>
+                    <h3 className="text-xl font-black text-white italic tracking-tight uppercase">Economic Trajectory</h3>
                     <div className="flex gap-2">
-                        <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase rounded-full tracking-widest border border-emerald-500/20">Monthly</span>
+                        <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[9px] font-black uppercase rounded-lg tracking-widest border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]">Active Stream</span>
                     </div>
                 </div>
-                <SalesChart data={chartData.length > 0 ? chartData : [{ name: 'No Data', value: 0 }]} />
+                <SalesChart data={chartData.length > 0 ? chartData : []} />
             </div>
 
             {/* Two Column Layout */}
@@ -156,24 +156,26 @@ export default function AdminOverview({ onChangeSection }) {
                     </div>
                     <div className="space-y-4">
                         {recentOrders.length === 0 ? (
-                            <p className="text-gray-500 text-center py-4">No recent orders.</p>
+                            <div className="text-center py-12 bg-white/[0.02] border border-dashed border-white/10 rounded-2xl">
+                                <p className="text-slate-600 text-[10px] font-black uppercase tracking-widest">No recent temporal logs</p>
+                            </div>
                         ) : (
                             recentOrders.map(order => (
-                                <div key={order.id} className="flex items-center justify-between p-5 bg-white/[0.02] hover:bg-white/[0.05] rounded-2xl border border-white/5 transition-all group">
+                                <div key={order.id} className="flex items-center justify-between p-5 bg-white/[0.02] hover:bg-white/[0.05] rounded-3xl border border-white/5 transition-all group cursor-pointer hover:border-emerald-500/20">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-emerald-400 transition-colors">
-                                            <ShoppingBag size={18} />
+                                        <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-all border border-white/5">
+                                            <ShoppingBag size={20} />
                                         </div>
                                         <div>
-                                            <div className="font-bold text-white text-sm">#ORD-{order.id.slice(-4).toUpperCase()}</div>
-                                            <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{new Date(order.createdAt).toLocaleDateString()}</div>
+                                            <div className="font-black text-white text-sm tracking-tight">#ORD-{order.id.slice(-4).toUpperCase()}</div>
+                                            <div className="text-[9px] text-slate-500 font-black uppercase tracking-[0.15em] mt-0.5">{new Date(order.createdAt).toLocaleDateString()}</div>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="font-black text-white text-sm mb-1">Rs. {order.total}</div>
-                                        <span className={`text-[9px] px-3 py-1 rounded-full font-black uppercase tracking-widest ${order.status === 'delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                        <div className="font-black text-emerald-400 text-base tracking-tighter mb-1">Rs. {order.total.toLocaleString()}</div>
+                                        <span className={`text-[8px] px-3 py-1 rounded-lg font-black uppercase tracking-[0.2em] shadow-sm ${order.status === 'delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
                                             order.status === 'pending' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
-                                                'bg-slate-800 text-slate-400 border border-white/5'
+                                                'bg-slate-800 text-slate-500 border border-white/5'
                                             }`}>
                                             {order.status}
                                         </span>
@@ -194,13 +196,14 @@ export default function AdminOverview({ onChangeSection }) {
                     </div>
                     <div className="space-y-4">
                         {lowStockProducts.length === 0 ? (
-                            <div className="text-center py-8 text-green-600 bg-green-50 rounded-xl">
-                                <p className="font-medium">All items are well stocked! 🎉</p>
+                            <div className="text-center py-12 bg-white/[0.02] border border-dashed border-white/10 rounded-2xl group overflow-hidden relative">
+                                <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl translate-y-10" />
+                                <p className="text-emerald-500/60 text-[10px] font-black uppercase tracking-widest relative z-10">Inventory integrity 100%</p>
                             </div>
                         ) : (
                             lowStockProducts.map(product => (
-                                <div key={product.id} className="flex items-center gap-4 p-4 bg-rose-500/5 border border-rose-500/10 rounded-2xl group hover:bg-rose-500/10 transition-all">
-                                    <div className="w-14 h-14 bg-slate-800 rounded-xl flex-shrink-0 p-2 border border-white/5">
+                                <div key={product.id} className="flex items-center gap-5 p-5 bg-rose-500/[0.02] border border-rose-500/10 rounded-3xl group hover:bg-rose-500/[0.05] transition-all hover:border-rose-500/30">
+                                    <div className="w-16 h-16 bg-slate-800 rounded-2xl flex-shrink-0 p-2 border border-white/5 group-hover:scale-105 transition-transform duration-500">
                                         <div className="relative w-full h-full">
                                             <Image
                                                 src={getImageUrl(product.image, { width: 100, crop: 'fill' })}
@@ -211,12 +214,12 @@ export default function AdminOverview({ onChangeSection }) {
                                         </div>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="font-bold text-white truncate">{product.title}</p>
-                                        <div className="flex items-center gap-2 mt-1">
-                                            <div className="h-1 flex-1 bg-slate-800 rounded-full overflow-hidden">
-                                                <div className="h-full bg-rose-500" style={{ width: `${(product.stock / 10) * 100}%` }} />
+                                        <p className="font-black text-white text-sm truncate tracking-tight">{product.title}</p>
+                                        <div className="flex items-center gap-3 mt-2">
+                                            <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
+                                                <div className="h-full bg-gradient-to-r from-rose-600 to-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.4)]" style={{ width: `${(product.stock / 10) * 100}%` }} />
                                             </div>
-                                            <p className="text-[10px] text-rose-400 font-black uppercase tracking-widest">{product.stock} Left</p>
+                                            <p className="text-[9px] text-rose-500 font-black uppercase tracking-[0.15em]">{product.stock} Units</p>
                                         </div>
                                     </div>
                                 </div>
