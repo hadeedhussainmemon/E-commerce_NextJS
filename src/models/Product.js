@@ -24,7 +24,7 @@ const ProductSchema = new mongoose.Schema({
         required: [true, 'Please provide an image URL'],
     },
     category: {
-        type: [String],
+        type: String,
         required: [true, 'Please provide a category'],
     },
     colors: {

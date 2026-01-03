@@ -49,8 +49,8 @@ export default function PushPrompt() {
 
                 {/* Decorative Gradient Background */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500" />
-                <div className="absolute -top-10 -right-10 w-24 h-24 bg-purple-200/50 rounded-full blur-2xl" />
-                <div className="absolute -bottom-10 -left-10 w-24 h-24 bg-pink-200/50 rounded-full blur-2xl" />
+                <div className="absolute -top-10 -right-10 w-24 h-24 bg-emerald-200/50 rounded-full blur-2xl" />
+                <div className="absolute -bottom-10 -left-10 w-24 h-24 bg-indigo-200/50 rounded-full blur-2xl" />
 
                 <button
                     onClick={handleDismiss}

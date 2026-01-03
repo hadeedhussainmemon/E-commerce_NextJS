@@ -66,7 +66,7 @@ export default function TrackOrderPage() {
                     </div>
                     <div className="p-4">
                         <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm border border-slate-100">
-                            <Package className="text-blue-500" size={24} />
+                            <Package className="text-sky-500" size={24} />
                         </div>
                         <h3 className="font-semibold text-slate-900">Processing</h3>
                         <p className="text-xs text-slate-400 mt-1">We pack your items</p>

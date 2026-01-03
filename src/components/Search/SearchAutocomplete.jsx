@@ -358,7 +358,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
   return (
     <div ref={wrapperRef} className={`relative ${className}`}>
       <div className="relative group">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-500 group-focus-within:text-purple-600 transition-colors pointer-events-none z-10">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500 group-focus-within:text-emerald-600 transition-colors pointer-events-none z-10">
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
           </svg>
@@ -375,7 +375,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
             if ((!showOnlySearchSuggestions && suggestions.length > 0) || (showOnlySearchSuggestions && filteredRecentSearches.length > 0)) setShowDropdown(true);
           }}
           placeholder={placeholder}
-          className="w-full pl-10 pr-20 py-3 rounded-2xl bg-white/50 backdrop-blur-md border border-white/20 text-sm font-medium text-gray-800 placeholder:text-gray-500 hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent focus:bg-white/80 shadow-inner hover:shadow-lg transition-all duration-300"
+          className="w-full pl-10 pr-20 py-3 rounded-2xl bg-white/50 backdrop-blur-md border border-white/20 text-sm font-medium text-gray-800 placeholder:text-gray-500 hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent focus:bg-white/80 shadow-inner hover:shadow-lg transition-all duration-300"
           autoComplete="off"
           autoCorrect="off"
           spellCheck={false}
@@ -392,7 +392,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
             <button
               type="button"
               onClick={startVoice}
-              className="p-1 text-purple-500 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-all duration-200"
+              className="p-1 text-emerald-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all duration-200"
               aria-label="Voice search"
               title="Voice search"
             >
@@ -405,7 +405,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
             <button
               type="button"
               onClick={handleClear}
-              className="p-1 text-purple-400 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-all duration-200"
+              className="p-1 text-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all duration-200"
               aria-label="Clear search"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -417,7 +417,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
 
         {/* Loading indicator */}
         {isLoading && (
-          <span className="absolute right-9 top-1/2 -translate-y-1/2 text-purple-500 animate-spin pointer-events-none" aria-hidden="true">
+          <span className="absolute right-9 top-1/2 -translate-y-1/2 text-emerald-500 animate-spin pointer-events-none" aria-hidden="true">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="12" cy="12" r="10" strokeOpacity=".25" strokeWidth="4" />
               <path d="M12 2a10 10 0 0 1 10 10" strokeWidth="4" />
@@ -445,7 +445,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
           {/* Loading indicator */}
           {isLoading && value && value.trim().length >= 2 && (
             <div className="px-4 py-3 text-sm text-gray-500 flex items-center gap-2 bg-white/50">
-              <svg className="animate-spin h-4 w-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <svg className="animate-spin h-4 w-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle className="opacity-25" cx="12" cy="12" r="10" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
@@ -463,14 +463,14 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
                   <button
                     type="button"
                     onClick={() => { try { clearRecentSearches(); } catch (_) { }; setRecentSearches([]); setSelectedIndex(-1); if (!filteredTrending.length) setShowDropdown(false); }}
-                    className="text-[11px] font-medium text-gray-500 hover:text-purple-600"
+                    className="text-[11px] font-medium text-gray-500 hover:text-emerald-600"
                   >
                     Clear
                   </button>
                 </div>
               )}
               {filteredRecentSearches.slice(0, 6).map((term, idx) => (
-                <button key={`recent-${term}-${idx}`} onClick={() => handleClickTerm(term, 'recent')} className={`flex items-center gap-3 p-3 hover:bg-purple-500/5 transition-colors w-full text-left ${selectedIndex === idx ? 'bg-purple-500/10' : ''}`}>
+                <button key={`recent-${term}-${idx}`} onClick={() => handleClickTerm(term, 'recent')} className={`flex items-center gap-3 p-3 hover:bg-emerald-500/5 transition-colors w-full text-left ${selectedIndex === idx ? 'bg-emerald-500/10' : ''}`}>
                   <div className="flex-1 text-sm font-medium text-gray-900 truncate">{term}</div>
                 </button>
               ))}
@@ -483,7 +483,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
                 const baseIndex = filteredRecentSearches.length;
                 const absoluteIndex = baseIndex + idx;
                 return (
-                  <button key={`trend-${term}-${idx}`} onClick={() => handleClickTerm(term, 'trending')} className={`flex items-center gap-3 p-3 hover:bg-purple-500/5 transition-colors w-full text-left ${selectedIndex === absoluteIndex ? 'bg-purple-500/10' : ''}`}>
+                  <button key={`trend-${term}-${idx}`} onClick={() => handleClickTerm(term, 'trending')} className={`flex items-center gap-3 p-3 hover:bg-emerald-500/5 transition-colors w-full text-left ${selectedIndex === absoluteIndex ? 'bg-emerald-500/10' : ''}`}>
                     <div className="flex-1 text-sm font-medium text-gray-900 truncate">{term}</div>
                     <span className="text-xs text-gray-400">Popular</span>
                   </button>
@@ -497,7 +497,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
                 <button
                   key={`cat-${c.slug}`}
                   onClick={() => handleCategoryClick(c.slug)}
-                  className={`flex items-center gap-3 p-3 hover:bg-purple-500/5 transition-colors duration-150 w-full text-left ${selectedIndex === cIndex ? 'bg-purple-500/10' : ''}`}
+                  className={`flex items-center gap-3 p-3 hover:bg-emerald-500/5 transition-colors duration-150 w-full text-left ${selectedIndex === cIndex ? 'bg-emerald-500/10' : ''}`}
                   aria-selected={selectedIndex === cIndex}
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-gray-100 rounded-lg overflow-hidden">
@@ -524,7 +524,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
           {filteredRecentSearches.length > 0 && (
             <div className="divide-y border-b border-gray-100">
               {filteredRecentSearches.map((term, idx) => (
-                <button key={`recent-${term}-${idx}`} onClick={() => handleClickTerm(term, 'recent')} className="flex items-center gap-3 p-3 hover:bg-purple-500/5 transition-colors w-full text-left">
+                <button key={`recent-${term}-${idx}`} onClick={() => handleClickTerm(term, 'recent')} className="flex items-center gap-3 p-3 hover:bg-emerald-500/5 transition-colors w-full text-left">
                   <div className="flex-1 text-sm font-medium text-gray-900 truncate">{term}</div>
                   <span className="text-xs text-gray-400">Recent</span>
                 </button>
@@ -537,7 +537,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
               href={`/product/${product.slug || product.id}`}
               onClick={(e) => handleSuggestionNavigate(e, product)}
               onMouseEnter={() => prefetchProduct(product.slug || product.id)}
-              className={`flex items-center gap-3 p-3 hover:bg-purple-500/5 transition-colors duration-150 border-b border-gray-100/50 last:border-0 ${(categorySuggestions.length + index) === selectedIndex ? 'bg-purple-500/10' : ''
+              className={`flex items-center gap-3 p-3 hover:bg-emerald-500/5 transition-colors duration-150 border-b border-gray-100/50 last:border-0 ${(categorySuggestions.length + index) === selectedIndex ? 'bg-emerald-500/10' : ''
                 }`}
               role="option"
               aria-selected={(categorySuggestions.length + index) === selectedIndex}
@@ -560,7 +560,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
                   {renderHighlightedTitle(product.title, value)}
                 </h4>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs text-purple-600 font-medium">
+                  <span className="text-xs text-emerald-600 font-medium">
                     {Array.isArray(product.category) ? product.category.join(', ') : product.category}
                   </span>
                   {product.stock === 0 && (
@@ -574,7 +574,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
               {/* Price */}
               <div className="flex-shrink-0 text-right">
                 {Number(product.price) > 0 ? (
-                  <span className="text-sm font-semibold text-purple-700">
+                  <span className="text-sm font-semibold text-emerald-700">
                     Rs. {Number(product.price).toLocaleString('en-PK')}
                   </span>
                 ) : (
@@ -591,7 +591,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
 
           {/* View All Results Link */}
           {value && value.trim().length > 0 && (
-            <div className="p-3 bg-gradient-to-r from-purple-50 to-pink-50 border-t border-purple-100">
+            <div className="p-3 bg-gradient-to-r from-emerald-50 to-teal-50 border-t border-emerald-100">
               <button
                 onClick={() => {
                   setShowDropdown(false);
@@ -604,7 +604,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
                   // Fallback navigation
                   navigate(`/?q=${encodeURIComponent(value)}`);
                 }}
-                className="w-full text-center text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors"
+                className="w-full text-center text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors"
               >
                 View all results for "{value}"
               </button>
@@ -615,7 +615,7 @@ const SearchAutocomplete = ({ value, onChange, onSubmit, placeholder = 'Search p
 
       {/* No Results */}
       {showDropdown && !isLoading && value?.trim().length >= 2 && suggestions.length === 0 && categorySuggestions.length === 0 && !showOnlySearchSuggestions && (
-        <div className="absolute z-50 w-full mt-2 bg-white border border-purple-200 rounded-2xl shadow-xl p-6 text-center animate-fadeIn">
+        <div className="absolute z-50 w-full mt-2 bg-white border border-emerald-200 rounded-2xl shadow-xl p-6 text-center animate-fadeIn">
           <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>

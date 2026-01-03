@@ -24,7 +24,7 @@ export default function InstallPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-violet-600 to-purple-700 flex flex-col items-center justify-center p-6 text-white text-center">
+        <div className="min-h-screen bg-gradient-to-br from-emerald-600 to-teal-700 flex flex-col items-center justify-center p-6 text-white text-center">
 
             {/* App Icon / Logo Placeholder */}
             <div className="w-24 h-24 bg-white rounded-3xl shadow-2xl mb-8 flex items-center justify-center">
@@ -40,7 +40,7 @@ export default function InstallPage() {
             <h1 className="text-3xl md:text-5xl font-bold mb-4 font-playfair">
                 Install CoolCache App
             </h1>
-            <p className="text-purple-100 text-lg md:text-xl max-w-md mx-auto mb-10 leading-relaxed">
+            <p className="text-emerald-100 text-lg md:text-xl max-w-md mx-auto mb-10 leading-relaxed">
                 Get the best shopping experience with faster loading, offline access, and exclusive deals.
             </p>
 
@@ -51,7 +51,7 @@ export default function InstallPage() {
                 {isInstallable && (
                     <button
                         onClick={handleInstall}
-                        className="w-full bg-white text-purple-700 font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-purple-50 transition-transform active:scale-95 flex items-center justify-center gap-3 mb-4"
+                        className="w-full bg-white text-emerald-700 font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-emerald-50 transition-transform active:scale-95 flex items-center justify-center gap-3 mb-4"
                     >
                         <Download className="w-6 h-6" />
                         Install App Now
@@ -89,7 +89,7 @@ export default function InstallPage() {
                         <button
                             onClick={() => subscribe()}
                             disabled={isSubscribed}
-                            className={`w - full py - 3 px - 6 rounded - xl font - bold flex items - center justify - center gap - 2 ${isSubscribed ? 'bg-green-500/20 text-green-100' : 'bg-white text-purple-700'} `}
+                            className={`w-full py-3 px-6 rounded-xl font-bold flex items-center justify-center gap-2 ${isSubscribed ? 'bg-emerald-500/20 text-emerald-100' : 'bg-white text-emerald-700'} `}
                         >
                             <BellRing className="w-5 h-5" />
                             {isSubscribed ? 'Notifications Active' : 'Enable Notifications'}

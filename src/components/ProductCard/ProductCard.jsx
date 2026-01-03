@@ -248,7 +248,7 @@ const ProductCard = (inputProps) => {
                             </span>
                         )}
                         {isTrending && (
-                            <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-[9px] sm:text-xs font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-md animate-pulse flex items-center gap-0.5 sm:gap-1">
+                            <span className="bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[9px] sm:text-xs font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-md animate-pulse flex items-center gap-0.5 sm:gap-1">
                                 🔥 <span className="hidden sm:inline">Trending</span>
                             </span>
                         )}
@@ -388,7 +388,7 @@ const ProductCard = (inputProps) => {
                                 rel="noopener noreferrer"
                                 onClick={(e) => { if (isSoldOut) e.preventDefault(); }}
                                 aria-disabled={isSoldOut}
-                                className={`flex-1 flex items-center justify-center gap-1 sm:gap-1.5 text-white bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 font-semibold rounded-lg text-[10px] sm:text-sm px-2 sm:px-3 py-2 sm:py-2.5 transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg ${isSoldOut ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                className={`flex-1 flex items-center justify-center gap-1 sm:gap-1.5 text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 font-semibold rounded-lg text-[10px] sm:text-sm px-2 sm:px-3 py-2 sm:py-2.5 transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg ${isSoldOut ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
                             >
                                 <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12H8m8 0l-4-4m4 4l-4 4" />

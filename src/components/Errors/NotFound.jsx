@@ -24,7 +24,7 @@ export default function NotFound() {
     return (
         <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 text-center overflow-hidden relative">
             {/* Background Decor */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-50 rounded-full blur-3xl -z-10 opacity-50 animate-pulse"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-50 rounded-full blur-3xl -z-10 opacity-50 animate-pulse"></div>
 
             {/* Main 404 Visual */}
             <div className="relative mb-8 group cursor-default">
@@ -47,13 +47,13 @@ export default function NotFound() {
 
             {/* Search Bar */}
             <form onSubmit={handleSearch} className="w-full max-w-sm mb-10 relative group">
-                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-purple-500 transition-colors">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-500 transition-colors">
                     <Search size={20} />
                 </div>
                 <input
                     type="text"
                     placeholder="Search for something else..."
-                    className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-200 shadow-sm focus:ring-4 focus:ring-purple-100 focus:border-purple-500 focus:outline-none transition-all"
+                    className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-200 shadow-sm focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 focus:outline-none transition-all"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -71,7 +71,7 @@ export default function NotFound() {
                     <Link
                         key={cat.slug}
                         href={`/category/${cat.slug}`}
-                        className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full text-sm font-medium text-gray-600 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 transition-all shadow-sm hover:shadow-md"
+                        className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full text-sm font-medium text-gray-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 transition-all shadow-sm hover:shadow-md"
                     >
                         <span>{cat.emoji}</span>
                         {cat.name}

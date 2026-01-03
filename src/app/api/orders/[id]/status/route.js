@@ -12,7 +12,7 @@ export async function PUT(request, { params }) {
         const order = await Order.findByIdAndUpdate(
             id,
             { status },
-            { new: true }
+            { new: true, runValidators: true }
         );
 
         if (!order) {

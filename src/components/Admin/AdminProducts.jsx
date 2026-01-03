@@ -404,7 +404,7 @@ function AdminProducts() {
                         {/* Profit */}
                         <td className="px-4 sm:px-6 py-4">
                           <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${profit > 0
-                            ? 'bg-green-50 text-green-700'
+                            ? 'bg-emerald-50 text-emerald-700'
                             : profit < 0
                               ? 'bg-red-50 text-red-700'
                               : 'bg-gray-50 text-gray-700'
@@ -419,7 +419,7 @@ function AdminProducts() {
                             ? 'bg-red-50 text-red-700'
                             : isLowStock
                               ? 'bg-yellow-50 text-yellow-700'
-                              : 'bg-green-50 text-green-700'
+                              : 'bg-emerald-50 text-emerald-700'
                             }`}>
                             {product.stock || 0}
                           </span>
@@ -431,7 +431,7 @@ function AdminProducts() {
                             <button
                               title={product.isVisible ? "Hide from website" : "Show on website"}
                               onClick={() => handleToggleVisibility(product)}
-                              className={`p-2 rounded-lg transition-colors ${product.isVisible ? 'text-green-600 hover:bg-green-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                              className={`p-2 rounded-lg transition-colors ${product.isVisible ? 'text-emerald-600 hover:bg-emerald-50' : 'text-gray-400 hover:bg-gray-100'}`}
                             >
                               {product.isVisible ? <Eye size={16} /> : <EyeOff size={16} />}
                             </button>
@@ -520,11 +520,11 @@ function AdminProducts() {
                             <p className="font-bold text-sm text-gray-800">Rs. {(product.price || 0).toLocaleString()}</p>
                           </div>
                           <div>
-                            <p className={`text-xs font-medium ${profit > 0 ? 'text-green-600' : profit < 0 ? 'text-red-600' : 'text-gray-500'
+                            <p className={`text-xs font-medium ${profit > 0 ? 'text-emerald-600' : profit < 0 ? 'text-red-600' : 'text-gray-500'
                               }`}>
                               Profit
                             </p>
-                            <p className={`font-bold text-sm ${profit > 0 ? 'text-green-700' : profit < 0 ? 'text-red-700' : 'text-gray-800'
+                            <p className={`font-bold text-sm ${profit > 0 ? 'text-emerald-700' : profit < 0 ? 'text-red-700' : 'text-gray-800'
                               }`}>
                               Rs. {profit.toLocaleString()}
                             </p>
@@ -537,7 +537,7 @@ function AdminProducts() {
                         <button
                           title={product.isVisible ? "Hide from website" : "Show on website"}
                           onClick={() => handleToggleVisibility(product)}
-                          className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all flex items-center gap-1 shadow-sm hover:shadow ${product.isVisible ? 'text-green-700 bg-green-50 hover:bg-green-100' : 'text-gray-600 bg-gray-100 hover:bg-gray-200'}`}
+                          className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all flex items-center gap-1 shadow-sm hover:shadow ${product.isVisible ? 'text-emerald-700 bg-emerald-50 hover:bg-emerald-100' : 'text-gray-600 bg-gray-100 hover:bg-gray-200'}`}
                         >
                           {product.isVisible ? (
                             <>

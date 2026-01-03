@@ -248,7 +248,7 @@ export default function SearchPage() {
           {(trending.length > 0 || recent.length > 0) && (
             <div className="mt-3 flex flex-wrap gap-2" aria-label="Related searches">
               {trending.slice(0, 6).map(term => (
-                <button key={`t-${term}`} type="button" onClick={() => onSubmit(term)} className="px-3 py-1.5 rounded-full text-sm bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-100">{term}</button>
+                <button key={`t-${term}`} type="button" onClick={() => onSubmit(term)} className="px-3 py-1.5 rounded-full text-sm bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-100">{term}</button>
               ))}
               {recent.slice(0, 6).map(term => (
                 <button key={`r-${term}`} type="button" onClick={() => onSubmit(term)} className="px-3 py-1.5 rounded-full text-sm bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200">{term}</button>
@@ -266,7 +266,7 @@ export default function SearchPage() {
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">Refine Results</h3>
                   {(filters.categories.length || filters.minPrice || filters.maxPrice || filters.inStock || filters.minDiscount) && (
-                    <span className="px-2.5 py-0.5 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">
+                    <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-full">
                       {(filters.categories.length || 0) + (filters.minPrice ? 1 : 0) + (filters.maxPrice ? 1 : 0) + (filters.inStock ? 1 : 0) + (filters.minDiscount ? 1 : 0)} active
                     </span>
                   )}
@@ -276,9 +276,9 @@ export default function SearchPage() {
                   <div className="flex-1 min-w-[200px]">
                     {/* Categories */}
                     <div className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                      <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
                       Categories
-                      {filters.categories.length > 0 && <span className="text-purple-600">({filters.categories.length})</span>}
+                      {filters.categories.length > 0 && <span className="text-emerald-600">({filters.categories.length})</span>}
                     </div>
                     <div className="flex flex-wrap gap-2 max-w-full">
                       {allCategories.slice(0, 24).map(c => {
@@ -294,7 +294,7 @@ export default function SearchPage() {
                             }
                             params.set('page', '1');
                             setSearchParams(params);
-                          }} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${active ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent shadow-md transform scale-105' : 'bg-white text-gray-700 border-gray-200 hover:border-purple-300 hover:bg-purple-50 hover:shadow-sm'}`}>{c.name}</button>
+                          }} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${active ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-transparent shadow-md transform scale-105' : 'bg-white text-gray-700 border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-sm'}`}>{c.name}</button>
                         );
                       })}
                     </div>
@@ -302,7 +302,7 @@ export default function SearchPage() {
                   {/* Price */}
                   <div>
                     <div className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       Price Range
                     </div>
                     <div className="flex items-center gap-2">
@@ -312,7 +312,7 @@ export default function SearchPage() {
                         if (val) { params.set('minPrice', val); } else { params.delete('minPrice'); }
                         params.set('page', '1');
                         setSearchParams(params);
-                      }} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Min" inputMode="numeric" />
+                      }} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Min" inputMode="numeric" />
                       <span className="text-gray-400">–</span>
                       <input value={filters.maxPrice} onChange={e => {
                         const params = new URLSearchParams(searchParams);
@@ -320,13 +320,13 @@ export default function SearchPage() {
                         if (val) { params.set('maxPrice', val); } else { params.delete('maxPrice'); }
                         params.set('page', '1');
                         setSearchParams(params);
-                      }} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Max" inputMode="numeric" />
+                      }} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Max" inputMode="numeric" />
                     </div>
                   </div>
                   {/* Availability */}
                   <div>
                     <div className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                      <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
                       Availability
                     </div>
                     <label className="inline-flex items-center gap-2 text-sm cursor-pointer group">
@@ -335,14 +335,14 @@ export default function SearchPage() {
                         if (e.target.checked) { params.set('inStock', 'true'); } else { params.delete('inStock'); }
                         params.set('page', '1');
                         setSearchParams(params);
-                      }} className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-2 focus:ring-purple-500" />
-                      <span className="group-hover:text-purple-600 transition-colors">In stock only</span>
+                      }} className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-2 focus:ring-emerald-500" />
+                      <span className="group-hover:text-emerald-600 transition-colors">In stock only</span>
                     </label>
                   </div>
                   {/* Discount */}
                   <div>
                     <div className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                      <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
                       Min. Discount %
                     </div>
                     <input value={filters.minDiscount} onChange={e => {
@@ -351,12 +351,12 @@ export default function SearchPage() {
                       if (val) { params.set('minDiscount', val); } else { params.delete('minDiscount'); }
                       params.set('page', '1');
                       setSearchParams(params);
-                    }} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="e.g. 20" inputMode="numeric" />
+                    }} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="e.g. 20" inputMode="numeric" />
                   </div>
                   {/* Sort */}
                   <div className="ml-auto">
                     <div className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" /></svg>
+                      <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" /></svg>
                       Sort By
                     </div>
                     <select value={sort} onChange={e => {
@@ -364,7 +364,7 @@ export default function SearchPage() {
                       params.set('sort', e.target.value);
                       params.set('page', '1');
                       setSearchParams(params);
-                    }} className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white cursor-pointer hover:border-purple-300 transition-colors">
+                    }} className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white cursor-pointer hover:border-emerald-300 transition-colors">
                       <option value="featured">Featured</option>
                       <option value="priceAsc">Price: Low to High</option>
                       <option value="priceDesc">Price: High to Low</option>
@@ -384,20 +384,20 @@ export default function SearchPage() {
                             const params = new URLSearchParams(searchParams);
                             if (newCategories.length) { params.set('categories', newCategories.join(',')); } else { params.delete('categories'); }
                             setSearchParams(params);
-                          }} className="group px-3 py-1.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 border border-purple-200 hover:bg-purple-200 hover:border-purple-300 transition-all duration-200 flex items-center gap-1">
+                          }} className="group px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 border border-emerald-200 hover:bg-emerald-200 hover:border-emerald-300 transition-all duration-200 flex items-center gap-1">
                             {c ? c.name : s}
                             <svg className="w-3 h-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                         );
                       })}
                       {(filters.minPrice || filters.maxPrice) && (
-                        <button onClick={() => { const params = new URLSearchParams(searchParams); params.delete('minPrice'); params.delete('maxPrice'); setSearchParams(params); }} className="group px-3 py-1.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all duration-200 flex items-center gap-1">Price: {filters.minPrice || '0'}–{filters.maxPrice || '∞'} <svg className="w-3 h-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                        <button onClick={() => { const params = new URLSearchParams(searchParams); params.delete('minPrice'); params.delete('maxPrice'); setSearchParams(params); }} className="group px-3 py-1.5 rounded-full text-xs font-medium bg-sky-100 text-sky-700 border border-sky-200 hover:bg-sky-200 hover:border-sky-300 transition-all duration-200 flex items-center gap-1">Price: {filters.minPrice || '0'}–{filters.maxPrice || '∞'} <svg className="w-3 h-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
                       )}
                       {filters.inStock && (
                         <button onClick={() => { const params = new URLSearchParams(searchParams); params.delete('inStock'); setSearchParams(params); }} className="group px-3 py-1.5 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200 hover:bg-green-200 hover:border-green-300 transition-all duration-200 flex items-center gap-1">In stock <svg className="w-3 h-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
                       )}
                       {filters.minDiscount && (
-                        <button onClick={() => { const params = new URLSearchParams(searchParams); params.delete('minDiscount'); setSearchParams(params); }} className="group px-3 py-1.5 rounded-full text-xs font-medium bg-pink-100 text-pink-700 border border-pink-200 hover:bg-pink-200 hover:border-pink-300 transition-all duration-200 flex items-center gap-1">Discount ≥ {filters.minDiscount}% <svg className="w-3 h-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                        <button onClick={() => { const params = new URLSearchParams(searchParams); params.delete('minDiscount'); setSearchParams(params); }} className="group px-3 py-1.5 rounded-full text-xs font-medium bg-rose-100 text-rose-700 border border-rose-200 hover:bg-rose-200 hover:border-rose-300 transition-all duration-200 flex items-center gap-1">Discount ≥ {filters.minDiscount}% <svg className="w-3 h-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
                       )}
                       <button onClick={() => { const params = new URLSearchParams(searchParams); params.delete('categories'); params.delete('minPrice'); params.delete('maxPrice'); params.delete('inStock'); params.delete('minDiscount'); params.delete('sort'); params.set('page', '1'); setSearchParams(params); }} className="ml-auto px-4 py-1.5 text-xs font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200">Clear all</button>
                     </div>
@@ -441,7 +441,7 @@ export default function SearchPage() {
               <div className="text-sm text-gray-600 mb-2">Top categories for "{submittedQuery}"</div>
               <div className="flex flex-wrap gap-2">
                 {topCategories.map(c => (
-                  <a key={`topc-${c.slug}`} href={`/category/${c.slug}`} onMouseEnter={() => { try { import('../Category/CategoryPage'); } catch (_) { } }} className="px-3 py-1.5 rounded-full text-sm bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100">
+                  <a key={`topc-${c.slug}`} href={`/category/${c.slug}`} onMouseEnter={() => { try { import('../Category/CategoryPage'); } catch (_) { } }} className="px-3 py-1.5 rounded-full text-sm bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 transition-colors">
                     {c.name} {typeof c.count === 'number' ? `(${c.count})` : ''}
                   </a>
                 ))}
@@ -475,10 +475,10 @@ export default function SearchPage() {
                   <div className="text-sm font-semibold text-gray-700 mb-3">Try these instead:</div>
                   <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
                     {didYouMean.map(term => (
-                      <button key={`dym-${term}`} onClick={() => onSubmit(term)} className="px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 hover:from-purple-100 hover:to-pink-100 border border-purple-200 hover:border-purple-300 hover:shadow-md transition-all duration-200">{term}</button>
+                      <button key={`dym-${term}`} onClick={() => onSubmit(term)} className="px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 hover:from-emerald-100 hover:to-teal-100 border border-emerald-200 hover:border-emerald-300 hover:shadow-md transition-all duration-200">{term}</button>
                     ))}
                     {categoryShortcuts.slice(0, 6).map(c => (
-                      <a key={`dymc-${c.slug}`} href={`/category/${c.slug}`} className="px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 hover:from-blue-100 hover:to-cyan-100 border border-blue-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 flex items-center gap-1">
+                      <a key={`dymc-${c.slug}`} href={`/category/${c.slug}`} className="px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-indigo-50 to-blue-50 text-indigo-700 hover:from-indigo-100 hover:to-blue-100 border border-indigo-200 hover:border-indigo-300 hover:shadow-md transition-all duration-200 flex items-center gap-1">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
                         {c.name}
                       </a>
@@ -502,7 +502,7 @@ export default function SearchPage() {
               <div className="text-sm text-gray-600 mb-2">Search in</div>
               <div className="flex flex-wrap gap-2">
                 {categoryShortcuts.map(c => (
-                  <a key={c.slug} href={`/category/${c.slug}`} onMouseEnter={() => { try { import('../Category/CategoryPage'); } catch (_) { } }} className="px-3 py-1.5 rounded-full text-sm bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100">{c.name}</a>
+                  <a key={c.slug} href={`/category/${c.slug}`} onMouseEnter={() => { try { import('../Category/CategoryPage'); } catch (_) { } }} className="px-3 py-1.5 rounded-full text-sm bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 transition-colors">{c.name}</a>
                 ))}
               </div>
             </div>
@@ -516,7 +516,7 @@ export default function SearchPage() {
               }} disabled={page === 1} className="px-4 py-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 disabled:opacity-50">
                 ← Prev
               </button>
-              <div className="px-4 py-2 rounded-lg bg-purple-50 text-purple-700 font-semibold">Page {page} of {Math.max(1, Math.ceil(total / perPage))}</div>
+              <div className="px-4 py-2 rounded-lg bg-emerald-50 text-emerald-700 font-semibold">Page {page} of {Math.max(1, Math.ceil(total / perPage))}</div>
               <button onClick={() => {
                 const params = new URLSearchParams(searchParams);
                 params.set('page', String(Math.min(Math.max(1, Math.ceil(total / perPage)), page + 1)));
@@ -564,7 +564,7 @@ const MobileFilterDrawer = ({ isOpen, onClose, filters, setSearchParams, searchP
                     if (newCategories.length) params.set('categories', newCategories.join(',')); else params.delete('categories');
                     params.set('page', '1');
                     setSearchParams(params);
-                  }} className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors w-full text-left flex justify-between items-center ${active ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-700 border-gray-200'}`}>
+                  }} className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors w-full text-left flex justify-between items-center ${active ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-700 border-gray-200'}`}>
                     {c.name}
                     {active && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>}
                   </button>
@@ -601,7 +601,7 @@ const MobileFilterDrawer = ({ isOpen, onClose, filters, setSearchParams, searchP
                 if (e.target.checked) params.set('inStock', 'true'); else params.delete('inStock');
                 params.set('page', '1');
                 setSearchParams(params);
-              }} className="w-5 h-5 text-purple-600 rounded focus:ring-purple-500" />
+              }} className="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500" />
             </label>
           </div>
         </div>

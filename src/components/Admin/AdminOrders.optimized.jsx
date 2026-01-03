@@ -11,7 +11,7 @@ const getStatusColor = (status) => {
     pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
     confirmed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
     processing: 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    shipped: 'bg-blue-100 text-blue-800 border-blue-200',
+    shipped: 'bg-indigo-100 text-indigo-800 border-indigo-200',
     delivered: 'bg-green-100 text-green-800 border-green-200',
     cancelled: 'bg-red-100 text-red-800 border-red-200'
   };
@@ -114,8 +114,8 @@ const OrderCard = React.memo(({
 
       {/* Customer Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-        <div className="p-4 bg-blue-50 rounded-xl border-2 border-blue-100">
-          <p className="text-xs text-blue-600 font-bold mb-2 uppercase tracking-wide">👤 Customer</p>
+        <div className="p-4 bg-slate-50 rounded-xl border-2 border-slate-100">
+          <p className="text-xs text-slate-600 font-bold mb-2 uppercase tracking-wide">👤 Customer</p>
           <p className="font-bold text-slate-900 text-lg mb-1">{order.customerName}</p>
           <p className="text-sm text-slate-700 font-medium">{order.customerPhone}</p>
           {order.customerEmail && <p className="text-sm text-slate-600">{order.customerEmail}</p>}
@@ -139,9 +139,9 @@ const OrderCard = React.memo(({
 
       {/* Notes */}
       {order.notes && (
-        <div className="mb-5 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200">
-          <p className="text-xs text-blue-900 font-bold mb-2 uppercase tracking-wide">📝 Customer Notes:</p>
-          <p className="text-sm text-blue-900 font-medium">{order.notes}</p>
+        <div className="mb-5 p-4 bg-gradient-to-r from-slate-50 to-indigo-50 rounded-xl border-2 border-slate-200">
+          <p className="text-xs text-slate-900 font-bold mb-2 uppercase tracking-wide">📝 Customer Notes:</p>
+          <p className="text-sm text-slate-900 font-medium">{order.notes}</p>
         </div>
       )}
 
@@ -236,7 +236,7 @@ export default function AdminOrders() {
       if (!response.ok) throw new Error('Failed to fetch orders');
 
       const data = await response.json();
-      setOrders(data);
+      setOrders(data.orders || []); // API returns { orders: [], total: ... }
       setError(null);
     } catch (err) {
       setError(err.message);

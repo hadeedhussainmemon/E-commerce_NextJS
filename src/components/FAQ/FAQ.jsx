@@ -117,7 +117,7 @@ We’ll confirm an estimated delivery date after you place your order.`
               href={`https://www.instagram.com/${config.socials.instagram}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-600 hover:text-purple-700 font-medium"
+              className="text-emerald-600 hover:text-emerald-700 font-medium"
             >
               Message us on Instagram
             </a>

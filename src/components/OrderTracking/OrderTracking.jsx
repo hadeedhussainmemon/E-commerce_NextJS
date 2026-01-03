@@ -55,7 +55,7 @@ export default function OrderTracking() {
     const colors = {
       pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
       confirmed: 'bg-blue-100 text-blue-800 border-blue-200',
-      processing: 'bg-purple-100 text-purple-800 border-purple-200',
+      processing: 'bg-indigo-100 text-indigo-800 border-indigo-200',
       shipped: 'bg-indigo-100 text-indigo-800 border-indigo-200',
       delivered: 'bg-green-100 text-green-800 border-green-200',
       cancelled: 'bg-red-100 text-red-800 border-red-200'
@@ -94,11 +94,11 @@ export default function OrderTracking() {
         description="Track your CoolCache order status and delivery information"
       />
 
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-playfair font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent mb-3">
+            <h1 className="text-4xl font-playfair font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent mb-3">
               Track Your Order
             </h1>
             <p className="text-gray-600">Enter your order ID to see the current status</p>
@@ -112,13 +112,13 @@ export default function OrderTracking() {
                 value={orderId}
                 onChange={(e) => setOrderId(e.target.value)}
                 placeholder="Enter Order ID (e.g., 123)"
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 disabled={loading}
               />
               <button
                 type="submit"
                 disabled={loading || !orderId.trim()}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Searching...' : 'Track'}
               </button>
@@ -136,11 +136,11 @@ export default function OrderTracking() {
           {order && (
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
               {/* Order Header */}
-              <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-6">
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-500 text-white p-6">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-2xl font-bold mb-1">Order #{order.id}</h2>
-                    <p className="text-purple-100">
+                    <p className="text-indigo-100">
                       Placed on {new Date(order.createdAt).toLocaleDateString('en-US', {
                         month: 'short', day: 'numeric', year: 'numeric'
                       })}
@@ -160,12 +160,12 @@ export default function OrderTracking() {
                     <React.Fragment key={step.key}>
                       <div className="flex flex-col items-center">
                         <div className={`w - 12 h - 12 rounded - full flex items - center justify - center text - xl mb - 2 ${step.completed ? 'bg-green-500 text-white' :
-                          step.active ? 'bg-purple-600 text-white animate-pulse' :
+                          step.active ? 'bg-emerald-600 text-white animate-pulse' :
                             'bg-gray-200 text-gray-400'
                           } `}>
                           {step.icon}
                         </div>
-                        <span className={`text - xs text - center ${step.active ? 'font-semibold text-purple-600' : 'text-gray-600'
+                        <span className={`text - xs text - center ${step.active ? 'font-semibold text-emerald-600' : 'text-gray-600'
                           } `}>
                           {step.label}
                         </span>
@@ -259,7 +259,7 @@ export default function OrderTracking() {
                 Contact us on WhatsApp at{' '}
                 <a
                   href={`https://wa.me/${config.socials.whatsapp}`}
-                  className="text-purple-600 hover:underline font-semibold"
+                  className="text-emerald-600 hover:underline font-semibold"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -227,7 +227,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
           </div>
 
           {/* Shipping Address */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+          <div className="bg-gradient-to-br from-slate-50 to-indigo-50 rounded-xl p-5 border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-500 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -240,7 +240,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
             <div className="space-y-4">
               <div className="group">
                 <label className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
-                  <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                   Complete Address <span className="text-red-500">*</span>
@@ -258,7 +258,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="group">
                   <label className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                     City <span className="text-red-500">*</span>
@@ -268,7 +268,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                     value={formData.city}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all group-hover:border-blue-300"
+                    className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all group-hover:border-emerald-300"
                   >
                     <option value="">Select City</option>
                     {pakistanCities.map(city => (
@@ -279,7 +279,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                 </div>
                 <div className="group">
                   <label className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                     Postal Code <span className="text-gray-400 text-xs">(Optional)</span>
@@ -289,7 +289,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all group-hover:border-blue-300"
+                    className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all group-hover:border-emerald-300"
                     placeholder="12345"
                   />
                 </div>
@@ -324,12 +324,12 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                 name="giftWrap"
                 checked={formData.giftWrap}
                 onChange={handleChange}
-                className="mt-1 w-5 h-5 text-pink-600 border-2 border-pink-300 rounded focus:ring-2 focus:ring-pink-500 cursor-pointer"
+                className="mt-1 w-5 h-5 text-emerald-600 border-2 border-emerald-300 rounded focus:ring-2 focus:ring-emerald-500 cursor-pointer"
               />
               <div className="flex-1">
                 <label htmlFor="giftWrap" className="flex items-center gap-2 text-base font-bold text-gray-900 mb-1 cursor-pointer">
                   <span>🎁 Add Gift Wrapping</span>
-                  <span className="bg-pink-100 text-pink-700 text-xs font-bold px-2 py-1 rounded-full">
+                  <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded-full">
                     +Rs. 120
                   </span>
                 </label>
@@ -339,7 +339,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                 {formData.giftWrap && (
                   <div className="mt-3 animate-fadeIn">
                     <label className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
-                      <svg className="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                       </svg>
                       Gift Message <span className="text-gray-400 text-xs">(Optional)</span>
@@ -376,7 +376,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
             <div className="bg-white rounded-xl p-4 space-y-3 shadow-sm">
               <div className="flex justify-between items-center text-gray-700">
                 <span className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                   Subtotal ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
@@ -386,7 +386,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
 
               <div className="flex justify-between items-center text-gray-700">
                 <span className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                   </svg>
                   Shipping

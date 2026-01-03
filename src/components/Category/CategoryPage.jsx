@@ -151,8 +151,8 @@ function CategoryPage() {
         <div className="relative bg-gradient-to-br from-violet-900 via-purple-900 to-fuchsia-900 text-white overflow-hidden pb-16 pt-12 lg:pt-20">
           {/* Abstract Shapes */}
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-purple-500/30 rounded-full blur-3xl mix-blend-overlay" />
-            <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-3xl mix-blend-overlay" />
+            <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-emerald-500/30 rounded-full blur-3xl mix-blend-overlay" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky-500/20 rounded-full blur-3xl mix-blend-overlay" />
           </div>
 
           <div className="container mx-auto px-4 relative z-10 text-center">
@@ -165,7 +165,7 @@ function CategoryPage() {
             <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tight leading-tight capitalize bg-clip-text text-transparent bg-gradient-to-b from-white to-purple-200 drop-shadow-sm">
               {displayName}
             </h1>
-            <p className="text-lg md:text-xl text-purple-200 max-w-2xl mx-auto font-light leading-relaxed mb-8">
+            <p className="text-lg md:text-xl text-emerald-200 max-w-2xl mx-auto font-light leading-relaxed mb-8">
               Discover our curated collection of {displayName}, designed for elegance and performance.
             </p>
 
@@ -184,7 +184,7 @@ function CategoryPage() {
           {/* Glass Filter Bar */}
           <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/50 p-2 md:p-4 flex flex-col md:flex-row gap-4 items-center justify-between ring-1 ring-black/5">
             <div className="w-full md:w-96 relative group">
-              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-purple-500 transition-colors">
+              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-500 transition-colors">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               </div>
               <input
@@ -192,7 +192,7 @@ function CategoryPage() {
                 placeholder={`Search ${displayName}...`}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 outline-none transition-all placeholder:text-gray-400 text-gray-900"
+                className="w-full pl-10 pr-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400 text-gray-900"
               />
             </div>
 
@@ -202,7 +202,7 @@ function CategoryPage() {
                   aria-label="Sort products"
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
-                  className="w-full appearance-none pl-4 pr-10 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 outline-none text-gray-700 cursor-pointer transition-all"
+                  className="w-full appearance-none pl-4 pr-10 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none text-gray-700 cursor-pointer transition-all"
                 >
                   <option value="featured">✨ Featured</option>
                   <option value="priceAsc">💰 Price: Low to High</option>
@@ -230,7 +230,7 @@ function CategoryPage() {
             <div className="text-center py-20">
               <h2 className="text-2xl font-bold text-gray-800 mb-2">Oops! Something went wrong.</h2>
               <p className="text-gray-500 mb-6">{error?.message || 'Failed to load products'}</p>
-              <button onClick={() => window.location.reload()} className="px-6 py-2 bg-purple-600 text-white rounded-lg">Try Again</button>
+              <button onClick={() => window.location.reload()} className="px-6 py-2 bg-emerald-600 text-white rounded-lg">Try Again</button>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-24 px-6 bg-white rounded-3xl shadow-sm border border-gray-100 max-w-2xl mx-auto">

@@ -142,7 +142,7 @@ const AllCategories = () => {
               {/* Category Info */}
               <div className="absolute inset-0 flex flex-col justify-end p-3 md:p-5 lg:p-6">
                 <div className="flex flex-col md:flex-row md:items-center gap-0.5 md:gap-2">
-                  <h3 className="text-sm md:text-xl lg:text-2xl font-bold text-white leading-tight group-hover:text-purple-300 transition-colors capitalize drop-shadow-lg line-clamp-1">
+                  <h3 className="text-sm md:text-xl lg:text-2xl font-bold text-white leading-tight group-hover:text-emerald-300 transition-colors capitalize drop-shadow-lg line-clamp-1">
                     {category.name}
                   </h3>
                 </div>
@@ -182,7 +182,7 @@ const AllCategories = () => {
           <button
             onClick={handleBackClick}
             type="button"
-            className="inline-flex items-center gap-3 px-6 py-3 bg-white text-purple-600 border-2 border-purple-600 text-base font-semibold rounded-full hover:bg-purple-50 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-white text-emerald-600 border-2 border-emerald-600 text-base font-semibold rounded-full hover:bg-emerald-50 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />

@@ -71,7 +71,7 @@ const BottomNav = () => {
               <button
                 key={item.name}
                 onClick={openCart}
-                className={`flex flex-col items-center justify-center gap-1 transition-all duration-200 relative ${active ? 'text-purple-600' : 'text-gray-600'
+                className={`flex flex-col items-center justify-center gap-1 transition-all duration-200 relative ${active ? 'text-emerald-600' : 'text-gray-600'
                   }`}
               >
                 <div className="relative">

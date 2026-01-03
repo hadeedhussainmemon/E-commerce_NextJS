@@ -230,7 +230,7 @@ const ProductDetail = () => {
               <span>Authentic Guarantee</span>
             </div>
             <div className="flex items-center gap-3">
-              <Check className="text-blue-500" size={20} />
+              <Check className="text-emerald-500" size={20} />
               <span>Cash on Delivery Available</span>
             </div>
             <button onClick={handleWhatsAppShare} className="flex items-center gap-3 text-slate-500 hover:text-emerald-600 transition-colors text-left">

@@ -128,7 +128,7 @@ export default function AdminOverview({ onChangeSection }) {
                     title="Low Stock Items"
                     value={stats.lowStockCount}
                     icon={AlertTriangle}
-                    gradient="from-rose-500 to-pink-500"
+                    gradient="from-rose-500 to-red-500"
                 />
             </div>
 

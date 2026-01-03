@@ -98,7 +98,7 @@ const ProductDetailClient = ({ slug, initialProduct }) => {
             <div className="mb-6">
                 <button
                     onClick={() => router.back()}
-                    className="mb-4 flex items-center gap-2 text-sm text-gray-500 hover:text-purple-600 transition-colors group"
+                    className="mb-4 flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-600 transition-colors group"
                 >
                     <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -141,7 +141,7 @@ const ProductDetailClient = ({ slug, initialProduct }) => {
                         {product.price > 0 ? (
                             <>
                                 <div className="flex items-center gap-3 mb-2">
-                                    <div className="text-3xl font-extrabold text-purple-700">
+                                    <div className="text-3xl font-extrabold text-emerald-700">
                                         {config.currency.symbol} {product.price.toLocaleString(config.currency.locale)}
                                     </div>
                                     <span className="bg-gradient-to-r from-green-600 to-emerald-600 text-white text-sm font-bold px-3 py-1 rounded-full">
@@ -204,7 +204,7 @@ const ProductDetailClient = ({ slug, initialProduct }) => {
                                 <button
                                     onClick={() => addToCart({ ...product, selectedOptions: { color: selectedColor } })}
                                     disabled={isSoldOut}
-                                    className={`px-5 py-3 rounded-lg border text-purple-700 bg-purple-50 hover:bg-purple-100 ${isSoldOut ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`px-5 py-3 rounded-lg border text-emerald-700 bg-emerald-50 hover:bg-emerald-100 ${isSoldOut ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     Add to Cart
                                 </button>

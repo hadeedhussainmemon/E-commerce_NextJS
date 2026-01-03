@@ -58,7 +58,7 @@ export async function POST(request) {
             customer: body.customer,
             items: body.items,
             total: body.total,
-            status: 'Pending'
+            status: 'pending'
         });
 
         return NextResponse.json({ success: true, orderId: order._id, message: 'Order placed successfully' }, { status: 201 });

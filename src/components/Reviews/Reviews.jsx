@@ -16,7 +16,7 @@ const Reviews = () => {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center px-6 py-3 border border-purple-600 text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-150"
+          className="inline-flex items-center px-6 py-3 border border-emerald-600 text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 transition-colors duration-150"
         >
           View reviews on Instagram highlights
         </a>

@@ -51,7 +51,7 @@ export default function MyOrders() {
           placeholder="Enter phone number or email"
           className="flex-1 px-3 py-2 border rounded"
         />
-        <button type="submit" className="px-4 py-2 bg-purple-600 text-white rounded">Search</button>
+        <button type="submit" className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 transition-colors text-white rounded">Search</button>
       </form>
 
       {loading && <div className="text-gray-600">Searching orders...</div>}
@@ -70,7 +70,7 @@ export default function MyOrders() {
                 <p className="text-sm text-gray-600">Placed: {new Date(order.createdAt).toLocaleString()}</p>
               </div>
               <div className="text-right">
-                <p className="font-bold text-purple-600">{order.total} PKR</p>
+                <p className="font-bold text-emerald-600">{order.total} PKR</p>
                 <p className="text-xs text-gray-500">{order.items?.length || 0} item(s)</p>
               </div>
             </div>

@@ -9,9 +9,9 @@ export default function OrderSuccess({ order, onClose }) {
       <div className="bg-white rounded-xl shadow-2xl w-[95vw] sm:w-full max-w-sm sm:max-w-2xl p-2 sm:p-8 max-h-[90vh] overflow-y-auto">
         {/* Success Icon */}
         <div className="text-center pt-8 pb-4">
-          <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
             <svg
-              className="w-10 h-10 sm:w-12 sm:h-12 text-green-600"
+              className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -165,9 +165,9 @@ export default function OrderSuccess({ order, onClose }) {
           </div>
 
           {/* Payment Info */}
-          <div className="bg-blue-50 rounded-lg p-3 flex items-start gap-2">
+          <div className="bg-indigo-50 rounded-lg p-3 flex items-start gap-2">
             <svg
-              className="w-4 h-4 sm:w-6 sm:h-6 text-blue-600 mt-0.5 shrink-0"
+              className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600 mt-0.5 shrink-0"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -178,10 +178,10 @@ export default function OrderSuccess({ order, onClose }) {
               />
             </svg>
             <div className="text-sm">
-              <p className="font-medium text-blue-900">
+              <p className="font-medium text-indigo-900">
                 Cash on Delivery (COD)
               </p>
-              <p className="text-blue-700">
+              <p className="text-indigo-700">
                 Pay {order.total} PKR when you receive your order
               </p>
             </div>

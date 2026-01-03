@@ -40,7 +40,11 @@ export function getImageUrl(path, options = {}) {
 
   // if base empty, just return path as-is with leading slash
   const base = IMAGE_BASE_URL || '';
-  if (s.startsWith('/images/')) return base ? `${base}${s}` : s;
+  if (s.startsWith('/images/')) {
+    // Prevent double prefixing if base is just '/images' or similar
+    if (base === '/images' || base === 'images') return s;
+    return base ? `${base}${s}` : s;
+  }
   return base ? `${base}${s.startsWith('/') ? '' : '/'}${s}` : (s.startsWith('/') ? s : `/${s}`);
 }
 

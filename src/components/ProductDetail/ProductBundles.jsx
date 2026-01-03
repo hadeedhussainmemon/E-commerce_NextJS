@@ -47,7 +47,7 @@ const ProductBundles = ({ currentProduct }) => {
     };
 
     return (
-        <div className="mt-8 p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100">
+        <div className="mt-8 p-6 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-100">
             <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <span className="text-xl">🎁</span> Frequently Bought Together
             </h3>
@@ -69,7 +69,7 @@ const ProductBundles = ({ currentProduct }) => {
                     <p className="text-sm text-gray-600 mb-2">
                         <span className="font-medium text-gray-900">{currentProduct.title}</span>
                         <span className="mx-1">&</span>
-                        <Link href={`/product/${bundleItem.slug || bundleItem.id}`} className="font-medium text-purple-600 hover:underline">
+                        <Link href={`/product/${bundleItem.slug || bundleItem.id}`} className="font-medium text-emerald-600 hover:underline">
                             {bundleItem.title}
                         </Link>
                     </p>
