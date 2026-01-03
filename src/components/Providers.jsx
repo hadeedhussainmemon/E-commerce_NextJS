@@ -12,6 +12,7 @@ import { CartAnimationProvider } from "../context/CartAnimationContext";
 import FlyToCartAnimation from "./UI/FlyToCartAnimation";
 import { motion } from "framer-motion";
 import TopProgressBar from "./UI/TopProgressBar";
+import Cart from "./Cart/Cart";
 
 export default function Providers({ children }) {
     const pathname = usePathname();
@@ -45,6 +46,7 @@ export default function Providers({ children }) {
                                 {children}
                             </motion.div>
                             <FlyToCartAnimation />
+                            <Cart />
                         </CartAnimationProvider>
                         <Toaster position="bottom-right" richColors />
                     </WishlistProvider>
