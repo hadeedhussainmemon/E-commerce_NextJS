@@ -3,6 +3,7 @@ import "./globals.css";
 import config from "../config";
 import Providers from "../components/Providers";
 import ScrollProgress from "../components/UI/ScrollProgress";
+import { ToastProvider } from "../context/ToastContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -30,8 +31,10 @@ export default function RootLayout({ children }) {
         className={`${inter.className} ${playfair.variable} antialiased bg-white text-slate-900`}
       >
         <Providers>
-          <ScrollProgress />
-          {children}
+          <ToastProvider>
+            <ScrollProgress />
+            {children}
+          </ToastProvider>
         </Providers>
       </body>
     </html>

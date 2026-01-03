@@ -148,31 +148,36 @@ function CategoryPage() {
 
       <div className="min-h-screen bg-gray-50/50 pb-20">
         {/* Modern Hero Section */}
-        <div className="relative bg-gradient-to-br from-violet-900 via-purple-900 to-fuchsia-900 text-white overflow-hidden pb-16 pt-12 lg:pt-20">
+        <div className="relative bg-slate-900 text-white overflow-hidden pb-16 pt-16 lg:pt-28">
           {/* Abstract Shapes */}
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-emerald-500/30 rounded-full blur-3xl mix-blend-overlay" />
-            <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky-500/20 rounded-full blur-3xl mix-blend-overlay" />
+            <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px]" />
+            <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[100px]" />
           </div>
 
           <div className="container mx-auto px-4 relative z-10 text-center">
-            <div className="mb-6 flex justify-center">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm font-medium animate-fade-in">
-                <span className="text-yellow-300">✨</span> {promos[activePromo]}
+            <div className="mb-8 flex justify-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-xs font-semibold animate-fade-in text-emerald-400">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                {promos[activePromo]}
               </div>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tight leading-tight capitalize bg-clip-text text-transparent bg-gradient-to-b from-white to-purple-200 drop-shadow-sm">
+            <h1 className="text-5xl md:text-7xl font-playfair font-black mb-6 tracking-tight leading-tight capitalize text-white">
               {displayName}
             </h1>
-            <p className="text-lg md:text-xl text-emerald-200 max-w-2xl mx-auto font-light leading-relaxed mb-8">
-              Discover our curated collection of {displayName}, designed for elegance and performance.
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed mb-10">
+              Discover our curated collection of {displayName}, selected for quality and craftsmanship.
             </p>
 
             {/* Sub-Category Pills */}
-            <div className="flex flex-wrap gap-2 justify-center max-w-3xl mx-auto">
+            <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
               {ALIAS_SLUGS.map((slugKey) => (
-                <Link key={slugKey} to={`/category/${slugKey}`} className="px-4 py-2 rounded-full text-xs md:text-sm font-medium text-white/90 bg-white/10 border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
+                <Link
+                  key={slugKey}
+                  href={`/category/${slugKey}`}
+                  className="px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold text-white/80 bg-white/5 border border-white/10 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 hover:-translate-y-1 transition-all duration-300 backdrop-blur-sm"
+                >
                   {toDisplayName(slugKey)}
                 </Link>
               ))}

@@ -227,9 +227,9 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
           </div>
 
           {/* Shipping Address */}
-          <div className="bg-gradient-to-br from-slate-50 to-indigo-50 rounded-xl p-5 border border-slate-100">
+          <div className="bg-gradient-to-br from-slate-50 to-emerald-50 rounded-xl p-5 border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-500 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-teal-500 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -251,7 +251,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                   onChange={handleChange}
                   required
                   rows="3"
-                  className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all group-hover:border-blue-300 resize-none"
+                  className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all group-hover:border-emerald-300 resize-none"
                   placeholder="House/Flat no., Street, Area, Landmark"
                 />
               </div>

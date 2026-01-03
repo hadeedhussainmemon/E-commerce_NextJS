@@ -33,23 +33,23 @@ const Wishlist = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-20 md:mb-0">
         <div className="text-center py-16">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full mb-6">
-            <svg className="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-emerald-50 rounded-full mb-6 ring-8 ring-emerald-50/50">
+            <svg className="w-12 h-12 text-emerald-600 animate-pulse-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Your Wishlist is Empty</h2>
-          <p className="text-gray-600 mb-8 max-w-md mx-auto">
-            Save your favorite products to your wishlist and shop them later!
+          <h2 className="text-3xl font-playfair font-bold text-slate-900 mb-4">Your Wishlist is Empty</h2>
+          <p className="text-slate-500 mb-8 max-w-md mx-auto">
+            Save your favorite products to your wishlist and shop them later! Your curated collection starts here.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-xl hover:shadow-lg transition-all duration-300 font-semibold"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-xl hover:bg-slate-800 shadow-lg shadow-slate-900/20 hover:-translate-y-0.5 transition-all duration-300 font-semibold active:scale-95"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            Start Shopping
+            Explore Collections
           </Link>
         </div>
       </div>
@@ -59,35 +59,35 @@ const Wishlist = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-24 md:mb-0 min-h-screen">
       {/* Header */}
-      <div className="flex flex-col gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-slate-100">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            My Wishlist ❤️
+          <h1 className="text-4xl font-playfair font-bold text-slate-900 mb-2">
+            My Wishlist <span className="text-emerald-500">❤️</span>
           </h1>
-          <p className="text-gray-600">
-            {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} saved
+          <p className="text-slate-500 font-medium">
+            {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} saved for later
           </p>
         </div>
 
-        {/* Buttons - Full width on mobile, inline on desktop */}
-        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleAddAllToCart}
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-xl hover:shadow-lg transition-all duration-300 font-semibold w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 shadow-lg shadow-emerald-500/20 transition-all duration-300 font-bold active:scale-95"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            Add All to Cart
+            Move All to Cart
           </button>
           <button
             onClick={clearWishlist}
-            className="flex items-center justify-center gap-2 px-6 py-3 border-2 border-red-300 text-red-600 rounded-xl hover:bg-red-50 transition-all duration-300 font-semibold w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 px-6 py-3.5 border-2 border-slate-200 text-slate-600 rounded-xl hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all duration-300 font-semibold active:scale-95"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
-            Clear Wishlist
+            Clear All
           </button>
         </div>
       </div>

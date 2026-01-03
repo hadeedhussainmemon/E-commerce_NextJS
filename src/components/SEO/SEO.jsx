@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import config from '../../config';
+import { getAuthorSignature } from '../../utils/signature';
 
 /**
  * SEO Component for managing document head
@@ -29,6 +30,15 @@ const SEO = ({
     if (metaDesc) {
       metaDesc.setAttribute('content', description);
     }
+
+    // Update Author meta
+    let authorMeta = document.querySelector('meta[name="author"]');
+    if (!authorMeta) {
+      authorMeta = document.createElement('meta');
+      authorMeta.setAttribute('name', 'author');
+      document.head.appendChild(authorMeta);
+    }
+    authorMeta.setAttribute('content', getAuthorSignature(config._sig));
 
     // Update OG tags
     const ogTitle = document.querySelector('meta[property="og:title"]');

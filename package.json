@@ -2,6 +2,8 @@
   "name": "next-store",
   "version": "0.1.0",
   "private": true,
+  "author": "Hadeed Hussain Memon <programmerhadeed@gmail.com>",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

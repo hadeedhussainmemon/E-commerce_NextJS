@@ -7,6 +7,8 @@ const config = {
     // Branding
     appName: "HH Store",
     appShortName: "HH Store", // Used in mobile view or small spaces
+    // Signature: base64(Hadeed Hussain Memon)
+    _sig: "SGFkZWVkIEh1c3NhaW4gTWVtb24=",
     tagline: "Premium Neutral E-commerce Template",
     description: "A neutral, customizable e-commerce template ready for your API.",
 

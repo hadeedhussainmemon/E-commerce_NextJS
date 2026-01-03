@@ -9,6 +9,7 @@ import { WishlistProvider } from "../context/WishlistContext.jsx";
 import { Toaster } from "sonner";
 import { CartAnimationProvider } from "../context/CartAnimationContext";
 import FlyToCartAnimation from "./UI/FlyToCartAnimation";
+import { motion } from "framer-motion";
 
 export default function Providers({ children }) {
     const [queryClient] = useState(
@@ -28,7 +29,13 @@ export default function Providers({ children }) {
                 <CartProvider>
                     <WishlistProvider>
                         <CartAnimationProvider>
-                            {children}
+                            <motion.div
+                                initial={{ opacity: 0, y: 5 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                            >
+                                {children}
+                            </motion.div>
                             <FlyToCartAnimation />
                         </CartAnimationProvider>
                         <Toaster position="bottom-right" richColors />

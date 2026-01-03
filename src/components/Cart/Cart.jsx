@@ -4,6 +4,7 @@ import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import config from '../../config';
 import { useCart } from '../../context/CartContext';
 import getImageUrl from '../../utils/imageUrl';
+import { motion, AnimatePresence } from "framer-motion";
 import CheckoutForm from '../Checkout/CheckoutForm';
 import OrderSuccess from '../Checkout/OrderSuccess';
 
@@ -159,81 +160,104 @@ export default function Cart() {
             </div>
           ) : (
             <ul className="space-y-6">
-              {cartItems.map((item, index) => (
-                <li
-                  key={item.id}
-                  className="group relative flex gap-4 animate-stagger-item"
-                  style={{ animationDelay: `${index * 50} ms` }}
-                >
-                  {/* Product Image */}
-                  <div className="relative w-24 h-24 shrink-0 rounded-2xl bg-white border border-gray-100 overflow-hidden shadow-sm group-hover:shadow-md transition-all">
-                    <div className="relative w-full h-full p-2">
-                      <Image
-                        src={getImageUrl(item.image)}
-                        alt={item.title}
-                        fill
-                        className="object-contain"
-                      />
+              <AnimatePresence initial={false}>
+                {cartItems.map((item, index) => (
+                  <motion.li
+                    key={item.id}
+                    layout
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="group relative flex gap-4"
+                  >
+                    {/* Product Image */}
+                    <div className="relative w-24 h-24 shrink-0 rounded-2xl bg-white border border-gray-100 overflow-hidden shadow-sm group-hover:shadow-md transition-all">
+                      <div className="relative w-full h-full p-2">
+                        <Image
+                          src={getImageUrl(item.image)}
+                          alt={item.title}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Details */}
-                  <div className="flex-1 flex flex-col justify-between py-1">
-                    <div className="flex justify-between items-start gap-2">
-                      <div>
-                        <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors">
-                          {item.title}
-                        </h3>
-                        <div className="mt-1 flex flex-wrap gap-2 text-xs text-gray-500">
-                          <span className="bg-white border border-gray-100 px-2 py-0.5 rounded-md shadow-sm">
-                            {item?.selectedOptions?.color && (
-                              <span className="flex items-center gap-1">
-                                <span className="w-2 h-2 rounded-full inline-block border border-gray-200" style={{ background: item.selectedOptions.color }} />
-                                {item.category}
-                              </span>
-                            ) || item.category}
-                          </span>
+                    {/* Details */}
+                    <div className="flex-1 flex flex-col justify-between py-1">
+                      <div className="flex justify-between items-start gap-2">
+                        <div>
+                          <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors">
+                            {item.title}
+                          </h3>
+                          <div className="mt-1 flex flex-wrap gap-2 text-xs text-gray-500">
+                            <span className="bg-white border border-gray-100 px-2 py-0.5 rounded-md shadow-sm">
+                              {item?.selectedOptions?.color && (
+                                <span className="flex items-center gap-1">
+                                  <span className="w-2 h-2 rounded-full inline-block border border-gray-200" style={{ background: item.selectedOptions.color }} />
+                                  {item.category}
+                                </span>
+                              ) || item.category}
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-gray-300 hover:text-red-500 transition-colors p-1 -mr-2"
+                          title="Remove item"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="flex items-end justify-between mt-2">
+                        {/* Modern Quantity Pill */}
+                        <div className="flex items-center bg-gray-100 rounded-full px-1 py-1 shadow-inner">
+                          <button
+                            onClick={() => decreaseQuantity(item.id)}
+                            className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" /></svg>
+                          </button>
+                          <span className="w-8 text-center text-sm font-bold text-gray-900 tabular-nums">{item.quantity}</span>
+                          <button
+                            onClick={() => increaseQuantity(item.id)}
+                            className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+                          </button>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="text-sm font-bold text-gray-900">
+                            {(item.price * item.quantity).toLocaleString()} PKR
+                          </p>
                         </div>
                       </div>
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-gray-300 hover:text-red-500 transition-colors p-1 -mr-2"
-                        title="Remove item"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
                     </div>
-
-                    <div className="flex items-end justify-between mt-2">
-                      {/* Modern Quantity Pill */}
-                      <div className="flex items-center bg-gray-100 rounded-full px-1 py-1 shadow-inner">
-                        <button
-                          onClick={() => decreaseQuantity(item.id)}
-                          className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" /></svg>
-                        </button>
-                        <span className="w-8 text-center text-sm font-bold text-gray-900 tabular-nums">{item.quantity}</span>
-                        <button
-                          onClick={() => increaseQuantity(item.id)}
-                          className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-                        </button>
-                      </div>
-
-                      <div className="text-right">
-                        <p className="text-sm font-bold text-gray-900">
-                          {(item.price * item.quantity).toLocaleString()} PKR
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              ))}
+                  </motion.li>
+                ))}
+              </AnimatePresence>
             </ul>
+          )}
+
+          {/* Cart Upsells (Experimental Wow Factor) */}
+          {cartItems.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-slate-100">
+              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Frequently Bought Together</h4>
+              <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="min-w-[140px] bg-white p-3 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="aspect-square bg-slate-50 rounded-xl mb-3 flex items-center justify-center text-2xl">🎁</div>
+                    <div className="text-xs font-bold text-slate-900 mb-1 line-clamp-1">Gift Wrap Service</div>
+                    <div className="text-[10px] text-emerald-600 font-bold mb-2">999 PKR</div>
+                    <button className="w-full text-[10px] font-black bg-slate-900 text-white py-2 rounded-lg active:scale-95 transition-transform">+ ADD</button>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 
@@ -253,23 +277,29 @@ export default function Cart() {
               {/* Free Shipping Progress */}
               <div className="py-2">
                 {total >= 4999 ? (
-                  <div className="p-2 bg-green-50 border border-green-100 rounded-lg flex items-center gap-2">
-                    <div className="bg-green-100 p-1 rounded-full">
-                      <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                  <div className="p-3 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl flex items-center gap-3 animate-pulse-soft relative overflow-hidden">
+                    <div className="absolute inset-0 bg-white/20 skew-x-12 animate-shine"></div>
+                    <div className="bg-emerald-100 p-1.5 rounded-full z-10">
+                      <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
                     </div>
-                    <span className="text-sm text-green-700 font-medium">You've unlocked <b>Free Delivery!</b></span>
+                    <div className="z-10">
+                      <span className="text-sm text-emerald-800 font-bold block">Free Delivery Unlocked! 🎉</span>
+                      <span className="text-[10px] text-emerald-600 font-medium uppercase tracking-wider">Premium Shipping Included</span>
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs font-medium">
-                      <span className="text-gray-600">Add <span className="text-emerald-600">{(4999 - total).toLocaleString()} {config.currency.code}</span> for Free Delivery</span>
+                      <span className="text-gray-600">Add <span className="text-emerald-600 font-bold">{(4999 - total).toLocaleString()} {config.currency.code}</span> for Free Delivery</span>
                       <span className="text-gray-400">{Math.min(100, (total / 4999) * 100).toFixed(0)}%</span>
                     </div>
-                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner">
                       <div
-                        className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 ease-out"
+                        className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-700 ease-out relative"
                         style={{ width: `${Math.min(100, (total / 4999) * 100)}%` }}
-                      ></div>
+                      >
+                        <div className="absolute right-0 top-0 bottom-0 w-1 bg-white/50 blur-[1px]"></div>
+                      </div>
                     </div>
                   </div>
                 )}
