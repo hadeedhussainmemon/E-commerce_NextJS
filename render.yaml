@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: coolcache-backend
+    env: node
+    repo: hadeedhussainmemon/CoolCache
+    branch: main
+    buildCommand: "npm install --prefix Backend"
+    startCommand: "npm start --prefix Backend"
+    healthCheckPath: "/api/health"
+    plan: free
+
+  - type: web
+    name: coolcache-frontend
+    env: node
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NEXT_PUBLIC_API_BASE_URL
+        fromService:
+          type: web
+          name: coolcache-backend
+          property: host
+    plan: free
