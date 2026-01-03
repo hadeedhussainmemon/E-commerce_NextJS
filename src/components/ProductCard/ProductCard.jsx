@@ -45,7 +45,24 @@ const ProductCard = (inputProps) => {
 
     const [imgLoaded, setImgLoaded] = useState(false);
 
-    // ... rest of state
+    // Computed values
+    const product = props;
+    const isWishlisted = isInWishlist(id);
+    const isSoldOut = stock <= 0;
+
+    // Calculate discount
+    const originalPrice = price && (props.salePrice || (props.originalPrice && props.originalPrice > price))
+        ? (props.originalPrice || Math.round(price * 1.2))
+        : null;
+
+    const discountPercent = originalPrice
+        ? Math.round(((originalPrice - price) / originalPrice) * 100)
+        : 0;
+
+    // State
+    const [showModal, setShowModal] = useState(false);
+    const [modalImageLoaded, setModalImageLoaded] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
 
     const handleAddToCart = (e) => {
         setIsAdding(true);
