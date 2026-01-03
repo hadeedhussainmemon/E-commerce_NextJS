@@ -22,6 +22,20 @@ body {
   color: #0f172a; /* Slate-900 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+section, .smooth-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
 }
 
 /* --- Premium UI Enhancements --- */

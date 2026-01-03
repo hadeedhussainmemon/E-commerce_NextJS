@@ -98,17 +98,17 @@ const Hero = ({ images = null, interval = 4000 }) => {
             rotate: [0, 90, 0],
             opacity: [0.1, 0.15, 0.1]
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/2 -left-1/4 w-full h-full bg-emerald-500/10 rounded-full blur-[120px]"
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-1/2 -left-1/4 w-full h-full bg-emerald-500/10 rounded-full blur-[40px] gpu-accelerated"
         />
         <motion.div
           animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [0, -90, 0],
-            opacity: [0.1, 0.15, 0.1]
+            scale: [1, 1.1, 1],
+            rotate: [0, -45, 0],
+            opacity: [0.05, 0.1, 0.05]
           }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/2 -right-1/4 w-full h-full bg-indigo-500/10 rounded-full blur-[120px]"
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-1/2 -right-1/4 w-full h-full bg-indigo-500/10 rounded-full blur-[40px] gpu-accelerated"
         />
       </div>
 

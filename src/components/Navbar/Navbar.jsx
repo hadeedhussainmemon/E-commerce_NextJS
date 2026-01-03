@@ -257,6 +257,19 @@ const Navbar = () => {
               </div>
 
               <Link
+                href="/new-arrivals"
+                className={`relative px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 group overflow-hidden ${pathname === '/new-arrivals'
+                  ? 'text-emerald-700 bg-emerald-50/80 shadow-sm'
+                  : 'text-slate-600 hover:text-emerald-700'
+                  }`}
+              >
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  New Arrivals
+                </span>
+              </Link>
+
+              <Link
                 href="/recommendations"
                 className={`relative px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 group overflow-hidden ${isRecommendationsPage
                   ? 'text-emerald-700 bg-emerald-50/80 shadow-sm'
@@ -391,6 +404,7 @@ const Navbar = () => {
             <div className="space-y-1">
               {[
                 { label: 'Home', href: '/', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+                { label: 'New Arrivals', href: '/new-arrivals', icon: 'M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z' },
                 { label: 'Categories', href: '/categories', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
                 { label: 'Discover', href: '/recommendations', icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z' }
               ].map((link, i) => (
@@ -404,9 +418,10 @@ const Navbar = () => {
                     href={link.href}
                     onClick={(e) => { link.label === 'Home' ? scrollToSection(e, "home") : closeMenu(); }}
                     className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl text-base font-bold transition-all duration-200 ${(link.label === 'Home' && isHomePage) ||
-                        (link.label === 'Categories' && isCategoryPage) ||
-                        (link.label === 'Discover' && isRecommendationsPage)
-                        ? 'text-emerald-700 bg-emerald-50/80 shadow-sm' : 'text-slate-700 hover:bg-slate-50'}`}
+                      (link.label === 'New Arrivals' && pathname === '/new-arrivals') ||
+                      (link.label === 'Categories' && isCategoryPage) ||
+                      (link.label === 'Discover' && isRecommendationsPage)
+                      ? 'text-emerald-700 bg-emerald-50/80 shadow-sm' : 'text-slate-700 hover:bg-slate-50'}`}
                   >
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm ${(link.label === 'Home' && isHomePage) ? 'bg-emerald-600 text-white' : 'bg-white text-slate-400'
                       }`}>

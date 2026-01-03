@@ -25,7 +25,7 @@ export async function getProducts(filters = {}) {
         const decodedCategory = decodeURIComponent(category).toLowerCase();
         query.category = { $elemMatch: { $regex: new RegExp(`^${decodedCategory}$`, 'i') } };
         // Fallback or alternative logic from original file:
-         query.category = { $regex: new RegExp(`^${decodedCategory}$`, 'i') };
+        query.category = { $regex: new RegExp(`^${decodedCategory}$`, 'i') };
     }
 
     // Filter by Search Query
@@ -82,14 +82,16 @@ export async function getCategories() {
             $group: {
                 _id: { $toLower: "$category" },
                 originalName: { $first: "$category" },
-                count: { $sum: 1 }
+                count: { $sum: 1 },
+                image: { $first: "$image" } // Pick the first product's image as the category representative
             }
         },
         {
             $project: {
                 _id: 0,
                 name: "$originalName",
-                count: 1
+                count: 1,
+                image: 1
             }
         },
         { $sort: { count: -1 } }
