@@ -22,6 +22,8 @@ import { useWishlist } from '../../context/WishlistContext';
 import { useCartAnimation } from '../../context/CartAnimationContext';
 import getImageUrl from '../../utils/imageUrl';
 import config from '../../config';
+import { NewBadge, SaleBadge, OutOfStockBadge } from '../UI/ProductBadges';
+import { isNewProduct, isOnSale, getDiscountPercentage } from '../../utils/productUtils';
 
 const ProductCard = (inputProps) => {
     // Handle case where properties are wrapped in a 'product' prop (common in usage)
@@ -232,6 +234,12 @@ const ProductCard = (inputProps) => {
                             <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                                 <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-lg bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 animate-pulse"></div>
                             </div>
+
+                            {/* Product Badges */}
+                            {isNewProduct(props.createdAt) && <NewBadge />}
+                            {isOnSale(price, props.originalPrice) && (
+                                <SaleBadge discount={getDiscountPercentage(price, props.originalPrice)} />
+                            )}
 
                             <Image
                                 className={`relative object-contain transition-transform duration-300 hover:scale-105 drop-shadow-sm border border-slate-100 rounded-md ${imgLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-sm'}`}

@@ -1,55 +1,29 @@
-import config from '../config';
+export default function sitemap() {
+    const baseUrl = 'https://vanguard-store.com'; // Update with your actual domain
 
-import { getProducts, getCategories } from '@/lib/data';
-
-export default async function sitemap() {
-    const baseUrl = 'https://www.coolcache.app'; // Or strict config.api.baseUrl if it matches frontend
-    // const apiBase = config.api.baseUrl; // No longer needed for internal fetch
-
-    // Static routes
     const routes = [
         '',
+        '/about-us',
         '/categories',
-        '/wishlist',
         '/cart',
-        // '/reviews', // If these pages exist
-        // '/faq',
+        '/wishlist',
+        '/my-orders',
+        '/track-order',
+        '/new-arrivals',
+        '/recommendations',
+        '/search',
+        '/contact-us',
+        '/faq',
+        '/privacy-policy',
+        '/terms-of-service',
+        '/shipping-policy',
+        '/returns',
     ].map((route) => ({
         url: `${baseUrl}${route}`,
-        lastModified: new Date(),
-        changeFrequency: 'daily',
+        lastModified: new Date().toISOString(),
+        changeFrequency: route === '' ? 'daily' : 'weekly',
         priority: route === '' ? 1.0 : 0.8,
     }));
 
-    try {
-        // Fetch categories
-        const categoriesData = await getCategories();
-        const categories = categoriesData.categories || [];
-
-        const categoryUrls = categories.map((cat) => ({
-            url: `${baseUrl}/category/${cat.name ? encodeURIComponent(cat.name) : ''}`,
-            lastModified: new Date(),
-            changeFrequency: 'daily',
-            priority: 0.8,
-        }));
-
-        // Fetch products
-        // Note: Fetching all products might be heavy. Ideally paginate or use a specialized sitemap endpoint.
-        // For now, we fetch the first 100 or so, assuming the API supports a limit.
-        const productsData = await getProducts({ limit: 1000, page: 1 });
-        const products = productsData.products || [];
-
-        const productUrls = products.map((product) => ({
-            url: `${baseUrl}/product/${product.slug || product.id}`,
-            lastModified: new Date(product.updatedAt || new Date()),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        }));
-
-        return [...routes, ...categoryUrls, ...productUrls];
-
-    } catch (error) {
-        console.error('Failed to generate sitemap:', error);
-        return routes;
-    }
+    return routes;
 }
