@@ -39,7 +39,7 @@ const SalesChart = ({ data }) => {
                 </div>
                 <div className="text-right">
                     <p className="text-xs text-uppercase text-gray-400 font-semibold tracking-wider">TOTAL REVENUE</p>
-                    <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+                    <p className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                         Rs. {processedData.reduce((acc, curr) => acc + curr.value, 0).toLocaleString()}
                     </p>
                 </div>
@@ -107,7 +107,7 @@ const SalesChart = ({ data }) => {
                                     x={x + barWidth / 2}
                                     y={y - 10}
                                     textAnchor="middle"
-                                    className={`fill-purple-600 text-xs font-bold transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+                                    className={`fill-emerald-600 text-xs font-bold transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
                                 >
                                     Rs. {(d.value / 1000).toFixed(1)}k
                                 </text>
@@ -117,7 +117,7 @@ const SalesChart = ({ data }) => {
                                     x={x + barWidth / 2}
                                     y={height - padding + 20}
                                     textAnchor="middle"
-                                    className={`text-xs font-medium transition-colors ${isHovered ? 'fill-purple-600 font-bold' : 'fill-gray-400'}`}
+                                    className={`text-xs font-medium transition-colors ${isHovered ? 'fill-emerald-600 font-bold' : 'fill-gray-400'}`}
                                 >
                                     {d.name}
                                 </text>
@@ -128,12 +128,12 @@ const SalesChart = ({ data }) => {
                     {/* Defs for gradients/filters */}
                     <defs>
                         <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#8b5cf6" />
-                            <stop offset="100%" stopColor="#c084fc" stopOpacity="0.6" />
+                            <stop offset="0%" stopColor="#10b981" />
+                            <stop offset="100%" stopColor="#34d399" stopOpacity="0.6" />
                         </linearGradient>
                         <linearGradient id="hoverGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#ec4899" />
-                            <stop offset="100%" stopColor="#f472b6" stopOpacity="0.8" />
+                            <stop offset="0%" stopColor="#0ea5e9" />
+                            <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.8" />
                         </linearGradient>
                         <filter id="glow">
                             <feGaussianBlur stdDeviation="2" result="coloredBlur" />

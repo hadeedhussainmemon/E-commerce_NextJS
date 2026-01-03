@@ -244,7 +244,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                     required
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                                     placeholder="Product Name"
                                 />
                             </div>
@@ -259,7 +259,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                         min="0"
                                         value={formData.price}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                                         placeholder="0.00"
                                     />
                                 </div>
@@ -271,7 +271,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                         min="0"
                                         value={formData.purchasePrice}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                                         placeholder="0.00"
                                     />
                                 </div>
@@ -287,7 +287,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                         min="0"
                                         value={formData.stock}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                                         placeholder="Qty"
                                     />
                                 </div>
@@ -301,7 +301,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                                     id={`cat-${cat}`}
                                                     checked={selectedCategories.includes(cat)}
                                                     onChange={() => handleCategoryToggle(cat)}
-                                                    className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                                                    className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
                                                 />
                                                 <label htmlFor={`cat-${cat}`} className="text-sm text-gray-700 cursor-pointer select-none">
                                                     {cat}
@@ -313,7 +313,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                         type="text"
                                         value={newCategory}
                                         onChange={(e) => setNewCategory(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                                        className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
                                         placeholder="+ Add New"
                                     />
                                 </div>
@@ -329,7 +329,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                             rows={6}
                             value={formData.description}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all min-h-[120px] resize-y"
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all min-h-[120px] resize-y"
                             placeholder="Product description..."
                         />
                     </div>
@@ -342,7 +342,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                 name="material"
                                 value={formData.material}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                                 placeholder="e.g. Leather, Steel"
                             />
                         </div>
@@ -353,7 +353,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                 name="colors"
                                 value={formData.colors}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                                 placeholder="e.g. Red, Blue, Black"
                             />
                         </div>
@@ -366,7 +366,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                             name="isCustomizable"
                             checked={formData.isCustomizable}
                             onChange={handleChange}
-                            className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                            className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
                         />
                         <label htmlFor="isCustomizable" className="text-sm font-medium text-gray-700">This product is customizable</label>
                     </div>
@@ -378,7 +378,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                             name="isVisible"
                             checked={formData.isVisible}
                             onChange={handleChange}
-                            className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                            className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
                         />
                         <label htmlFor="isVisible" className="text-sm font-medium text-gray-700">Visible on Website</label>
                     </div>
@@ -394,7 +394,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {isSubmitting ? (
                                 <>

@@ -108,7 +108,7 @@ export default function AdminCoupons() {
 
     if (loading) return (
         <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-violet-200 border-t-violet-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-200 border-t-emerald-600"></div>
         </div>
     );
 
@@ -122,7 +122,7 @@ export default function AdminCoupons() {
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
                 >
                     <Plus size={20} />
                     Create Coupon
@@ -139,8 +139,8 @@ export default function AdminCoupons() {
             {/* Coupons Grid */}
             {coupons.length === 0 ? (
                 <div className="bg-white rounded-2xl shadow-lg p-16 text-center border-2 border-slate-100">
-                    <div className="w-20 h-20 bg-violet-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Ticket size={40} className="text-violet-400" />
+                    <div className="w-20 h-20 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <Ticket size={40} className="text-emerald-400" />
                     </div>
                     <h3 className="text-xl font-bold text-slate-800">No coupons yet</h3>
                     <p className="text-slate-500 mt-2">Create your first discount code to boost sales!</p>
@@ -148,7 +148,7 @@ export default function AdminCoupons() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {coupons.map(coupon => (
-                        <div key={coupon._id} className={`bg-white rounded-xl shadow-md border-2 p-5 relative overflow-hidden transition-all hover:shadow-lg ${isExpired(coupon.expiryDate) || !coupon.isActive ? 'border-slate-100 opacity-75' : 'border-violet-100'}`}>
+                        <div key={coupon._id} className={`bg-white rounded-xl shadow-md border-2 p-5 relative overflow-hidden transition-all hover:shadow-lg ${isExpired(coupon.expiryDate) || !coupon.isActive ? 'border-slate-100 opacity-75' : 'border-emerald-100'}`}>
 
                             {/* Status Badge */}
                             <div className={`absolute top-4 right-4 text-xs font-bold px-2 py-1 rounded-full ${!coupon.isActive ? 'bg-slate-100 text-slate-500' :
@@ -159,12 +159,12 @@ export default function AdminCoupons() {
                             </div>
 
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="p-2.5 bg-violet-50 text-violet-600 rounded-lg">
+                                <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg">
                                     <Ticket size={24} />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-lg text-slate-900 tracking-wide">{coupon.code}</h3>
-                                    <div className="flex items-center gap-1 text-sm text-violet-600 font-semibold">
+                                    <div className="flex items-center gap-1 text-sm text-emerald-600 font-semibold">
                                         {coupon.discountType === 'percentage' ? <Percent size={14} /> : <DollarSign size={14} />}
                                         {coupon.discountValue}{coupon.discountType === 'percentage' ? '% OFF' : ' PKR OFF'}
                                     </div>
@@ -223,7 +223,7 @@ export default function AdminCoupons() {
                                     required
                                     type="text"
                                     placeholder="e.g. SUMMER2024"
-                                    className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none uppercase font-bold tracking-widest placeholder:font-normal placeholder:tracking-normal"
+                                    className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none uppercase font-bold tracking-widest placeholder:font-normal placeholder:tracking-normal"
                                     value={formData.code}
                                     onChange={e => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
                                 />
@@ -233,7 +233,7 @@ export default function AdminCoupons() {
                                 <div>
                                     <label className="block text-sm font-semibold text-slate-700 mb-1">Type</label>
                                     <select
-                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none bg-white"
+                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none bg-white"
                                         value={formData.discountType}
                                         onChange={e => setFormData({ ...formData, discountType: e.target.value })}
                                     >
@@ -247,7 +247,7 @@ export default function AdminCoupons() {
                                         required
                                         type="number"
                                         min="0"
-                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none"
+                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none"
                                         value={formData.discountValue}
                                         onChange={e => setFormData({ ...formData, discountValue: e.target.value })}
                                     />
@@ -260,7 +260,7 @@ export default function AdminCoupons() {
                                     <input
                                         type="number"
                                         min="0"
-                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none"
+                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none"
                                         value={formData.minOrderAmount}
                                         onChange={e => setFormData({ ...formData, minOrderAmount: e.target.value })}
                                     />
@@ -271,7 +271,7 @@ export default function AdminCoupons() {
                                         type="number"
                                         min="1"
                                         placeholder="Unlimited"
-                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none"
+                                        className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none"
                                         value={formData.usageLimit}
                                         onChange={e => setFormData({ ...formData, usageLimit: e.target.value })}
                                     />
@@ -283,7 +283,7 @@ export default function AdminCoupons() {
                                 <input
                                     required
                                     type="date"
-                                    className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none"
+                                    className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none"
                                     value={formData.expiryDate}
                                     onChange={e => setFormData({ ...formData, expiryDate: e.target.value })}
                                 />
@@ -300,7 +300,7 @@ export default function AdminCoupons() {
                                 <button
                                     type="submit"
                                     disabled={creating}
-                                    className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 disabled:opacity-50 flex justify-center items-center gap-2"
+                                    className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 disabled:opacity-50 flex justify-center items-center gap-2"
                                 >
                                     {creating ? <Loader className="animate-spin" size={18} /> : 'Create Coupon'}
                                 </button>

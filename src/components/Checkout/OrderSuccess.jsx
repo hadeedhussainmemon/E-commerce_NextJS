@@ -40,23 +40,23 @@ export default function OrderSuccess({ order, onClose }) {
         <div className="px-6 pb-6 space-y-4">
 
           {/* Push Notification Upsell */}
-          <div className="bg-gradient-to-r from-violet-50 to-purple-50 rounded-xl p-4 border border-violet-100 mb-4">
-            <h3 className="font-bold text-violet-900 flex items-center gap-2">
+          <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-100 mb-4">
+            <h3 className="font-bold text-emerald-900 flex items-center gap-2">
               <span className="text-xl">🔔</span>
               Get Instant Updates
             </h3>
-            <p className="text-sm text-violet-700 mt-1 mb-3">
+            <p className="text-sm text-emerald-700 mt-1 mb-3">
               Receive real-time notifications about your order status directly on your device.
             </p>
             <PushToggle />
           </div>
 
-          <div className="bg-linear-to-r from-purple-50 to-pink-50 rounded-lg p-3 sm:p-6 border border-purple-100">
+          <div className="bg-slate-50 rounded-lg p-3 sm:p-6 border border-slate-100">
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs sm:text-base text-gray-600">
                 Order ID
               </span>
-              <span className="text-base sm:text-xl font-bold text-purple-600">
+              <span className="text-base sm:text-xl font-bold text-emerald-600">
                 #{order.id}
               </span>
             </div>
@@ -194,17 +194,17 @@ export default function OrderSuccess({ order, onClose }) {
             </h4>
             <ul className="space-y-2 text-xs sm:text-base text-gray-600">
               <li className="flex items-start gap-2">
-                <span className="text-purple-600 font-bold">1.</span>
+                <span className="text-emerald-600 font-bold">1.</span>
                 <span>
                   We'll call you to confirm your order within 24 hours
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-600 font-bold">2.</span>
+                <span className="text-emerald-600 font-bold">2.</span>
                 <span>Your order will be processed and shipped</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-600 font-bold">3.</span>
+                <span className="text-emerald-600 font-bold">3.</span>
                 <span>Pay cash when you receive your beautiful jewelry!</span>
               </li>
             </ul>
@@ -214,13 +214,13 @@ export default function OrderSuccess({ order, onClose }) {
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <button
               onClick={handleTrack}
-              className="flex-1 px-4 py-2 sm:px-8 sm:py-4 bg-white border-2 border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition-all font-semibold text-base sm:text-xl"
+              className="flex-1 px-4 py-2 sm:px-8 sm:py-4 bg-white border-2 border-slate-200 text-slate-700 rounded-lg hover:border-slate-900 hover:text-slate-900 transition-all font-semibold text-base sm:text-xl"
             >
               Track Order
             </button>
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-2 sm:px-8 sm:py-4 bg-linear-to-r from-purple-600 to-pink-500 text-white rounded-lg hover:from-purple-700 hover:to-pink-600 transition-all font-semibold text-base sm:text-xl"
+              className="flex-1 px-4 py-2 sm:px-8 sm:py-4 bg-slate-900 text-white rounded-lg hover:bg-emerald-600 transition-all font-semibold text-base sm:text-xl"
             >
               Continue Shopping
             </button>
@@ -233,7 +233,7 @@ export default function OrderSuccess({ order, onClose }) {
               href={`https://www.instagram.com/${config.socials.instagram}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-600 hover:text-purple-700 font-medium text-xs sm:text-base"
+              className="text-emerald-600 hover:text-emerald-700 font-medium text-xs sm:text-base"
             >
               Contact us on Instagram
             </a>

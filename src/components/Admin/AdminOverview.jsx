@@ -121,7 +121,7 @@ export default function AdminOverview({ onChangeSection }) {
                     title="Total Orders"
                     value={stats.totalOrders}
                     icon={ShoppingBag}
-                    gradient="from-violet-500 to-purple-500"
+                    gradient="from-cyan-500 to-blue-600"
                 />
                 {/* Replaced Pending with Profit, moved Pending to generic list or removed */}
                 <StatsCard
@@ -144,7 +144,7 @@ export default function AdminOverview({ onChangeSection }) {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-xl font-bold text-gray-800">Recent Orders</h3>
-                        <button onClick={() => onChangeSection('orders')} className="text-purple-600 hover:text-purple-700 text-sm font-semibold flex items-center gap-1">
+                        <button onClick={() => onChangeSection('orders')} className="text-emerald-600 hover:text-emerald-700 text-sm font-semibold flex items-center gap-1">
                             View All <ArrowRight size={16} />
                         </button>
                     </div>
@@ -153,7 +153,7 @@ export default function AdminOverview({ onChangeSection }) {
                             <p className="text-gray-500 text-center py-4">No recent orders.</p>
                         ) : (
                             recentOrders.map(order => (
-                                <div key={order.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-purple-50 transition-colors">
+                                <div key={order.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
                                     <div>
                                         <div className="font-semibold text-gray-900">Order #{order.id}</div>
                                         <div className="text-xs text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</div>
@@ -177,7 +177,7 @@ export default function AdminOverview({ onChangeSection }) {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-xl font-bold text-gray-800">Low Stock Alert</h3>
-                        <button onClick={() => onChangeSection('products')} className="text-purple-600 hover:text-purple-700 text-sm font-semibold flex items-center gap-1">
+                        <button onClick={() => onChangeSection('products')} className="text-emerald-600 hover:text-emerald-700 text-sm font-semibold flex items-center gap-1">
                             Manage Inventory <ArrowRight size={16} />
                         </button>
                     </div>

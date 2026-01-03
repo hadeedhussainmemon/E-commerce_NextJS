@@ -9,9 +9,9 @@ import getImageUrl from '../../utils/imageUrl';
 const getStatusColor = (status) => {
   const colors = {
     pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    confirmed: 'bg-blue-100 text-blue-800 border-blue-200',
-    processing: 'bg-purple-100 text-purple-800 border-purple-200',
-    shipped: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+    confirmed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+    processing: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+    shipped: 'bg-blue-100 text-blue-800 border-blue-200',
     delivered: 'bg-green-100 text-green-800 border-green-200',
     cancelled: 'bg-red-100 text-red-800 border-red-200'
   };
@@ -54,7 +54,7 @@ const OrderItem = React.memo(({ item }) => {
 
   return (
     <div className="flex items-center gap-3 text-sm">
-      <div className="relative w-16 h-16 bg-white rounded-lg flex-shrink-0 overflow-hidden border border-purple-100 shadow-sm flex items-center justify-center transition-shadow duration-200 hover:shadow-md focus-within:shadow-md">
+      <div className="relative w-16 h-16 bg-white rounded-lg flex-shrink-0 overflow-hidden border border-emerald-100 shadow-sm flex items-center justify-center transition-shadow duration-200 hover:shadow-md focus-within:shadow-md">
         {/* placeholder skeleton */}
         <div className={`absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-50 animate-pulse ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}></div>
         <Image
@@ -88,7 +88,7 @@ const OrderCard = React.memo(({
   <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-100">
     <div className="p-6">
       {/* Order Header */}
-      <div className="bg-gradient-to-r from-slate-50 to-violet-50 rounded-xl p-5 mb-5">
+      <div className="bg-gradient-to-r from-slate-50 to-emerald-50 rounded-xl p-5 mb-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-3">
@@ -106,7 +106,7 @@ const OrderCard = React.memo(({
             <p className="text-sm text-slate-600 font-medium">{formatDate(order.createdAt)}</p>
           </div>
           <div className="text-right">
-            <p className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">{order.total} PKR</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">{order.total} PKR</p>
             <p className="text-sm text-slate-600 mt-1 font-medium">{order.items.length} item(s)</p>
           </div>
         </div>
@@ -129,7 +129,7 @@ const OrderCard = React.memo(({
 
       {/* Order Items */}
       <div className="mb-5">
-        <p className="text-xs text-violet-600 font-bold mb-3 uppercase tracking-wide">📦 Items</p>
+        <p className="text-xs text-emerald-600 font-bold mb-3 uppercase tracking-wide">📦 Items</p>
         <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
           {order.items.map((item, idx) => (
             <OrderItem key={idx} item={item} />
@@ -150,7 +150,7 @@ const OrderCard = React.memo(({
         <select
           value={order.status}
           onChange={(e) => onStatusUpdate(order.id, e.target.value)}
-          className="px-4 py-2.5 border-2 border-violet-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-white hover:border-violet-400 transition-colors"
+          className="px-4 py-2.5 border-2 border-emerald-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white hover:border-emerald-400 transition-colors"
         >
           <option value="pending">Pending</option>
           <option value="confirmed">Confirmed</option>
@@ -179,7 +179,7 @@ const OrderCard = React.memo(({
 
         <button
           onClick={() => onCopyThankYou(order)}
-          className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
+          className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-xl text-sm font-semibold hover:from-indigo-700 hover:to-blue-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
           title="Copy thank-you message"
         >
           ✨ Thank You
@@ -455,7 +455,7 @@ export default function AdminOrders() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-16 w-16 border-4 border-violet-200 border-t-violet-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-emerald-200 border-t-emerald-600"></div>
         <p className="mt-6 text-lg font-semibold text-slate-700">Loading orders...</p>
         <p className="mt-2 text-sm text-slate-500">Please wait while we fetch your data</p>
       </div>
@@ -475,7 +475,7 @@ export default function AdminOrders() {
           <p className="text-slate-600 mb-6 text-sm">{error}</p>
           <button
             onClick={fetchOrders}
-            className="px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-xl font-semibold hover:from-violet-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
+            className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
           >
             🔄 Retry
           </button>
@@ -489,7 +489,7 @@ export default function AdminOrders() {
       {/* Stats Cards */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatsCard title="Total Orders" value={stats.total} icon={statsIcons.total} gradient="from-violet-600 to-purple-600" />
+          <StatsCard title="Total Orders" value={stats.total} icon={statsIcons.total} gradient="from-indigo-600 to-blue-600" />
           <StatsCard title="Pending Orders" value={stats.pending} icon={statsIcons.pending} gradient="from-amber-500 to-orange-500" />
           <StatsCard title="Delivered" value={stats.delivered} icon={statsIcons.delivered} gradient="from-emerald-600 to-teal-600" />
           <StatsCard title="Total Revenue" value={`${stats.totalRevenue} PKR`} icon={statsIcons.revenue} gradient="from-blue-600 to-cyan-600" />
@@ -501,7 +501,7 @@ export default function AdminOrders() {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
           <div className="flex items-center gap-3">
             <label className="text-sm text-slate-700 font-semibold">Per page</label>
-            <select value={perPage} onChange={(e) => { setPerPage(Number(e.target.value)); setPage(1); }} className="px-4 py-2 border-2 border-violet-300 rounded-xl font-semibold focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-white hover:border-violet-400 transition-colors">
+            <select value={perPage} onChange={(e) => { setPerPage(Number(e.target.value)); setPage(1); }} className="px-4 py-2 border-2 border-emerald-300 rounded-xl font-semibold focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white hover:border-emerald-400 transition-colors">
               <option value={5}>5</option>
               <option value={8}>8</option>
               <option value={12}>12</option>
@@ -514,7 +514,7 @@ export default function AdminOrders() {
                 key={status}
                 onClick={() => { setFilter(status); setPage(1); }}
                 className={`px-4 py-2 rounded-xl text-sm font-semibold capitalize transition-all shadow-sm hover:shadow-md ${filter === status
-                  ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white scale-105'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white scale-105'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
               >
@@ -530,8 +530,8 @@ export default function AdminOrders() {
       {/* Orders List */}
       {filteredOrders.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-lg p-16 text-center border-2 border-slate-100">
-          <div className="w-24 h-24 bg-gradient-to-br from-violet-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <svg className="w-12 h-12 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <svg className="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
           </div>
@@ -557,12 +557,12 @@ export default function AdminOrders() {
       {/* Pagination - Only show in Grid Mode */}
       {/* Pagination */}
       {
-        <div className="flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-slate-50 to-violet-50 rounded-2xl shadow-lg p-6 border-t-2 border-slate-100 gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-slate-50 to-emerald-50 rounded-2xl shadow-lg p-6 border-t-2 border-slate-100 gap-4">
           <div className="text-sm text-slate-700 font-semibold">Showing {(filteredOrders?.length ? (Math.min(page * perPage, filteredOrders.length) - ((page - 1) * perPage)) : 0)} of {filteredOrders?.length || 0} orders</div>
           <div className="flex items-center gap-3">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-5 py-2 rounded-xl bg-white border-2 border-slate-200 font-semibold hover:border-violet-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md">← Prev</button>
-            <div className="px-4 py-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-xl font-bold shadow-md">Page {page} / {totalPages}</div>
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-5 py-2 rounded-xl bg-white border-2 border-slate-200 font-semibold hover:border-violet-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md">Next →</button>
+            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-5 py-2 rounded-xl bg-white border-2 border-slate-200 font-semibold hover:border-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md">← Prev</button>
+            <div className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-bold shadow-md">Page {page} / {totalPages}</div>
+            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-5 py-2 rounded-xl bg-white border-2 border-slate-200 font-semibold hover:border-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md">Next →</button>
           </div>
         </div>
       }

@@ -147,7 +147,7 @@ const AdminNotifications = () => {
                 </div>
                 <button
                     onClick={handleSave}
-                    className="flex items-center gap-2 bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition-colors"
+                    className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
                 >
                     <Save size={18} />
                     Save Changes
@@ -158,7 +158,7 @@ const AdminNotifications = () => {
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                        <div className="p-3 bg-indigo-50 text-indigo-600 rounded-lg">
                             <Mail size={24} />
                         </div>
                         <div>
@@ -173,7 +173,7 @@ const AdminNotifications = () => {
                             onChange={() => toggleSetting('enableEmailNotifications')}
                             className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
                     </label>
                 </div>
 
@@ -187,7 +187,7 @@ const AdminNotifications = () => {
                                 onChange={(e) => setNewEmail(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && addEmail()}
                                 placeholder="Enter email address"
-                                className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                                className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
                             />
                             <button
                                 onClick={addEmail}
@@ -198,9 +198,9 @@ const AdminNotifications = () => {
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {settings.notificationEmails.map(email => (
-                                <span key={email} className="flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
+                                <span key={email} className="flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm">
                                     {email}
-                                    <button onClick={() => removeEmail(email)} className="hover:text-blue-900"><X size={14} /></button>
+                                    <button onClick={() => removeEmail(email)} className="hover:text-indigo-900"><X size={14} /></button>
                                 </span>
                             ))}
                             {settings.notificationEmails.length === 0 && (
@@ -215,7 +215,7 @@ const AdminNotifications = () => {
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 bg-purple-50 text-purple-600 rounded-lg">
+                        <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
                             <Smartphone size={24} />
                         </div>
                         <div>
@@ -230,7 +230,7 @@ const AdminNotifications = () => {
                             onChange={() => toggleSetting('enablePushNotifications')}
                             className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                     </label>
                 </div>
 
@@ -252,7 +252,7 @@ const AdminNotifications = () => {
                                 onClick={subscribeToPush}
                                 disabled={!settings.enablePushNotifications || pushStatus === 'denied' || pushStatus === 'unsupported'}
                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${settings.enablePushNotifications && pushStatus !== 'denied'
-                                    ? 'bg-purple-600 text-white hover:bg-purple-700'
+                                    ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                                     : 'bg-slate-100 text-slate-400 cursor-not-allowed'
                                     }`}
                             >

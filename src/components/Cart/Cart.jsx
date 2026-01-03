@@ -114,24 +114,22 @@ export default function Cart() {
       <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white/95 backdrop-blur-2xl shadow-2xl z-[60] transform transition-transform duration-300 ease-out flex flex-col border-l border-white/20">
 
         {/* Gradient Header */}
-        <div className="relative px-6 py-5 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 shadow-lg shrink-0">
+        <div className="relative px-6 py-5 bg-slate-900 shadow-lg shrink-0 border-b border-white/10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/10 shadow-inner">
-                <svg className="w-5 h-5 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+              <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/10 shadow-inner">
+                <ShoppingBag className="w-5 h-5 text-emerald-400 drop-shadow-md" />
               </div>
               <div className="flex flex-col">
-                <h2 className="text-xl font-playfair font-bold text-white tracking-wide drop-shadow-md">Shopping Bag</h2>
-                <span className="text-xs text-purple-100 font-medium tracking-wider uppercase opacity-90">
+                <h2 className="text-xl font-bold text-white tracking-wide drop-shadow-md">Shopping Bag</h2>
+                <span className="text-xs text-emerald-400 font-medium tracking-wider uppercase opacity-90">
                   {cartItems.length} {cartItems.length === 1 ? 'Item' : 'Items'}
                 </span>
               </div>
             </div>
             <button
               onClick={closeCart}
-              className="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all active:scale-95"
+              className="p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-all active:scale-95"
               aria-label="Close cart"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -145,10 +143,8 @@ export default function Cart() {
         <div className="flex-1 overflow-y-auto px-6 py-6 bg-gray-50/50 scrollbar-hide">
           {cartItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-6 animate-fadeIn">
-              <div className="w-32 h-32 bg-purple-50 rounded-full flex items-center justify-center shadow-inner">
-                <svg className="w-16 h-16 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+              <div className="w-32 h-32 bg-slate-50 rounded-full flex items-center justify-center shadow-inner">
+                <ShoppingBag className="w-16 h-16 text-slate-200" />
               </div>
               <div>
                 <h3 className="text-2xl font-playfair font-bold text-gray-900 mb-2">Your bag is empty</h3>
@@ -185,7 +181,7 @@ export default function Cart() {
                   <div className="flex-1 flex flex-col justify-between py-1">
                     <div className="flex justify-between items-start gap-2">
                       <div>
-                        <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-purple-700 transition-colors">
+                        <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors">
                           {item.title}
                         </h3>
                         <div className="mt-1 flex flex-wrap gap-2 text-xs text-gray-500">
@@ -215,14 +211,14 @@ export default function Cart() {
                       <div className="flex items-center bg-gray-100 rounded-full px-1 py-1 shadow-inner">
                         <button
                           onClick={() => decreaseQuantity(item.id)}
-                          className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-purple-600 hover:shadow-sm transition-all text-xs active:scale-90"
+                          className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
                         >
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" /></svg>
                         </button>
                         <span className="w-8 text-center text-sm font-bold text-gray-900 tabular-nums">{item.quantity}</span>
                         <button
                           onClick={() => increaseQuantity(item.id)}
-                          className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-purple-600 hover:shadow-sm transition-all text-xs active:scale-90"
+                          className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
                         >
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
                         </button>
@@ -266,12 +262,12 @@ export default function Cart() {
                 ) : (
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs font-medium">
-                      <span className="text-gray-600">Add <span className="text-purple-600">{(4999 - total).toLocaleString()} {config.currency.code}</span> for Free Delivery</span>
+                      <span className="text-gray-600">Add <span className="text-emerald-600">{(4999 - total).toLocaleString()} {config.currency.code}</span> for Free Delivery</span>
                       <span className="text-gray-400">{Math.min(100, (total / 4999) * 100).toFixed(0)}%</span>
                     </div>
-                    <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all duration-500 ease-out"
+                        className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 ease-out"
                         style={{ width: `${Math.min(100, (total / 4999) * 100)}%` }}
                       ></div>
                     </div>
@@ -287,7 +283,7 @@ export default function Cart() {
                   {!showCouponInput ? (
                     <button
                       onClick={() => setShowCouponInput(true)}
-                      className="text-sm text-violet-600 font-semibold hover:text-violet-800 flex items-center gap-1"
+                      className="text-sm text-indigo-600 font-semibold hover:text-indigo-800 flex items-center gap-1"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
                       Have a coupon?
@@ -300,13 +296,13 @@ export default function Cart() {
                           placeholder="Enter code"
                           value={couponCode}
                           onChange={(e) => setCouponCode(e.target.value)}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-violet-500 uppercase"
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-indigo-500 uppercase"
                           autoFocus
                         />
                         <button
                           type="submit"
                           disabled={isValidating || !couponCode.trim()}
-                          className="px-3 py-2 bg-violet-600 text-white rounded-lg text-sm font-semibold hover:bg-violet-700 disabled:opacity-50"
+                          className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50"
                         >
                           {isValidating ? '...' : 'Apply'}
                         </button>
@@ -323,13 +319,13 @@ export default function Cart() {
                   )}
                 </div>
               ) : (
-                <div className="bg-violet-50 border border-violet-100 rounded-lg p-3 flex justify-between items-center group">
+                <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-3 flex justify-between items-center group">
                   <div>
-                    <p className="text-sm font-bold text-violet-700 flex items-center gap-1">
+                    <p className="text-sm font-bold text-indigo-700 flex items-center gap-1">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       {appliedCoupon.code} Applied
                     </p>
-                    <p className="text-xs text-violet-600">
+                    <p className="text-xs text-indigo-600">
                       You saved {appliedCoupon.calculatedDiscount.toLocaleString()} PKR
                     </p>
                   </div>
@@ -356,7 +352,7 @@ export default function Cart() {
 
             <button
               onClick={handleCheckout}
-              className="group relative w-full overflow-hidden rounded-2xl bg-gray-900 py-4 text-white hover:shadow-2xl transition-all duration-300 active:scale-[0.99]"
+              className="group relative w-full overflow-hidden rounded-2xl bg-slate-900 py-4 text-white hover:shadow-2xl transition-all duration-300 active:scale-[0.99]"
             >
               <span className="relative z-10 flex items-center justify-center gap-2 font-bold tracking-wide">
                 Proceed to Checkout
@@ -364,7 +360,7 @@ export default function Cart() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-fuchsia-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
             </button>
             <p className="text-xs text-center text-gray-400">Secure Checkout powered by CoolCache</p>
           </div>

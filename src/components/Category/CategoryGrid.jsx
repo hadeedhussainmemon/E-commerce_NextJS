@@ -214,7 +214,7 @@ function CategoryGrid({ categoriesFromSSR = null }) {
     <section className="py-12 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-6">
-          <h2 className="text-2xl md:text-3xl font-playfair font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 bg-clip-text text-transparent mb-2">
+          <h2 className="text-2xl md:text-3xl font-playfair font-bold bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 bg-clip-text text-transparent mb-2">
             Shop by Category
           </h2>
           <p className="text-gray-600 text-sm">Explore our collections</p>
@@ -244,13 +244,13 @@ function CategoryGrid({ categoriesFromSSR = null }) {
                 href={`/category/${toSlug(category.name)}`}
                 className="group/item flex-shrink-0 w-28 snap-start"
               >
-                <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200 hover:border-purple-300 transition-all duration-300 active:scale-95 h-full flex flex-col items-center justify-between">
+                <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200 hover:border-emerald-300 transition-all duration-300 active:scale-95 h-full flex flex-col items-center justify-between">
                   <div className="mb-2 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-2xl grid place-items-center bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md group-hover/item:scale-105 transition-transform">
+                    <div className="w-12 h-12 rounded-2xl grid place-items-center bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md group-hover/item:scale-105 transition-transform">
                       <Icon name={category.name} />
                     </div>
                   </div>
-                  <h3 className="text-xs font-bold text-center text-gray-800 mb-1 line-clamp-2 capitalize group-hover/item:text-purple-600 w-full leading-tight">
+                  <h3 className="text-xs font-bold text-center text-gray-800 mb-1 line-clamp-2 capitalize group-hover/item:text-emerald-600 w-full leading-tight">
                     {category.name}
                   </h3>
                   {typeof category.count === 'number' && (
@@ -289,13 +289,13 @@ function CategoryGrid({ categoriesFromSSR = null }) {
                     if (isDragging) e.preventDefault();
                   }}
                 >
-                  <div className="bg-white rounded-2xl p-4 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-purple-300 hover:scale-105 active:scale-95">
+                  <div className="bg-white rounded-2xl p-4 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-emerald-300 hover:scale-105 active:scale-95">
                     <div className="mb-2 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-2xl grid place-items-center bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md group-hover/item:scale-105 transition-transform">
+                      <div className="w-12 h-12 rounded-2xl grid place-items-center bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md group-hover/item:scale-105 transition-transform">
                         <Icon name={category.name} />
                       </div>
                     </div>
-                    <h3 className="text-sm font-semibold text-center text-gray-800 mb-1 capitalize group-hover/item:text-purple-600 transition-colors">{category.name}</h3>
+                    <h3 className="text-sm font-semibold text-center text-gray-800 mb-1 capitalize group-hover/item:text-emerald-600 transition-colors">{category.name}</h3>
                     {typeof category.count === 'number' && (
                       <p className="text-xs text-gray-500 text-center">{category.count} items</p>
                     )}
@@ -314,7 +314,7 @@ function CategoryGrid({ categoriesFromSSR = null }) {
             <button
               type="button"
               onClick={() => setShowAll(v => !v)}
-              className="px-5 py-2 bg-white text-purple-600 border border-purple-200 rounded-full shadow-sm hover:bg-purple-50">
+              className="px-5 py-2 bg-white text-emerald-600 border border-emerald-200 rounded-full shadow-sm hover:bg-emerald-50">
               {showAll ? 'Show fewer' : `Show all (${mergedCategories.length})`}
             </button>
           </div>

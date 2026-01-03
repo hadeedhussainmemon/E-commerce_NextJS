@@ -117,7 +117,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
                   <div className="mt-6">
                     <a
                       href="#products"
-                      className="inline-block bg-white text-purple-700 font-semibold px-6 py-3 rounded-lg shadow hover:shadow-md transition-shadow duration-150"
+                      className="inline-block bg-white text-emerald-700 font-bold px-6 py-3 rounded-lg shadow hover:shadow-md transition-shadow duration-150"
                     >
                       Shop products
                     </a>
@@ -127,7 +127,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
 
               {/* Image area (used on all sizes). We'll add a mobile overlay for small screens. */}
               <div
-                className="w-full h-full md:w-2/5 relative overflow-hidden md:rounded-r-2xl bg-gradient-to-br from-blue-400 to-purple-600"
+                className="w-full h-full md:w-2/5 relative overflow-hidden md:rounded-r-2xl bg-gradient-to-br from-emerald-500 to-indigo-600"
                 style={{}}
               >
                 {/* Optimized image loading strategy - enabled for mobile too for better LCP */}
@@ -170,7 +170,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
                     <div className="mt-8 flex flex-col items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                       <a
                         href="#products"
-                        className="group relative inline-block bg-gradient-to-r from-white to-gray-50 text-purple-700 font-bold text-lg px-10 py-4 rounded-full shadow-2xl hover:shadow-purple-500/50 hover:scale-105 active:scale-95 transition-all duration-300 w-full max-w-xs text-center overflow-hidden"
+                        className="group relative inline-block bg-gradient-to-r from-white to-gray-50 text-emerald-700 font-bold text-lg px-10 py-4 rounded-full shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 active:scale-95 transition-all duration-300 w-full max-w-xs text-center overflow-hidden"
                         aria-label="Browse our collection"
                         rel="nofollow"
                         itemProp="hasOfferCatalog"
@@ -181,7 +181,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                           </svg>
                         </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                       </a>
                     </div>
                   </div>
@@ -201,7 +201,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

@@ -269,7 +269,7 @@ const ProductCard = (inputProps) => {
                 <div className="px-2 sm:px-3 w-full flex flex-col flex-grow pb-2 sm:pb-3">
                     {/* Title */}
                     {disableTitleLink ? (
-                        <h2 className="text-sm sm:text-lg md:text-xl font-playfair font-semibold text-gray-900 text-center mt-1.5 sm:mt-2 mb-1 line-clamp-2 hover:text-purple-600 transition-colors min-h-[40px] sm:min-h-[48px]" itemProp="name">
+                        <h2 className="text-sm sm:text-lg md:text-xl font-playfair font-semibold text-gray-900 text-center mt-1.5 sm:mt-2 mb-1 line-clamp-2 hover:text-emerald-600 transition-colors min-h-[40px] sm:min-h-[48px]" itemProp="name">
                             {title}
                         </h2>
                     ) : (

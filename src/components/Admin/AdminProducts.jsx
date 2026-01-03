@@ -202,7 +202,7 @@ function AdminProducts() {
           <div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">All Products</h2>
             <p className="text-sm sm:text-base text-slate-300 flex items-center gap-2">
-              <Package size={18} className="text-violet-400" />
+              <Package size={18} className="text-emerald-400" />
               Manage and analyze your product inventory
             </p>
           </div>
@@ -214,7 +214,7 @@ function AdminProducts() {
               }}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-xl hover:bg-gray-100 transition-all text-sm font-bold shadow-lg hover:shadow-xl hover:scale-105"
             >
-              <Plus size={20} className="text-violet-600" />
+              <Plus size={20} className="text-emerald-600" />
               <span>Add Product</span>
             </button>
             <button
@@ -234,7 +234,7 @@ function AdminProducts() {
           {/* Search */}
           <div>
             <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-              <Search size={16} className="text-violet-600" />
+              <Search size={16} className="text-emerald-600" />
               Search Products
             </label>
             <input
@@ -242,20 +242,20 @@ function AdminProducts() {
               placeholder="Search by name or ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm transition-all hover:border-gray-300"
+              className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm transition-all hover:border-gray-300"
             />
           </div>
 
           {/* Category Filter */}
           <div>
             <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-              <Filter size={16} className="text-violet-600" />
+              <Filter size={16} className="text-emerald-600" />
               Category
             </label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm transition-all hover:border-gray-300 bg-white"
+              className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm transition-all hover:border-gray-300 bg-white"
             >
               <option value="">All Categories</option>
               {categories.map(cat => (
@@ -273,7 +273,7 @@ function AdminProducts() {
                 placeholder="Min"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
-                className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm transition-all hover:border-gray-300"
+                className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm transition-all hover:border-gray-300"
               />
             </div>
             <div>
@@ -283,7 +283,7 @@ function AdminProducts() {
                 placeholder="Max"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm transition-all hover:border-gray-300"
+                className="w-full px-3 sm:px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm transition-all hover:border-gray-300"
               />
             </div>
           </div>
@@ -304,7 +304,7 @@ function AdminProducts() {
                 setMinPrice('');
                 setMaxPrice('');
               }}
-              className="text-violet-600 hover:text-violet-700 font-semibold text-xs sm:text-sm flex items-center gap-1 hover:underline"
+              className="text-emerald-600 hover:text-emerald-700 font-semibold text-xs sm:text-sm flex items-center gap-1 hover:underline"
             >
               <span>✕ Clear all filters</span>
             </button>
@@ -317,7 +317,7 @@ function AdminProducts() {
         {isLoading ? (
           <div className="p-12 sm:p-16 text-center">
             <div className="inline-flex items-center justify-center">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-violet-200 border-t-violet-600"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-emerald-200 border-t-emerald-600"></div>
             </div>
             <p className="mt-6 text-base sm:text-lg font-semibold text-slate-700">Loading products...</p>
             <p className="mt-2 text-sm text-slate-500">Please wait while we fetch your inventory</p>
@@ -325,8 +325,8 @@ function AdminProducts() {
         ) : paginatedProducts.length === 0 ? (
           <div className="p-12 sm:p-16 text-center">
             <div className="max-w-md mx-auto">
-              <div className="w-20 h-20 bg-gradient-to-br from-violet-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Package size={40} className="text-violet-600" />
+              <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <Package size={40} className="text-emerald-600" />
               </div>
               <p className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No products found</p>
               <p className="text-sm sm:text-base text-slate-600">Try adjusting your search or filters to find what you're looking for</p>
@@ -466,7 +466,7 @@ function AdminProducts() {
                 const isSoldOut = product.stock === 0;
 
                 return (
-                  <div key={product.id} className="bg-white rounded-xl border-2 border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:border-violet-200 transition-all">
+                  <div key={product.id} className="bg-white rounded-xl border-2 border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:border-emerald-200 transition-all">
                     <div className="p-4">
                       <div className="flex gap-3">
                         {/* Picture */}
@@ -554,7 +554,7 @@ function AdminProducts() {
                         <button
                           title="Edit"
                           onClick={() => handleEditProduct(product)}
-                          className="px-3 py-1.5 text-xs font-medium text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg transition-all flex items-center gap-1 shadow-sm hover:shadow"
+                          className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-all flex items-center gap-1 shadow-sm hover:shadow"
                         >
                           <Edit2 size={14} />
                           Edit

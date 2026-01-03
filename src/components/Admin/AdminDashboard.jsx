@@ -17,7 +17,7 @@ const AdminDashboard = () => {
         <Suspense
           fallback={
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-purple-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-emerald-600"></div>
             </div>
           }
         >

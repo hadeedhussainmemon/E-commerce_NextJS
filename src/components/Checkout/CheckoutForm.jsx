@@ -119,7 +119,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[70] flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white/95 backdrop-blur-2xl rounded-2xl shadow-2xl w-full max-w-2xl my-4 md:my-8 transform transition-all flex flex-col max-h-[90vh] overflow-hidden border border-white/20">
         {/* Header */}
-        <div className="bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 text-white px-6 py-6 rounded-t-2xl overflow-hidden sticky top-0 z-20">
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white px-6 py-6 rounded-t-2xl overflow-hidden sticky top-0 z-20">
           {/* Decorative circles */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
           <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
@@ -133,7 +133,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
               </div>
               <div>
                 <h2 className="text-2xl font-playfair font-bold">Checkout</h2>
-                <p className="text-purple-100 text-sm">Complete your order</p>
+                <p className="text-emerald-300 text-sm">Complete your order</p>
               </div>
             </div>
             <button
@@ -163,9 +163,9 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
           )}
 
           {/* Contact Information */}
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-5 border border-purple-100">
+          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-5 border border-emerald-100">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-teal-500 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -175,7 +175,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="group">
                 <label className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
-                  <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   Full Name <span className="text-red-500">*</span>
@@ -186,13 +186,13 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                   value={formData.customerName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all group-hover:border-purple-300"
+                  className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all group-hover:border-emerald-300"
                   placeholder="Enter your full name"
                 />
               </div>
               <div className="group">
                 <label className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
-                  <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   Phone Number <span className="text-red-500">*</span>
@@ -203,14 +203,14 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                   value={formData.customerPhone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all group-hover:border-purple-300"
+                  className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all group-hover:border-emerald-300"
                   placeholder="03XX XXXXXXX"
                 />
               </div>
             </div>
             <div className="mt-4 group">
               <label className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
-                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Email <span className="text-gray-400 text-xs">(Optional)</span>
@@ -220,7 +220,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                 name="customerEmail"
                 value={formData.customerEmail}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all group-hover:border-purple-300"
+                className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all group-hover:border-emerald-300"
                 placeholder="your.email@example.com"
               />
             </div>
@@ -459,7 +459,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="sm:flex-1 relative overflow-hidden px-6 py-4 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 text-white rounded-xl hover:shadow-xl transition-all font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+              className="sm:flex-1 relative overflow-hidden px-6 py-4 bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 text-white rounded-xl hover:shadow-xl transition-all font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
             >
               {isSubmitting ? (
                 <>
@@ -480,7 +480,7 @@ export default function CheckoutForm({ onBack, onSuccess, appliedCoupon }) {
                   </svg>
                 </>
               )}
-              <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </div>
         </form>
