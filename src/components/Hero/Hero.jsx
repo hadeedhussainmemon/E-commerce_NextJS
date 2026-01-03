@@ -107,7 +107,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="w-full h-[50vh] sm:h-[60vh] md:h-[620px] relative overflow-hidden md:rounded-[3rem] md:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/10">
+          <div className="w-full h-[55vh] sm:h-[65vh] md:h-[750px] relative overflow-hidden md:rounded-[3rem] md:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/10">
             <div className="flex flex-col md:flex-row h-full">
               {/* Left Content (Desktop) */}
               <div className="hidden md:flex w-3/5 items-center p-12 lg:p-20 bg-slate-950/40 backdrop-blur-md">
