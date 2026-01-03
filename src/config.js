@@ -12,18 +12,18 @@ const config = {
 
     // SEO & Socials
     socials: {
-        instagram: "hhstore.official",
-        facebook: "hhstore.official",
-        twitter: "@hhstore",
-        contactEmail: "support@hhstore.com",
-        contactPhone: "+92 300 1234567",
-        whatsapp: "923001234567"
+        instagram: "hadeedhussainmemon",
+        facebook: "hadeedhussainmemon",
+        twitter: "@hadeedhussain",
+        contactEmail: "programmerhadeed@gmail.com",
+        contactPhone: "+92 332 2965814",
+        whatsapp: "+92 332 2965814"
     },
 
     // API Configuration
     // Note: These use NEXT_PUBLIC_ prefix for client-side availability
     api: {
-        baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "https://coolcache.onrender.com",
+        baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "https://e-commerce-next-js-xi-cyan.vercel.app/",
         endpoints: {
             products: "/api/products",
             categories: "/api/products/categories",

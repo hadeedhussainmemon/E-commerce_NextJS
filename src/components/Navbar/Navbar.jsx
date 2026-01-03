@@ -123,146 +123,104 @@ const Navbar = () => {
   const isRecommendationsPage = location.pathname.startsWith('/recommendations');
 
   return (
-    <nav className="fixed w-full top-0 z-50 will-change-transform">
+    <nav className="fixed w-full top-0 z-50 will-change-transform font-sans">
       {/* Announcement bar */}
-      <div className="bg-emerald-600 text-white text-[11px] md:text-xs overflow-hidden cursor-grab active:cursor-grabbing h-8 flex items-center">
-        {/* Mobile marquee with user control */}
-        <div
-          className="md:hidden relative w-full h-full flex items-center scrollable-announcement overflow-x-auto scrollbar-hide"
-          onTouchStart={(e) => {
-            e.currentTarget.classList.add('paused');
-          }}
-          onTouchEnd={(e) => {
-            setTimeout(() => e.currentTarget.classList.remove('paused'), 2000);
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.classList.add('paused');
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.classList.remove('paused');
-          }}
-        >
-          <div className="absolute inset-y-0 left-0 animate-scroll-rtl whitespace-nowrap flex items-center pointer-events-none" aria-hidden="true">
-            <span className="mx-3">🎁 Open‑box delivery across Karachi</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-3">Inspect your order on delivery</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-3">💰 Cash on Delivery Available</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-3">🚚 Free Shipping on Orders Over Rs. 4999</span>
-            <span className="mx-2 opacity-80">•</span>
-          </div>
-          <div className="absolute inset-y-0 left-0 animate-scroll-rtl2 whitespace-nowrap flex items-center pointer-events-none" aria-hidden="true">
-            <span className="mx-3">🎁 Open‑box delivery across Karachi</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-3">Inspect your order on delivery</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-3">💰 Cash on Delivery Available</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-3">🚚 Free Shipping on Orders Over Rs. 4999</span>
-            <span className="mx-2 opacity-80">•</span>
-          </div>
-          <div className="sr-only" role="status" aria-live="polite">
-            Open‑box delivery across Karachi • Inspect your order on delivery • Cash on Delivery Available • Free Shipping on Orders Over Rs. 4999
-          </div>
+      <div className="bg-slate-900 text-white text-[11px] md:text-xs overflow-hidden h-8 flex items-center relative z-20 shadow-sm border-b border-white/5">
+        <div className="hidden md:block absolute left-4 text-emerald-400 font-bold tracking-tight z-10">
+          PREMIUM QUALITY
         </div>
-        {/* Desktop static line */}
-        {/* Desktop marquee with user control */}
-        <div
-          className="hidden md:block relative w-full h-full overflow-hidden cursor-grab active:cursor-grabbing scrollable-announcement"
-          onMouseEnter={(e) => {
-            e.currentTarget.classList.add('paused');
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.classList.remove('paused');
-          }}
-        >
-          <div className="absolute inset-y-0 left-0 animate-scroll-rtl whitespace-nowrap flex items-center pointer-events-none">
-            <span className="mx-4">🎁 Open‑box delivery across Karachi</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-4">Inspect your order on delivery</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-4">💰 Cash on Delivery Available</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-4">🚚 Free Shipping on Orders Over Rs. 4999</span>
-            <span className="mx-2 opacity-80">•</span>
-          </div>
-          <div className="absolute inset-y-0 left-0 animate-scroll-rtl2 whitespace-nowrap flex items-center pointer-events-none">
-            <span className="mx-4">🎁 Open‑box delivery across Karachi</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-4">Inspect your order on delivery</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-4">💰 Cash on Delivery Available</span>
-            <span className="mx-2 opacity-80">•</span>
-            <span className="mx-4">🚚 Free Shipping on Orders Over Rs. 4999</span>
-            <span className="mx-2 opacity-80">•</span>
+        <div className="w-full h-full flex items-center overflow-hidden relative">
+          <div className="animate-scroll-rtl whitespace-nowrap flex items-center w-full justify-center md:justify-start">
+            <span className="mx-6 font-medium">✨ Premium Shopping Experience</span>
+            <span className="mx-2 text-slate-600">•</span>
+            <span className="mx-6 font-medium">🚀 Fast Delivery</span>
+            <span className="mx-2 text-slate-600">•</span>
+            <span className="mx-6 font-medium">💳 Secure Payment</span>
+            <span className="mx-2 text-slate-600">•</span>
+            <span className="mx-6 font-medium">💎 100% Authentic</span>
+            <span className="mx-2 text-slate-600">•</span>
+            {/* Duplicate for infinite loop */}
+            <span className="mx-6 font-medium">✨ Premium Shopping Experience</span>
+            <span className="mx-2 text-slate-600">•</span>
+            <span className="mx-6 font-medium">🚀 Fast Delivery</span>
+            <span className="mx-2 text-slate-600">•</span>
+            <span className="mx-6 font-medium">💳 Secure Payment</span>
+            <span className="mx-2 text-slate-600">•</span>
+            <span className="mx-6 font-medium">💎 100% Authentic</span>
           </div>
         </div>
       </div>
 
-      <div className="bg-white/95 backdrop-blur-2xl shadow-lg border-b border-gray-100/50" style={{ height: 'var(--nav-height)' }}>
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-full">
-          <div className="flex items-center justify-between h-full gap-2">
-            {/* Logo - Always visible */}
+      <div className="glass bg-white/90 shadow-sm border-b border-slate-100 transition-all duration-300" style={{ height: 'var(--nav-height)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex items-center justify-between h-full gap-4">
+
+            {/* Logo Section */}
             <div className="flex items-center flex-shrink-0">
               <Link
                 href="/"
                 onClick={(e) => scrollToSection(e, "home")}
-                className="flex items-center gap-2 group hover:opacity-95 transition-all duration-300"
+                className="flex items-center gap-3 group hover:opacity-95 transition-all duration-300"
               >
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-600/20 via-slate-500/15 to-gray-600/10 rounded-full blur-md transform scale-110 group-hover:scale-125 transition-transform duration-300"></div>
+                  <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-md transform scale-110 group-hover:scale-125 transition-transform duration-300"></div>
                   <Image
                     src={LOGO_PATH}
                     alt={config.appName}
-                    width={44}
-                    height={44}
-                    className="h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 relative transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+                    width={48}
+                    height={48}
+                    className="h-10 w-10 sm:h-11 sm:w-11 object-contain relative z-10"
                     priority
                   />
                 </div>
-                <div className="hidden sm:flex sm:flex-col">
-                  <span className="font-playfair text-lg sm:text-xl md:text-[22px] font-bold text-slate-800 transition-all duration-300 group-hover:text-slate-900 leading-tight">
+                <div className="hidden sm:flex sm:flex-col justify-center">
+                  <span className="font-display text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-none group-hover:text-emerald-700 transition-colors">
                     {config.appName}
                   </span>
-                  <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.15em] text-slate-500 font-semibold group-hover:text-slate-700 transition-colors leading-none">
-                    {config.tagline}
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-semibold group-hover:text-emerald-600 transition-colors leading-tight mt-0.5">
+                    {config.tagline || 'Store'}
                   </span>
                 </div>
               </Link>
             </div>
 
-            {/* Desktop Navigation - Hidden on mobile */}
-            <div className="hidden md:flex items-center justify-center flex-1 gap-1 lg:gap-3">
-
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center justify-center flex-1 gap-1 lg:gap-2">
               <Link
                 href="/categories"
-                className={`px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-xl ${isCategoryPage ? 'text-purple-600 bg-gradient-to-r from-purple-50 to-pink-50 shadow-sm' : 'text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50'}`}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${isCategoryPage
+                    ? 'text-emerald-700 bg-emerald-50 shadow-sm ring-1 ring-emerald-100'
+                    : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50'
+                  }`}
               >
                 Categories
               </Link>
-              <a
-                href="https://books.coolcache.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200 rounded-xl"
-              >
-                Books
-              </a>
-              {/* Quick category shortcuts (responsive) */}
-              <div className="hidden lg:flex items-center gap-2">
-                <Link href="/category/Watch" className="px-3 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 hover:shadow-sm transition-all duration-200">Watches</Link>
-                <Link href="/category/Electronics" className="px-3 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 hover:shadow-sm transition-all duration-200">Electronics</Link>
-                <Link href="/category/Drinkware" className="px-3 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 hover:shadow-sm transition-all duration-200">Drinkware</Link>
-              </div>
+
               <Link
                 href="/recommendations"
-                className={`px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-xl ${isRecommendationsPage ? 'text-purple-600 bg-gradient-to-r from-purple-50 to-pink-50 shadow-sm' : 'text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50'}`}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${isRecommendationsPage
+                    ? 'text-emerald-700 bg-emerald-50 shadow-sm ring-1 ring-emerald-100'
+                    : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50'
+                  }`}
               >
                 For You
               </Link>
-              {/* Inline Search - Desktop */}
-              <div className="hidden lg:block w-72">
+
+              {/* Quick Shortcuts */}
+              <div className="hidden lg:flex items-center gap-1 border-l border-slate-200 pl-2 ml-2">
+                {['Watches', 'Electronics', 'Bags'].map((cat) => (
+                  <Link
+                    key={cat}
+                    href={`/category/${cat}`}
+                    className="px-3 py-2 text-xs font-medium text-slate-500 hover:text-emerald-600 hover:bg-slate-50 rounded-md transition-colors"
+                  >
+                    {cat}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Search Bar - Desktop */}
+              <div className="hidden xl:block w-72 ml-4">
                 <SearchAutocomplete
                   value={navSearch}
                   onChange={setNavSearch}
@@ -273,287 +231,133 @@ const Navbar = () => {
                       setNavSearch("");
                     }
                   }}
-                  placeholder="Search…"
-                  enableAutocomplete={false}
-                  showOnlySearchSuggestions={false}
-                  enableVoice={true}
-                  showTrendingSuggestions={false}
-                  showSectionHeaders={false}
-                  className="min-w-0"
+                  placeholder="Search products..."
+                  className="w-full"
                 />
               </div>
-              <a
-                href={`https://www.instagram.com/${instagramUsername}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-purple-600 hover:text-purple-700 px-3 py-2 text-sm font-medium transition duration-150"
-              >
-                <div className="flex items-center space-x-2 group">
-                  <div className="relative">
-                    <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover:opacity-40 blur transition-all duration-300"></div>
-                    <svg
-                      className="relative w-5 h-5 transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-                      viewBox="0 0 24 24"
-                    >
-                      <defs>
-                        <linearGradient
-                          id="instagramGradient"
-                          x1="0%"
-                          y1="0%"
-                          x2="100%"
-                          y2="100%"
-                        >
-                          <stop offset="0%" stopColor="#feda75" />
-                          <stop offset="25%" stopColor="#fa7e1e" />
-                          <stop offset="50%" stopColor="#d62976" />
-                          <stop offset="75%" stopColor="#962fbf" />
-                          <stop offset="100%" stopColor="#4f5bd5" />
-                        </linearGradient>
-                      </defs>
-                      <path
-                        fill="url(#instagramGradient)"
-                        d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </a>
+            </div>
 
-              {/* My Orders Icon - Desktop */}
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center gap-2 lg:gap-3">
+              {/* Search Toggle (Tablet/Laptop) */}
+              <button
+                onClick={() => navigate('/search')}
+                className="xl:hidden p-2 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all"
+                aria-label="Search"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" /></svg>
+              </button>
+
+              {/* My Orders */}
               <button
                 onClick={() => navigate('/my-orders')}
+                className="p-2 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all relative group"
                 aria-label="My Orders"
-                className="p-2.5 text-gray-600 hover:text-purple-600 transition-all duration-200 group rounded-xl hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:shadow-md"
               >
-                <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Orders</span>
               </button>
 
-              {/* Search Icon - Desktop (quick access) */}
-              <button onClick={() => navigate('/search')} aria-label="Open search" className="p-2.5 text-gray-600 hover:text-purple-600 transition-all duration-200 group rounded-xl hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:shadow-md">
-                <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
-                </svg>
-              </button>
-              {/* Wishlist Icon - Desktop */}
+              {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative p-2.5 text-gray-600 hover:text-pink-600 transition-all duration-200 group rounded-xl hover:bg-gradient-to-br hover:from-pink-50 hover:to-purple-50 hover:shadow-md"
+                className="p-2 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all relative group"
                 aria-label="Wishlist"
               >
-                <div className="relative">
-                  <svg
-                    className="w-5 h-5 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-200"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                  {wishlistCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">
-                      {wishlistCount > 9 ? '9+' : wishlistCount}
-                    </span>
-                  )}
-                </div>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                {wishlistCount > 0 && (
+                  <span className="absolute top-0 right-0 h-4 w-4 bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm ring-2 ring-white">
+                    {wishlistCount > 9 ? '9+' : wishlistCount}
+                  </span>
+                )}
               </Link>
 
-              {/* Cart Icon - Desktop */}
+              {/* Cart */}
               <button
                 ref={cartIconRef}
                 onClick={toggleCart}
-                className="relative p-2.5 text-gray-600 hover:text-purple-600 transition-all duration-200 group rounded-xl hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:shadow-md"
-                aria-label="Shopping cart"
+                className="p-2 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all relative group"
+                aria-label="Shopping Cart"
               >
-                <div className="relative">
-                  <svg
-                    className="w-5 h-5 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-200"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                    />
-                  </svg>
-                  {cartItemsCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">
-                      {cartItemsCount > 9 ? '9+' : cartItemsCount}
-                    </span>
-                  )}
-                </div>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                {cartItemsCount > 0 && (
+                  <span className="absolute top-0 right-0 h-4 w-4 bg-indigo-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm ring-2 ring-white">
+                    {cartItemsCount > 9 ? '9+' : cartItemsCount}
+                  </span>
+                )}
               </button>
             </div>
 
-            {/* Mobile Icons - Simplified & Cleaner */}
-            <div className="flex items-center gap-2 sm:gap-3 md:hidden">
-              {/* Search Button */}
-              <button
-                onClick={() => navigate('/search')}
-                aria-label="Search"
-                className="p-2.5 text-gray-600 hover:text-purple-600 transition-all duration-200 rounded-lg hover:bg-purple-50 active:scale-95"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
-                </svg>
+            {/* Mobile Actions */}
+            <div className="flex items-center gap-2 md:hidden">
+              <button onClick={() => navigate('/search')} className="p-2 text-slate-600 hover:bg-slate-50 rounded-lg">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" /></svg>
               </button>
 
-              {/* Cart Button */}
-              <button
-                onClick={toggleCart}
-                className="relative p-2.5 text-gray-600 hover:text-purple-600 transition-all duration-200 rounded-lg hover:bg-purple-50 active:scale-95"
-                aria-label="Shopping cart"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+              <button onClick={toggleCart} className="p-2 text-slate-600 hover:bg-slate-50 rounded-lg relative">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                 {cartItemsCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">
-                    {cartItemsCount > 9 ? '9+' : cartItemsCount}
+                  <span className="absolute top-1 right-1 h-3.5 w-3.5 bg-indigo-500 text-white text-[9px] font-bold flex items-center justify-center rounded-full ring-1 ring-white">
+                    {cartItemsCount}
                   </span>
                 )}
               </button>
 
               <button
-                className="text-gray-600 hover:text-purple-600 focus:outline-none menu-button p-2 rounded-md"
                 onClick={() => setIsOpen(!isOpen)}
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isOpen}
-                aria-controls="mobile-menu"
+                className="p-2 text-slate-600 hover:bg-slate-50 rounded-lg menu-button"
+                aria-label="Menu"
               >
-                <svg
-                  className={`h-6 w-6 transform transition-transform ${isOpen ? 'rotate-90' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d={
-                      isOpen
-                        ? "M6 18L18 6M6 6l12 12"
-                        : "M4 6h16M4 12h16M4 18h16"
-                    }
-                  />
+                <svg className={`w-6 h-6 transform transition-transform ${isOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
                 </svg>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay */}
         {isOpen && (
-          <div className="md:hidden mobile-menu bg-white/95 backdrop-blur-2xl shadow-2xl border-t border-gray-100 animate-slideIn" id="mobile-menu">
-            <div className="px-4 pt-4 pb-5 space-y-2">
+          <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 shadow-xl animate-slideIn max-h-[calc(100vh-var(--nav-height))] overflow-y-auto">
+            <div className="p-4 space-y-2">
               <Link
                 href="/"
                 onClick={(e) => { scrollToSection(e, "home"); closeMenu(); }}
-                className={`block px-4 py-3.5 rounded-xl text-base font-semibold transition-all duration-200 ${isHomePage ? 'text-purple-600 bg-gradient-to-r from-purple-50 to-pink-50 shadow-sm' : 'text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50'}`}
+                className={`block px-4 py-3 rounded-xl text-base font-semibold ${isHomePage ? 'text-emerald-700 bg-emerald-50' : 'text-slate-700 hover:bg-slate-50'}`}
               >
                 Home
               </Link>
               <Link
-                href="/my-orders"
-                onClick={closeMenu}
-                className="block px-4 py-3.5 rounded-xl text-base font-semibold text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200"
-              >
-                My Orders
-              </Link>
-              <Link
-                href="/"
-                onClick={(e) => { scrollToSection(e, "products"); closeMenu(); }}
-                className="block px-4 py-3.5 rounded-xl text-base font-semibold text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200"
-              >
-                Products
-              </Link>
-              <Link
                 href="/categories"
                 onClick={closeMenu}
-                className={`block px-4 py-3.5 rounded-xl text-base font-semibold transition-all duration-200 ${isCategoryPage ? 'text-purple-600 bg-gradient-to-r from-purple-50 to-pink-50 shadow-sm' : 'text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50'}`}
+                className={`block px-4 py-3 rounded-xl text-base font-semibold ${isCategoryPage ? 'text-emerald-700 bg-emerald-50' : 'text-slate-700 hover:bg-slate-50'}`}
               >
-                All Categories
+                Categories
               </Link>
-              <a
-                href="https://books.coolcache.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={closeMenu}
-                className="block px-4 py-3.5 rounded-xl text-base font-semibold text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200"
-              >
-                Books
-              </a>
-
-              {/* Quick category shortcuts - mobile */}
-              <div className="pt-2 pb-1">
-                <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Popular</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <Link href="/category/Watch" onClick={closeMenu} className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:text-purple-600 border border-gray-200 hover:border-purple-300 hover:shadow-sm transition-all duration-200 text-center">Watches</Link>
-                  <Link href="/category/Electronics" onClick={closeMenu} className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:text-purple-600 border border-gray-200 hover:border-purple-300 hover:shadow-sm transition-all duration-200 text-center">Electronics</Link>
-                  <Link href="/category/Drinkware" onClick={closeMenu} className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:text-purple-600 border border-gray-200 hover:border-purple-300 hover:shadow-sm transition-all duration-200 text-center">Drinkware</Link>
-                  <Link href="/category/Bags" onClick={closeMenu} className="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:text-purple-600 border border-gray-200 hover:border-purple-300 hover:shadow-sm transition-all duration-200 text-center">Bags</Link>
-                </div>
-              </div>
-
               <Link
                 href="/recommendations"
                 onClick={closeMenu}
-                className={`block px-4 py-3.5 rounded-xl text-base font-semibold transition-all duration-200 ${isRecommendationsPage ? 'text-purple-600 bg-gradient-to-r from-purple-50 to-pink-50 shadow-sm' : 'text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50'}`}
+                className={`block px-4 py-3 rounded-xl text-base font-semibold ${isRecommendationsPage ? 'text-emerald-700 bg-emerald-50' : 'text-slate-700 hover:bg-slate-50'}`}
               >
                 For You
               </Link>
-              <Link
-                href="/wishlist"
-                onClick={closeMenu}
-                className="flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-semibold text-gray-700 hover:text-pink-600 hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-purple-50/50 transition-all duration-200"
-              >
-                <span>Wishlist</span>
-                {wishlistCount > 0 && <span className="px-2.5 py-0.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold rounded-full">{wishlistCount}</span>}
-              </Link>
-              <Link
-                href="/"
-                onClick={(e) => { scrollToSection(e, "reviews"); closeMenu(); }}
-                className="block px-4 py-3.5 rounded-xl text-base font-semibold text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200"
-              >
-                Reviews
-              </Link>
-              <Link
-                href="/"
-                onClick={(e) => { scrollToSection(e, "faq"); closeMenu(); }}
-                className="block px-4 py-3.5 rounded-xl text-base font-semibold text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200"
-              >
-                FAQ
-              </Link>
-              <a
-                href={`https://www.instagram.com/${instagramUsername}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-base font-semibold bg-gradient-to-r from-purple-50 to-pink-50 text-purple-600 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 group mt-2"
-              >
-                <svg className="w-5 h-5 transform transition-transform group-hover:scale-110 group-hover:rotate-3" viewBox="0 0 24 24">
-                  <defs>
-                    <linearGradient id="instagramGradientMobile" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#feda75" />
-                      <stop offset="25%" stopColor="#fa7e1e" />
-                      <stop offset="50%" stopColor="#d62976" />
-                      <stop offset="75%" stopColor="#962fbf" />
-                      <stop offset="100%" stopColor="#4f5bd5" />
-                    </linearGradient>
-                  </defs>
-                  <path fill="url(#instagramGradientMobile)" d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z" />
-                </svg>
-                <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Follow Us</span>
-              </a>
+
+              <div className="py-2 border-t border-slate-100 my-2">
+                <p className="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">My Account</p>
+                <Link href="/my-orders" onClick={closeMenu} className="block px-4 py-3 rounded-xl text-base font-medium text-slate-600 hover:bg-slate-50">My Orders</Link>
+                <Link href="/wishlist" onClick={closeMenu} className="block px-4 py-3 rounded-xl text-base font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between">
+                  <span>Wishlist</span>
+                  {wishlistCount > 0 && <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">{wishlistCount}</span>}
+                </Link>
+              </div>
+
+              <div className="py-2 border-t border-slate-100 my-2">
+                <p className="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Socials</p>
+                <a href={`https://www.instagram.com/${instagramUsername}`} target="_blank" rel="noopener" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl">
+                  <svg className="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
+                  <span>@{instagramUsername}</span>
+                </a>
+              </div>
             </div>
           </div>
         )}
