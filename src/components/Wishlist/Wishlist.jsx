@@ -4,6 +4,9 @@ import { toast } from 'sonner';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCart } from '../../context/CartContext';
 import ProductCard from '../ProductCard/ProductCard';
+import { motion } from 'framer-motion';
+import { triggerPremiumFeedback } from '../../utils/feedback';
+import { Heart, ShoppingBag } from 'lucide-react';
 
 const Wishlist = () => {
   const { wishlistItems, clearWishlist } = useWishlist();
@@ -32,25 +35,56 @@ const Wishlist = () => {
   if (wishlistItems.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-20 md:mb-0">
-        <div className="text-center py-16">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-emerald-50 rounded-full mb-6 ring-8 ring-emerald-50/50">
-            <svg className="w-12 h-12 text-emerald-600 animate-pulse-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-          </div>
-          <h2 className="text-3xl font-playfair font-bold text-slate-900 mb-4">Your Wishlist is Empty</h2>
-          <p className="text-slate-500 mb-8 max-w-md mx-auto">
-            Save your favorite products to your wishlist and shop them later! Your curated collection starts here.
-          </p>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-xl hover:bg-slate-800 shadow-lg shadow-slate-900/20 hover:-translate-y-0.5 transition-all duration-300 font-semibold active:scale-95"
+        <div className="text-center py-20 bg-slate-50/50 rounded-[3rem] border border-slate-100 flex flex-col items-center">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative mb-10"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-            Explore Collections
-          </Link>
+            <div className="w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/10 border border-emerald-50 relative">
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="z-10"
+              >
+                <Heart className="w-24 h-24 text-emerald-500" fill="currentColor" />
+              </motion.div>
+              {/* Decorative hearts */}
+              <motion.div
+                animate={{ y: [-20, 0, -20], opacity: [0, 1, 0] }}
+                transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
+                className="absolute -top-4 right-4 text-emerald-400"
+              >
+                <Heart size={20} fill="currentColor" />
+              </motion.div>
+              <motion.div
+                animate={{ y: [-15, 5, -15], opacity: [0, 1, 0] }}
+                transition={{ duration: 5, repeat: Infinity, delay: 1.5 }}
+                className="absolute top-10 -left-6 text-emerald-300"
+              >
+                <Heart size={24} fill="currentColor" />
+              </motion.div>
+            </div>
+          </motion.div>
+          <div className="max-w-md mx-auto space-y-4 px-6">
+            <h2 className="text-4xl font-playfair font-black text-slate-900 tracking-tight">Your Wishlist is Empty</h2>
+            <p className="text-slate-500 font-medium leading-relaxed">
+              Curate your dream collection. Save pieces you love and make them yours whenever you're ready.
+            </p>
+          </div>
+          <motion.div className="mt-10" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              href="/"
+              onClick={() => triggerPremiumFeedback('success', 'light')}
+              className="inline-flex items-center gap-3 px-10 py-5 bg-slate-900 text-white rounded-2xl hover:bg-emerald-600 shadow-2xl shadow-slate-900/20 transition-all duration-300 font-black"
+            >
+              <ShoppingBag className="w-6 h-6" />
+              Explore Collections
+            </Link>
+          </motion.div>
         </div>
       </div>
     );

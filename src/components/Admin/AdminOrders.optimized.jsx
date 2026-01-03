@@ -8,14 +8,14 @@ import getImageUrl from '../../utils/imageUrl';
 // Memoized status color utility
 const getStatusColor = (status) => {
   const colors = {
-    pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    confirmed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-    processing: 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    shipped: 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    delivered: 'bg-green-100 text-green-800 border-green-200',
-    cancelled: 'bg-red-100 text-red-800 border-red-200'
+    pending: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    confirmed: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    processing: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+    shipped: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+    delivered: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    cancelled: 'bg-rose-500/10 text-rose-400 border-rose-500/20'
   };
-  return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+  return colors[status] || 'bg-slate-800 text-slate-400 border-white/5';
 };
 
 // Memoized date formatter
@@ -30,17 +30,18 @@ const formatDate = (dateString) => {
 };
 
 // Memoized Stats Card Component
-const StatsCard = React.memo(({ title, value, icon: Icon, color, gradient }) => (
-  <div className={`bg-gradient-to-br ${gradient} rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/20`}>
-    <div className="flex items-center justify-between">
+const StatsCard = React.memo(({ title, value, icon: Icon, color }) => (
+  <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[2rem] p-6 relative overflow-hidden group hover:bg-slate-900/60 transition-all duration-500">
+    <div className="flex items-center justify-between relative z-10">
       <div>
-        <p className="text-sm text-white/80 font-medium mb-2">{title}</p>
-        <p className="text-3xl font-bold text-white">{value}</p>
+        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{title}</p>
+        <p className="text-2xl font-black text-white italic tracking-tight">{value}</p>
       </div>
-      <div className="bg-white/20 backdrop-blur-sm p-4 rounded-xl shadow-lg">
-        <Icon />
+      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+        <Icon size={20} className="text-white" />
       </div>
     </div>
+    <div className={`absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br ${color} opacity-[0.03] group-hover:opacity-[0.08] blur-2xl transition-opacity`}></div>
   </div>
 ));
 
@@ -53,23 +54,21 @@ const OrderItem = React.memo(({ item }) => {
   const src = getImageUrl(item.image);
 
   return (
-    <div className="flex items-center gap-3 text-sm">
-      <div className="relative w-16 h-16 bg-white rounded-lg flex-shrink-0 overflow-hidden border border-emerald-100 shadow-sm flex items-center justify-center transition-shadow duration-200 hover:shadow-md focus-within:shadow-md">
-        {/* placeholder skeleton */}
-        <div className={`absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-50 animate-pulse ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}></div>
+    <div className="flex items-center gap-4 py-3 border-b border-white/5 last:border-0 group">
+      <div className="relative w-14 h-14 bg-slate-800 rounded-xl flex-shrink-0 overflow-hidden border border-white/5 transition-transform group-hover:scale-105">
         <Image
           src={src}
-          alt={item.title || 'Product image'}
+          alt={item.title || 'Product'}
           fill
-          className={`object-contain transition-opacity duration-200 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`object-cover transition-opacity duration-300 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setImgLoaded(true)}
         />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-gray-900 truncate">{item.title}</p>
-        <p className="text-gray-600 text-xs">Qty: {item.quantity} × {item.price} PKR</p>
+        <p className="font-bold text-white text-sm truncate">{item.title}</p>
+        <p className="text-slate-500 text-[10px] uppercase font-black tracking-widest">{item.quantity} × Rs. {item.price}</p>
       </div>
-      <p className="font-semibold">{item.quantity * item.price} PKR</p>
+      <p className="font-black text-emerald-400 text-sm">Rs. {item.quantity * item.price}</p>
     </div>
   );
 });
@@ -85,52 +84,50 @@ const OrderCard = React.memo(({
   onCopyConfirmation,
   onCopyThankYou
 }) => (
-  <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-100">
-    <div className="p-6">
+  <div className="bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] border border-white/5 overflow-hidden shadow-2xl hover:bg-slate-900/60 transition-all duration-500">
+    <div className="p-8">
       {/* Order Header */}
-      <div className="bg-gradient-to-r from-slate-50 to-emerald-50 rounded-xl p-5 mb-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 mb-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="flex flex-wrap items-start justify-between gap-6 relative z-10">
           <div>
-            <div className="flex items-center gap-3 mb-3">
-              <h3 className="text-xl font-bold text-slate-900">Order #{order.id}</h3>
-              <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border-2 ${getStatusColor(order.status)} shadow-sm`}>
-                {order.status.toUpperCase()}
-              </span>
-              <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border-2 shadow-sm ${order.paymentStatus === 'paid'
-                ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                : 'bg-slate-100 text-slate-800 border-slate-300'
-                }`}>
-                {order.paymentStatus === 'paid' ? '💳 PAID' : '💵 COD'}
+            <div className="flex items-center gap-3 mb-4">
+              <h3 className="text-2xl font-playfair font-black text-white italic tracking-tight">Order #{order.id.slice(-8).toUpperCase()}</h3>
+              <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-2 ${getStatusColor(order.status)}`}>
+                {order.status}
               </span>
             </div>
-            <p className="text-sm text-slate-600 font-medium">{formatDate(order.createdAt)}</p>
+            <div className="flex items-center gap-4">
+              <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">{formatDate(order.createdAt)}</p>
+              <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${order.paymentStatus === 'paid' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800 text-slate-400 border border-white/5'}`}>{order.paymentStatus === 'paid' ? 'Paid' : 'COD'}</span>
+            </div>
           </div>
           <div className="text-right">
-            <p className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">{order.total} PKR</p>
-            <p className="text-sm text-slate-600 mt-1 font-medium">{order.items.length} item(s)</p>
+            <p className="text-3xl font-black text-white italic tracking-tight">Rs. {order.total}</p>
+            <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mt-1">{order.items.length} Units Manifested</p>
           </div>
         </div>
       </div>
 
-      {/* Customer Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-        <div className="p-4 bg-slate-50 rounded-xl border-2 border-slate-100">
-          <p className="text-xs text-slate-600 font-bold mb-2 uppercase tracking-wide">👤 Customer</p>
-          <p className="font-bold text-slate-900 text-lg mb-1">{order.customerName}</p>
-          <p className="text-sm text-slate-700 font-medium">{order.customerPhone}</p>
-          {order.customerEmail && <p className="text-sm text-slate-600">{order.customerEmail}</p>}
+      {/* Grid Info */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="p-6 bg-white/[0.02] rounded-3xl border border-white/5">
+          <p className="text-[10px] text-slate-500 font-black mb-4 uppercase tracking-[0.2em]">Contact Node</p>
+          <p className="font-bold text-white text-lg mb-1">{order.customerName}</p>
+          <p className="text-sm text-emerald-400 font-bold font-mono">{order.customerPhone}</p>
+          {order.customerEmail && <p className="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-widest">{order.customerEmail}</p>}
         </div>
-        <div className="p-4 bg-orange-50 rounded-xl border-2 border-orange-100">
-          <p className="text-xs text-orange-600 font-bold mb-2 uppercase tracking-wide">📍 Shipping Address</p>
-          <p className="text-sm text-slate-900 font-semibold">{order.shippingAddress}</p>
-          <p className="text-sm text-slate-700 font-medium">{order.city}{order.postalCode && `, ${order.postalCode}`}</p>
+        <div className="p-6 bg-white/[0.02] rounded-3xl border border-white/5">
+          <p className="text-[10px] text-slate-500 font-black mb-4 uppercase tracking-[0.2em]">Deployment Address</p>
+          <p className="text-sm text-slate-200 font-bold leading-relaxed">{order.shippingAddress}</p>
+          <p className="text-[10px] text-emerald-400 font-black uppercase tracking-widest mt-3">{order.city} Vector</p>
         </div>
       </div>
 
       {/* Order Items */}
-      <div className="mb-5">
-        <p className="text-xs text-emerald-600 font-bold mb-3 uppercase tracking-wide">📦 Items</p>
-        <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+      <div className="mb-8">
+        <p className="text-[10px] text-slate-500 font-black mb-4 uppercase tracking-[0.2em] px-2">Manifest Items</p>
+        <div className="space-y-1 bg-white/[0.01] p-2 rounded-3xl border border-white/5">
           {order.items.map((item, idx) => (
             <OrderItem key={idx} item={item} />
           ))}
@@ -139,57 +136,57 @@ const OrderCard = React.memo(({
 
       {/* Notes */}
       {order.notes && (
-        <div className="mb-5 p-4 bg-gradient-to-r from-slate-50 to-indigo-50 rounded-xl border-2 border-slate-200">
-          <p className="text-xs text-slate-900 font-bold mb-2 uppercase tracking-wide">📝 Customer Notes:</p>
-          <p className="text-sm text-slate-900 font-medium">{order.notes}</p>
+        <div className="mb-8 p-6 bg-emerald-500/5 rounded-3xl border border-emerald-500/10">
+          <p className="text-[10px] text-emerald-400 font-black mb-2 uppercase tracking-widest italic">Manifest Annotation:</p>
+          <p className="text-sm text-slate-200 font-medium leading-relaxed">{order.notes}</p>
         </div>
       )}
 
       {/* Actions */}
-      <div className="flex flex-wrap gap-3 pt-5 border-t-2 border-slate-200">
+      <div className="flex flex-wrap gap-4 pt-8 border-t border-white/5">
         <select
           value={order.status}
           onChange={(e) => onStatusUpdate(order.id, e.target.value)}
-          className="px-4 py-2.5 border-2 border-emerald-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white hover:border-emerald-400 transition-colors"
+          className="px-6 py-3 bg-white/[0.02] border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all cursor-pointer appearance-none"
         >
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="processing">Processing</option>
-          <option value="shipped">Shipped</option>
-          <option value="delivered">Delivered</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="pending" className="bg-slate-900">Pending</option>
+          <option value="confirmed" className="bg-slate-900">Confirmed</option>
+          <option value="processing" className="bg-slate-900">Processing</option>
+          <option value="shipped" className="bg-slate-900">Shipped</option>
+          <option value="delivered" className="bg-slate-900">Delivered</option>
+          <option value="cancelled" className="bg-slate-900">Cancelled</option>
         </select>
 
         {order.paymentStatus === 'pending' && (
           <button
             onClick={() => onPaymentUpdate(order.id, 'paid')}
-            className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl text-sm font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
+            className="px-6 py-3 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-all shadow-lg shadow-emerald-500/5 active:scale-95"
           >
-            💳 Mark as Paid
+            Mark Paid
           </button>
         )}
 
         <button
           onClick={() => onCopyConfirmation(order)}
-          className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
-          title="Copy personalized confirmation message"
+          className="px-6 py-3 bg-white/[0.02] border border-white/5 text-slate-300 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-[#020617] transition-all active:scale-95"
+          title="Personalized Confirmation"
         >
-          📋 Confirmation
+          Manifest
         </button>
 
         <button
           onClick={() => onCopyThankYou(order)}
-          className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-xl text-sm font-semibold hover:from-indigo-700 hover:to-blue-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
-          title="Copy thank-you message"
+          className="px-6 py-3 bg-white/[0.02] border border-white/5 text-slate-300 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-[#020617] transition-all active:scale-95"
+          title="Gratitude Message"
         >
-          ✨ Thank You
+          Gratitude
         </button>
 
         <button
           onClick={() => onDelete(order.id)}
-          className="ml-auto px-5 py-2.5 bg-gradient-to-r from-rose-600 to-pink-600 text-white rounded-xl text-sm font-semibold hover:from-rose-700 hover:to-pink-700 transition-all shadow-md hover:shadow-lg hover:scale-105"
+          className="ml-auto px-6 py-3 bg-rose-500/5 border border-rose-500/10 text-rose-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all active:scale-95"
         >
-          🗑️ Delete
+          Terminate
         </button>
       </div>
     </div>
@@ -485,58 +482,64 @@ export default function AdminOrders() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       {/* Stats Cards */}
       {stats && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatsCard title="Total Orders" value={stats.total} icon={statsIcons.total} gradient="from-indigo-600 to-blue-600" />
-          <StatsCard title="Pending Orders" value={stats.pending} icon={statsIcons.pending} gradient="from-amber-500 to-orange-500" />
-          <StatsCard title="Delivered" value={stats.delivered} icon={statsIcons.delivered} gradient="from-emerald-600 to-teal-600" />
-          <StatsCard title="Total Revenue" value={`${stats.totalRevenue} PKR`} icon={statsIcons.revenue} gradient="from-blue-600 to-cyan-600" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatsCard title="Total Volume" value={stats.total} icon={statsIcons.total} color="from-indigo-500 to-blue-600" />
+          <StatsCard title="Active Signals" value={stats.pending} icon={statsIcons.pending} color="from-amber-400 to-orange-500" />
+          <StatsCard title="Completed Flux" value={stats.delivered} icon={statsIcons.delivered} color="from-emerald-500 to-teal-600" />
+          <StatsCard title="Gross Extraction" value={`Rs. ${stats.totalRevenue}`} icon={statsIcons.revenue} color="from-cyan-400 to-blue-500" />
         </div>
       )}
 
       {/* Filters */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-slate-100">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-          <div className="flex items-center gap-3">
-            <label className="text-sm text-slate-700 font-semibold">Per page</label>
-            <select value={perPage} onChange={(e) => { setPerPage(Number(e.target.value)); setPage(1); }} className="px-4 py-2 border-2 border-emerald-300 rounded-xl font-semibold focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white hover:border-emerald-400 transition-colors">
-              <option value={5}>5</option>
-              <option value={8}>8</option>
-              <option value={12}>12</option>
-            </select>
-          </div>
-
+      {/* Filters Hub */}
+      <div className="bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/5 shadow-2xl">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="flex flex-wrap gap-2">
             {['all', 'pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'].map(status => (
               <button
                 key={status}
                 onClick={() => { setFilter(status); setPage(1); }}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold capitalize transition-all shadow-sm hover:shadow-md ${filter === status
-                  ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white scale-105'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                className={`px-6 py-2.5 rounded-[1.25rem] text-[10px] font-black uppercase tracking-widest transition-all border ${filter === status
+                  ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
+                  : 'bg-white/[0.02] text-slate-500 border-white/5 hover:bg-white/[0.04] hover:text-slate-300'
                   }`}
               >
                 {status}
-                {stats && status !== 'all' && <span className="ml-2 text-xs opacity-90">({stats[status]})</span>}
+                {stats && status !== 'all' && <span className="ml-2 bg-emerald-500/10 px-2 py-0.5 rounded text-emerald-500/50">{stats[status]}</span>}
               </button>
             ))}
           </div>
-        </div>
 
+          <div className="flex items-center gap-4 bg-white/[0.02] border border-white/5 rounded-2xl px-5 py-2.5">
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Density</span>
+            <select
+              value={perPage}
+              onChange={(e) => { setPerPage(Number(e.target.value)); setPage(1); }}
+              className="bg-transparent text-white text-xs font-bold outline-none cursor-pointer"
+            >
+              <option value={8} className="bg-slate-900">08 Units</option>
+              <option value={12} className="bg-slate-900">12 Units</option>
+              <option value={20} className="bg-slate-900">20 Units</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       {/* Orders List */}
       {filteredOrders.length === 0 ? (
-        <div className="bg-white rounded-2xl shadow-lg p-16 text-center border-2 border-slate-100">
-          <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <svg className="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-            </svg>
+        <div className="bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] border border-white/5 p-20 text-center shadow-2xl">
+          <div className="max-w-md mx-auto">
+            <div className="w-24 h-24 bg-white/[0.02] border border-white/5 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl">
+              <svg className="w-12 h-12 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-black text-white italic mb-3">No Signals Detected</h3>
+            <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Awaiting customer interaction data</p>
           </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-3">No orders found</h3>
-          <p className="text-slate-600">Orders will appear here when customers place them</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -556,16 +559,27 @@ export default function AdminOrders() {
 
       {/* Pagination - Only show in Grid Mode */}
       {/* Pagination */}
-      {
-        <div className="flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-slate-50 to-emerald-50 rounded-2xl shadow-lg p-6 border-t-2 border-slate-100 gap-4">
-          <div className="text-sm text-slate-700 font-semibold">Showing {(filteredOrders?.length ? (Math.min(page * perPage, filteredOrders.length) - ((page - 1) * perPage)) : 0)} of {filteredOrders?.length || 0} orders</div>
-          <div className="flex items-center gap-3">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-5 py-2 rounded-xl bg-white border-2 border-slate-200 font-semibold hover:border-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md">← Prev</button>
-            <div className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-bold shadow-md">Page {page} / {totalPages}</div>
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-5 py-2 rounded-xl bg-white border-2 border-slate-200 font-semibold hover:border-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md">Next →</button>
-          </div>
+      {/* Pagination Container */}
+      <div className="flex flex-col md:flex-row items-center justify-between bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/5 shadow-2xl gap-6">
+        <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic px-4">Entity {page * perPage - perPage + 1} to {Math.min(page * perPage, filteredOrders.length)} of {filteredOrders.length} Manifested</div>
+        <div className="flex items-center gap-6">
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-8 py-3 bg-white/[0.02] border border-white/5 rounded-2xl text-[10px] font-black text-slate-300 uppercase tracking-widest hover:bg-white hover:text-[#020617] disabled:opacity-10 transition-all active:scale-95"
+          >
+            ← Recall
+          </button>
+          <div className="text-base font-black text-white italic tracking-tight">Stage {page} <span className="text-slate-500 font-normal mx-2">/</span> {totalPages}</div>
+          <button
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="px-8 py-3 bg-white/[0.02] border border-white/5 rounded-2xl text-[10px] font-black text-slate-300 uppercase tracking-widest hover:bg-white hover:text-[#020617] disabled:opacity-10 transition-all active:scale-95"
+          >
+            Advance →
+          </button>
         </div>
-      }
+      </div>
     </div >
   );
 }

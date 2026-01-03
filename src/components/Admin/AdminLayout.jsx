@@ -4,12 +4,14 @@ import { BarChart3, ShoppingCart, Package, Menu, X, LogOut, Bell, Ticket } from 
 const SidebarLink = ({ children, onClick, active, icon: Icon }) => (
   <button
     onClick={onClick}
-    className={`w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 text-sm font-semibold transition-all ${active
-      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-500/30'
-      : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+    className={`w-full text-left px-4 py-3.5 rounded-2xl flex items-center gap-3 text-sm font-bold transition-all duration-300 group ${active
+      ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-400 border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)] ring-1 ring-emerald-500/20'
+      : 'text-slate-500 hover:bg-white/[0.03] hover:text-slate-200 border border-transparent'
       }`}
   >
-    {Icon && <Icon size={20} className={active ? 'text-emerald-100' : ''} />}
+    <div className={`p-1.5 rounded-lg transition-colors ${active ? 'bg-emerald-500/20' : 'bg-slate-800 group-hover:bg-slate-700'}`}>
+      {Icon && <Icon size={18} className={active ? 'text-emerald-400' : 'text-slate-400'} />}
+    </div>
     {children}
   </button>
 );
@@ -42,7 +44,19 @@ const AdminLayout = ({ children, section = 'dashboard', onSectionChange }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row relative">
+    <div className="min-h-screen bg-[#020617] flex flex-col lg:flex-row relative selection:bg-emerald-500/30">
+      {/* Real-time Sales Ticker (God-Tier Feed) */}
+      <div className="fixed top-0 left-0 right-0 h-1 z-[60] bg-slate-900 border-b border-white/5 flex items-center px-4 overflow-hidden md:h-8">
+        <div className="flex items-center gap-4 animate-scroll-rtl whitespace-nowrap text-[10px] font-black uppercase tracking-widest text-emerald-400/60">
+          <span>⚡ Real-time Stream Active</span>
+          <span className="text-slate-700">•</span>
+          <span>New Order #4021 Received 2m ago</span>
+          <span className="text-slate-700">•</span>
+          <span>Silver Watch Stock Low</span>
+          <span className="text-slate-700">•</span>
+          <span>Search Spike: "Gold Ring"</span>
+        </div>
+      </div>
       {/* Mobile Header */}
       <header className="lg:hidden bg-slate-900 border-b border-slate-700 text-white p-4 shadow-md flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
@@ -72,7 +86,7 @@ const AdminLayout = ({ children, section = 'dashboard', onSectionChange }) => {
 
       {/* Sidebar (Desktop + Mobile Drawer) */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 border-r border-slate-700 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:sticky lg:top-0 shadow-2xl lg:shadow-none
+        fixed inset-y-0 left-0 z-50 w-72 bg-slate-950/80 backdrop-blur-3xl border-r border-white/5 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:sticky lg:top-0 shadow-2xl lg:shadow-none pt-8
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="px-6 py-6 border-b border-slate-800 flex items-center justify-between">
@@ -141,8 +155,14 @@ const AdminLayout = ({ children, section = 'dashboard', onSectionChange }) => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden bg-slate-50">
-        {children}
+      <main className="flex-1 p-4 sm:p-6 lg:p-10 overflow-x-hidden bg-[#020617] relative">
+        {/* Background Glows */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="relative z-10 pt-8 lg:pt-0">
+          {children}
+        </div>
       </main>
     </div>
   );

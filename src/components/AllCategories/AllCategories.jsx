@@ -7,15 +7,17 @@ import { ArrowRight } from 'lucide-react';
 import getImageUrl from '../../utils/imageUrl';
 import config from '../../config';
 import { getTrendingCategoriesFromSearches } from '../../hooks/useRecentSearches';
+import { CategoryCardSkeleton } from '../Skeletons/CategorySkeleton';
 
 const PageSkeleton = () => (
-  <div className="min-h-screen bg-white py-20 px-4">
+  <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 py-20 px-4">
     <div className="max-w-7xl mx-auto">
-      <div className="h-12 w-64 bg-slate-100 rounded-full mx-auto mb-4 animate-pulse"></div>
-      <div className="h-4 w-96 bg-slate-50 rounded-full mx-auto mb-16 animate-pulse"></div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="h-16 w-3/4 md:w-1/2 bg-slate-100 rounded-2xl mx-auto mb-6 animate-pulse"></div>
+      <div className="h-2 w-24 bg-emerald-100 rounded-full mx-auto mb-8 animate-pulse"></div>
+      <div className="h-6 w-96 bg-slate-50 rounded-full mx-auto mb-16 animate-pulse"></div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="aspect-[4/5] bg-slate-50 rounded-3xl animate-pulse"></div>
+          <CategoryCardSkeleton key={i} />
         ))}
       </div>
     </div>

@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
-import { X, Upload, Plus, Trash2, ArrowLeft, Loader2 } from 'lucide-react';
+import { X, Upload, Plus, Trash2, ArrowLeft, Loader2, Wand2, Check, AlertCircle, Save } from 'lucide-react';
 import getImageUrl from '../../utils/imageUrl';
 import config from '../../config';
 import imageCompression from 'browser-image-compression';
+import { triggerPremiumFeedback } from '../../utils/feedback';
 
 const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories = [] }) => {
     const router = useRouter();
@@ -107,86 +108,36 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        setIsSubmitting(true);
-
-        try {
-            if (!imageFile && !isEditing) {
-                throw new Error('Please select an image');
-            }
-
-            // Combine selected categories and new category
-            let finalCategories = [...selectedCategories];
-            if (newCategory.trim()) {
-                const newCats = newCategory.split(',').map(c => c.trim()).filter(Boolean);
-                finalCategories = [...new Set([...finalCategories, ...newCats])]; // Unique
-            }
-
-            if (finalCategories.length === 0) {
-                throw new Error('Please select or add at least one category');
-            }
-
-            const data = new FormData();
-            data.append('title', formData.title);
-            data.append('price', formData.price);
-            data.append('purchasePrice', formData.purchasePrice);
-            data.append('description', formData.description);
-            // Backend expects comma-separated string for category
-            data.append('category', finalCategories.join(','));
-            data.append('material', formData.material);
-            data.append('stock', formData.stock);
-            data.append('isCustomizable', formData.isCustomizable);
-            data.append('isVisible', formData.isVisible);
-            data.append('colors', formData.colors);
-
-            if (imageFile) {
-                data.append('image', imageFile);
-            }
-
-            const token = localStorage.getItem('adminToken');
-
-            const url = isEditing
-                ? `${API_BASE_URL}/api/products/${product.id}`
-                : `${API_BASE_URL}/api/products`;
-
-            const method = isEditing ? 'PATCH' : 'POST';
-
-            const response = await fetch(url, {
-                method: method,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: data
-            });
-
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.message || `Failed to ${isEditing ? 'update' : 'add'} product`);
-            }
-
-            const savedProduct = await response.json();
-            onProductAdded && onProductAdded(savedProduct);
-            onClose && onClose();
-        } catch (err) {
-            console.error(`Error ${isEditing ? 'updating' : 'adding'} product:`, err);
-            setError(err.message || `Error occurred while ${isEditing ? 'updating' : 'adding'} product`);
-        } finally {
-            setIsSubmitting(false);
-        }
+    const generateMagicDescription = () => {
+        if (!formData.title) return;
+        const templates = [
+            `Elevate your style with the ${formData.title}. Crafted from premium ${formData.material || 'materials'}, this piece embodies modern luxury and exceptional craftsmanship. Perfect for ${selectedCategories[0] || 'any occasion'}.`,
+            `Introducing the ${formData.title}: where sophistication meets utility. Features high-quality ${formData.material || 'textures'} and a silhouette designed for the discerning individual. A standout addition to our ${selectedCategories[0] || 'exclusive'} range.`,
+            `The ${formData.title} isn't just a product—it's a statement. Expertly made using ${formData.material || 'fine materials'}, it offers unparalleled durability and a sleek, contemporary aesthetic. Uniquely yours.`
+        ];
+        const random = templates[Math.floor(Math.random() * templates.length)];
+        setFormData(prev => ({ ...prev, description: random }));
+        triggerPremiumFeedback('success', 'light');
     };
 
+    const product = initialData;
+
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                <div className="flex items-center justify-between p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
-                    <h2 className="text-xl font-bold text-gray-900">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-300">
+            <div className="bg-[#020617] rounded-[2.5rem] border border-white/5 shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative selection:bg-emerald-500/30">
+                {/* Visual Flair */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="flex items-center justify-between p-8 border-b border-white/5 sticky top-0 bg-[#020617]/80 backdrop-blur-xl z-20">
+                    <div>
+                        <h2 className="text-2xl font-playfair font-black text-white italic tracking-tight">{isEditing ? 'Edit Masterpiece' : 'New Masterpiece'}</h2>
+                        <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Product Configuration</p>
+                    </div>
                     <button
                         onClick={onClose}
-                        className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"
+                        className="p-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-2xl transition-all"
                     >
-                        <X size={20} />
+                        <X size={24} />
                     </button>
                 </div>
 
@@ -202,8 +153,8 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                         <div className="space-y-4">
                             {/* Image Upload */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
-                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:bg-gray-50 transition-colors cursor-pointer relative group">
+                                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 px-2">Hero Image</label>
+                                <div className="border border-white/5 bg-white/[0.02] rounded-3xl p-8 text-center hover:bg-white/[0.04] transition-all cursor-pointer relative group border-dashed">
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -211,7 +162,7 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                     />
                                     {imagePreview ? (
-                                        <div className="relative aspect-square w-full max-w-[200px] mx-auto rounded-lg overflow-hidden">
+                                        <div className="relative aspect-square w-full max-w-[240px] mx-auto rounded-3xl overflow-hidden shadow-2xl">
                                             <div className="relative w-full h-full">
                                                 <Image
                                                     src={imagePreview}
@@ -220,15 +171,18 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                                     className="object-cover"
                                                 />
                                             </div>
-                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <span className="text-white text-sm font-medium">Change Image</span>
+                                            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Upload size={24} className="text-white mb-2" />
+                                                <span className="text-white text-[10px] font-black uppercase tracking-widest">Update</span>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="py-8 text-gray-500">
-                                            <Upload className="mx-auto h-8 w-8 mb-2 text-gray-400" />
-                                            <p className="text-sm">Click to upload image</p>
-                                            <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 10MB</p>
+                                        <div className="py-12">
+                                            <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                                <Upload className="h-8 w-8 text-emerald-400" />
+                                            </div>
+                                            <p className="text-white text-sm font-bold">Upload Source</p>
+                                            <p className="text-slate-500 text-[10px] uppercase font-black tracking-widest mt-2">RAW, PNG, JPG (HQ)</p>
                                         </div>
                                     )}
                                 </div>
@@ -237,15 +191,15 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-2">Title</label>
                                 <input
                                     type="text"
                                     name="title"
                                     required
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                                    placeholder="Product Name"
+                                    className="w-full px-6 py-4 bg-white/[0.02] border border-white/5 rounded-2xl text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all font-bold placeholder:text-slate-700"
+                                    placeholder="e.g. Midnight Chronograph"
                                 />
                             </div>
 
@@ -291,46 +245,58 @@ const AddProduct = ({ onBack, onSuccess, initialData = null, existingCategories 
                                         placeholder="Qty"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Categories</label>
-                                    <div className="border rounded-lg p-3 max-h-40 overflow-y-auto space-y-2 mb-2">
-                                        {existingCategories.map(cat => (
-                                            <div key={cat} className="flex items-center gap-2">
-                                                <input
-                                                    type="checkbox"
-                                                    id={`cat-${cat}`}
-                                                    checked={selectedCategories.includes(cat)}
-                                                    onChange={() => handleCategoryToggle(cat)}
-                                                    className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
-                                                />
-                                                <label htmlFor={`cat-${cat}`} className="text-sm text-gray-700 cursor-pointer select-none">
-                                                    {cat}
-                                                </label>
-                                            </div>
-                                        ))}
+                                <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-2">Classification</label>
+                                        <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 max-h-48 overflow-y-auto space-y-3 mb-3">
+                                            {existingCategories.map(cat => (
+                                                <div key={cat} className="flex items-center gap-3 group">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`cat-${cat}`}
+                                                        checked={selectedCategories.includes(cat)}
+                                                        onChange={() => handleCategoryToggle(cat)}
+                                                        className="w-4 h-4 text-emerald-500 bg-slate-900 border-white/10 rounded focus:ring-emerald-500"
+                                                    />
+                                                    <label htmlFor={`cat-${cat}`} className="text-sm font-bold text-slate-400 group-hover:text-white cursor-pointer select-none transition-colors">
+                                                        {cat}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={newCategory}
+                                            onChange={(e) => setNewCategory(e.target.value)}
+                                            className="w-full px-5 py-3 bg-white/[0.02] border border-white/5 rounded-xl text-sm font-bold text-white focus:ring-2 focus:ring-emerald-500 outline-none placeholder:text-slate-700"
+                                            placeholder="+ New Category"
+                                        />
                                     </div>
-                                    <input
-                                        type="text"
-                                        value={newCategory}
-                                        onChange={(e) => setNewCategory(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
-                                        placeholder="+ Add New"
-                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <div className="relative">
+                        <div className="flex items-center justify-between mb-3 px-2">
+                            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Description</label>
+                            <button
+                                type="button"
+                                onClick={generateMagicDescription}
+                                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/5 group"
+                            >
+                                <Wand2 size={12} className="group-hover:rotate-12 transition-transform" />
+                                AI Magic Assist
+                            </button>
+                        </div>
                         <textarea
                             name="description"
                             required
                             rows={6}
                             value={formData.description}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all min-h-[120px] resize-y"
-                            placeholder="Product description..."
+                            className="w-full px-6 py-5 bg-white/[0.02] border border-white/5 rounded-3xl text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all min-h-[160px] resize-y font-medium text-lg leading-relaxed placeholder:text-slate-700"
+                            placeholder="Craft a compelling story about this masterpiece..."
                         />
                     </div>
 

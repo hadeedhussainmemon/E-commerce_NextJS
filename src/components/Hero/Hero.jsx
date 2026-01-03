@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import config from "../../config";
 import getImageUrl from '../../utils/imageUrl';
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 
 // Hero component with a lightweight image slider.
 // - Accepts `images` prop: array of image URLs (your pictures). If not provided, uses the default image.
@@ -21,6 +21,24 @@ const Hero = ({ images = null, interval = 4000 }) => {
     getImageUrl('/images/banners/iced-diamond-leopard-print-watches-for-couple.avif'),
     getImageUrl('/images/banners/mens-stainless-steel-square-dial-watch.avif'),
   ];
+
+  const heroRef = useRef(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = (e) => {
+    if (!heroRef.current) return;
+    const { left, top, width, height } = heroRef.current.getBoundingClientRect();
+    const x = (e.clientX - left) / width - 0.5;
+    const y = (e.clientY - top) / height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const xParallax = useSpring(useTransform(mouseX, [-0.5, 0.5], [-20, 20]), { stiffness: 100, damping: 30 });
+  const yParallax = useSpring(useTransform(mouseY, [-0.5, 0.5], [-20, 20]), { stiffness: 100, damping: 30 });
+  const bgX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-50, 50]), { stiffness: 50, damping: 20 });
+  const bgY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-50, 50]), { stiffness: 50, damping: 20 });
   // slidesToShow will contain only images that successfully load.
   const [slidesToShow, setSlidesToShow] = useState([]);
   const candidateSlides = images && images.length ? images : defaultImages;
@@ -80,6 +98,8 @@ const Hero = ({ images = null, interval = 4000 }) => {
   return (
     <section
       id="home"
+      ref={heroRef}
+      onMouseMove={handleMouseMove}
       aria-label={`Welcome to ${config.appName}`}
       className="text-white py-8 md:py-20 relative overflow-hidden"
       itemScope
@@ -93,6 +113,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
       {/* Cinema Background (Abstract Shapes) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
+          style={{ x: bgX, y: bgY }}
           animate={{
             scale: [1, 1.2, 1],
             rotate: [0, 90, 0],
@@ -102,6 +123,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
           className="absolute -top-1/2 -left-1/4 w-full h-full bg-emerald-500/10 rounded-full blur-[40px] gpu-accelerated"
         />
         <motion.div
+          style={{ x: useTransform(bgX, v => -v), y: useTransform(bgY, v => -v) }}
           animate={{
             scale: [1, 1.1, 1],
             rotate: [0, -45, 0],
@@ -125,6 +147,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={index}
+                    style={{ x: xParallax, y: yParallax }}
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 30 }}
@@ -192,25 +215,25 @@ const Hero = ({ images = null, interval = 4000 }) => {
                 </AnimatePresence>
 
                 {/* Mobile Overlay */}
-                <div className="md:hidden absolute inset-0 z-20 flex flex-col justify-end p-8 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent">
+                <div className="md:hidden absolute inset-0 z-20 flex flex-col justify-end p-8 bg-gradient-to-t from-slate-950/80 via-slate-950/40 to-transparent">
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="w-full"
+                    className="w-full text-center sm:text-left"
                   >
-                    <h2 className="text-4xl font-display font-black text-white leading-[1.1] mb-4">
-                      Everything in <span className="text-emerald-500 underline decoration-slate-500/30">one cart</span>
+                    <h2 className="text-3xl font-display font-black text-white leading-[1.1] mb-2">
+                      Everything in <span className="text-emerald-500">one cart</span>
                     </h2>
-                    <p className="text-slate-400 text-sm font-medium mb-8 leading-relaxed">
+                    <p className="text-slate-300 text-xs font-medium mb-6 leading-relaxed px-4 sm:px-0">
                       Electronics, luxury watches, and curated finds — premium quality at your fingertips.
                     </p>
-                    <div className="flex gap-3">
-                      <a href="#products" className="flex-1 bg-white text-slate-900 h-14 rounded-2xl flex items-center justify-center font-black shadow-xl active:scale-95 transition-transform">
+                    <div className="flex flex-col sm:flex-row gap-3 px-4 sm:px-0">
+                      <a href="#products" className="flex-1 bg-white text-slate-900 h-12 rounded-2xl flex items-center justify-center font-black shadow-xl active:scale-95 transition-transform text-sm">
                         Shop Collection
                       </a>
-                      <button className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/10">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                      <button className="flex-1 bg-emerald-600/20 backdrop-blur-md text-emerald-400 h-12 rounded-2xl flex items-center justify-center font-bold border border-emerald-500/30 text-sm">
+                        Discover More
                       </button>
                     </div>
                   </motion.div>

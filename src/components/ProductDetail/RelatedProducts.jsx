@@ -45,17 +45,52 @@ const RelatedProducts = ({ currentId, category }) => {
     if (loading || !items.length) return null;
 
     return (
-        <div className="mt-10">
-            <h2 className="text-xl font-semibold mb-6 font-playfair">You might also like</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                {items.map(p => (
-                    <div key={p.id} className="h-full">
-                        <ProductCard product={p} />
+        <div className="mt-16 border-t border-slate-100 pt-16">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+                <div>
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="h-1 w-8 bg-emerald-500 rounded-full"></span>
+                        <span className="text-emerald-600 text-xs font-black uppercase tracking-[0.2em]">Curated for you</span>
                     </div>
-                ))}
+                    <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">Similar Products</h2>
+                </div>
+                {category && (
+                    <Link
+                        href={`/category/${encodeURIComponent(String(Array.isArray(category) ? category[0] : category).toLowerCase().replace(/\s+/g, '-'))}`}
+                        className="text-sm font-bold text-slate-400 hover:text-emerald-600 transition-colors flex items-center gap-2 group"
+                    >
+                        View Collection
+                        <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                )}
             </div>
+
+            <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ staggerChildren: 0.1 }}
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+            >
+                {items.map(p => (
+                    <motion.div
+                        key={p.id}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                        className="h-full"
+                    >
+                        <ProductCard product={p} />
+                    </motion.div>
+                ))}
+            </motion.div>
         </div>
     );
 };
+
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default RelatedProducts;

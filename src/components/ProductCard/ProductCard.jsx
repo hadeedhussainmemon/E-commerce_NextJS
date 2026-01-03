@@ -11,9 +11,13 @@ const QuickViewModal = dynamic(() => import('./QuickViewModal'), {
     loading: () => null, // No loader needed, it's a modal
     ssr: false // No need to SSR the modal
 });
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import useMagnetic from '../../hooks/useMagnetic';
+import { triggerWishlistAnimation } from '../UI/FloatingHearts';
 import { useQueryClient } from '@tanstack/react-query';
 import { fetchProductFn } from '../../hooks/useProductQuery';
 import { useCart } from '../../context/CartContext';
+import { triggerPremiumFeedback } from '../../utils/feedback';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCartAnimation } from '../../context/CartAnimationContext';
 import getImageUrl from '../../utils/imageUrl';
@@ -43,6 +47,27 @@ const ProductCard = (inputProps) => {
     const { toggleWishlist, isInWishlist } = useWishlist();
     const { startAnimation } = useCartAnimation();
 
+    // Magnetic hooks for CTA buttons
+    const magneticBuy = useMagnetic();
+    const magneticAdd = useMagnetic();
+
+    // Image Tilt motion values
+    const tiltX = useMotionValue(0);
+    const tiltY = useMotionValue(0);
+    const rotateX = useSpring(useTransform(tiltY, [-0.5, 0.5], [10, -10]), { stiffness: 300, damping: 30 });
+    const rotateY = useSpring(useTransform(tiltX, [-0.5, 0.5], [-10, 10]), { stiffness: 300, damping: 30 });
+
+    const handleMouseMove = (e) => {
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+        tiltX.set((e.clientX - left) / width - 0.5);
+        tiltY.set((e.clientY - top) / height - 0.5);
+    };
+
+    const handleMouseLeave = () => {
+        tiltX.set(0);
+        tiltY.set(0);
+    };
+
     const [imgLoaded, setImgLoaded] = useState(false);
 
     // Computed values
@@ -67,6 +92,7 @@ const ProductCard = (inputProps) => {
     const handleAddToCart = (e) => {
         setIsAdding(true);
         addToCart(product);
+        triggerPremiumFeedback('pop', 'light');
 
         // Fly-to-cart Animation
         if (image) {
@@ -94,6 +120,7 @@ const ProductCard = (inputProps) => {
         if (!isInCart(id)) {
             addToCart(product);
         }
+        triggerPremiumFeedback('success', 'medium');
         // Small delay to show toast, then open cart
         setTimeout(() => {
             openCart();
@@ -104,6 +131,12 @@ const ProductCard = (inputProps) => {
         e.preventDefault();
         e.stopPropagation();
         toggleWishlist(product);
+        triggerPremiumFeedback('pop', 'light');
+
+        // Trigger floating hearts from the mouse position
+        if (!isInWishlist(id)) {
+            triggerWishlistAnimation(e.clientX, e.clientY);
+        }
     };
 
     const handleWhatsAppShare = (e) => {
@@ -188,7 +221,12 @@ const ProductCard = (inputProps) => {
                         onMouseEnter={handleMouseEnter}
                     >
                         {/* Square aspect wrapper: centered image with padding */}
-                        <div className="relative w-full aspect-square overflow-hidden rounded-t-xl bg-white flex items-center justify-center">
+                        <motion.div
+                            onMouseMove={handleMouseMove}
+                            onMouseLeave={handleMouseLeave}
+                            style={{ rotateX, rotateY, perspective: 1000 }}
+                            className="relative w-full aspect-square overflow-hidden rounded-t-xl bg-white flex items-center justify-center transform-gpu"
+                        >
                             <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" aria-hidden="true"></div>
                             {/* Image placeholder skeleton */}
                             <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
@@ -223,7 +261,7 @@ const ProductCard = (inputProps) => {
                                     </button>
                                 </div>
                             )}
-                        </div>
+                        </motion.div>
                         {isSoldOut && (
                             <div className="absolute inset-0 flex items-center justify-center rounded-t-xl z-20 pointer-events-none bg-black/10 backdrop-blur-[2px]">
                                 <span className="bg-red-600 text-white text-xs sm:text-base font-bold px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-lg shadow-lg transform -rotate-12">
@@ -346,7 +384,8 @@ const ProductCard = (inputProps) => {
                     {/* Action Buttons - More compact on mobile */}
                     <div className="flex gap-1.5 sm:gap-2 mt-auto">
                         {/* Add to Cart Button */}
-                        <button
+                        <motion.button
+                            {...magneticAdd}
                             onClick={handleAddToCart}
                             disabled={isAdding || price === 0 || isSoldOut}
                             className={`flex-1 flex items-center justify-center gap-1 sm:gap-1.5 text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 font-semibold rounded-lg text-[10px] sm:text-sm px-2 sm:px-3 py-2 sm:py-2.5 transition-all duration-300 ${isAdding ? 'scale-95' : 'hover:scale-[1.02]'} ${(price === 0 || isSoldOut) ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -367,11 +406,12 @@ const ProductCard = (inputProps) => {
                                     <span>Add</span>
                                 </>
                             )}
-                        </button>
+                        </motion.button>
 
                         {/* Buy Now / Contact Button */}
                         {price > 0 ? (
-                            <button
+                            <motion.button
+                                {...magneticBuy}
                                 onClick={handleBuyNow}
                                 disabled={isSoldOut}
                                 className={`flex-1 flex items-center justify-center gap-1 sm:gap-1.5 text-white bg-slate-900 hover:bg-black font-semibold rounded-lg text-[10px] sm:text-sm px-2 sm:px-3 py-2 sm:py-2.5 transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg ${isSoldOut ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -380,7 +420,7 @@ const ProductCard = (inputProps) => {
                                     <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
                                 </svg>
                                 <span>Buy</span>
-                            </button>
+                            </motion.button>
                         ) : (
                             <a
                                 href={`https://www.instagram.com/${config.socials.instagram}`}

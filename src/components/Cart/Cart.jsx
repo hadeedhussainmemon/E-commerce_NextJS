@@ -7,6 +7,7 @@ import getImageUrl from '../../utils/imageUrl';
 import { motion, AnimatePresence } from "framer-motion";
 import CheckoutForm from '../Checkout/CheckoutForm';
 import OrderSuccess from '../Checkout/OrderSuccess';
+import { triggerPremiumFeedback } from '../../utils/feedback';
 
 export default function Cart() {
   const {
@@ -143,19 +144,49 @@ export default function Cart() {
         {/* Scrollable Cart Items */}
         <div className="flex-1 overflow-y-auto px-6 py-6 bg-gray-50/50 scrollbar-hide">
           {cartItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center space-y-6 animate-fadeIn">
-              <div className="w-32 h-32 bg-slate-50 rounded-full flex items-center justify-center shadow-inner">
-                <ShoppingBag className="w-16 h-16 text-slate-200" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-playfair font-bold text-gray-900 mb-2">Your bag is empty</h3>
-                <p className="text-gray-500 max-w-[200px] mx-auto text-sm">Looks like you haven't added anything to your cart yet.</p>
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-8 animate-fadeIn">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="relative"
+              >
+                <div className="w-40 h-40 bg-slate-50 rounded-full flex items-center justify-center shadow-inner relative overflow-hidden">
+                  <motion.div
+                    animate={{
+                      y: [0, -10, 0],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    className="z-10"
+                  >
+                    <ShoppingBag className="w-20 h-20 text-slate-300" />
+                  </motion.div>
+                  {/* Decorative floating particles */}
+                  <motion.div
+                    animate={{ y: [-10, 10, -10], x: [-5, 5, -5] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="absolute top-10 right-10 w-3 h-3 bg-emerald-200 rounded-full blur-[2px]"
+                  />
+                  <motion.div
+                    animate={{ y: [15, -15, 15], x: [10, -10, 10] }}
+                    transition={{ duration: 5, repeat: Infinity }}
+                    className="absolute bottom-12 left-8 w-4 h-4 bg-indigo-100 rounded-full blur-[3px]"
+                  />
+                </div>
+              </motion.div>
+              <div className="space-y-3">
+                <h3 className="text-2xl font-playfair font-bold text-gray-900 leading-tight">Your bag is empty</h3>
+                <p className="text-gray-500 max-w-[240px] mx-auto text-sm leading-relaxed">Discover our premium collections and find something extraordinary today.</p>
               </div>
               <button
-                onClick={closeCart}
-                className="px-8 py-3 bg-gray-900 text-white rounded-full font-medium hover:bg-gray-800 transition-colors shadow-lg hover:shadow-xl transform active:scale-95"
+                onClick={() => {
+                  triggerPremiumFeedback('pop', 'light');
+                  closeCart();
+                }}
+                className="group relative px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-emerald-600 transition-all shadow-xl hover:shadow-emerald-500/20 transform active:scale-95 flex items-center gap-3"
               >
                 Start Shopping
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           ) : (

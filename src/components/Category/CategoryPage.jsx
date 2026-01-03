@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import ProductCard from '../ProductCard/ProductCard';
 import ProductCardSkeleton from '../Skeletons/ProductCardSkeleton';
+import CategorySkeleton, { CategoryHeroSkeleton } from '../Skeletons/CategorySkeleton';
 import SEO from '../SEO/SEO';
 import config from '../../config';
 
@@ -138,6 +139,17 @@ function CategoryPage() {
     { name: displayName, to: `/category/${slug}` }
   ];
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50/50">
+        <CategoryHeroSkeleton />
+        <div className="container mx-auto px-4 mt-12">
+          <CategorySkeleton />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <SEO
@@ -225,13 +237,7 @@ function CategoryPage() {
           <Breadcrumb items={breadcrumbItems} className="mb-6 opacity-70 hover:opacity-100 transition-opacity" />
           <div id="product-grid" className="scroll-mt-32"></div>
 
-          {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-              {[...Array(8)].map((_, i) => (
-                <ProductCardSkeleton key={i} />
-              ))}
-            </div>
-          ) : isError ? (
+          {isError ? (
             <div className="text-center py-20">
               <h2 className="text-2xl font-bold text-gray-800 mb-2">Oops! Something went wrong.</h2>
               <p className="text-gray-500 mb-6">{error?.message || 'Failed to load products'}</p>

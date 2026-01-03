@@ -8,6 +8,7 @@ import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useCartAnimation } from "../../context/CartAnimationContext";
 import SearchAutocomplete from "../Search/SearchAutocomplete";
+import GlobalSearchOverlay from "../Search/GlobalSearchOverlay";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,11 +18,13 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
+  const [scrolled, setScrolled] = useState(false);
   const { getCartItemsCount, toggleCart } = useCart();
   const { wishlistItems } = useWishlist();
   const { cartIconRef } = useCartAnimation();
   const router = useRouter();
   const pathname = usePathname();
+  const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
 
 
   const navigate = (path) => router.push(path);
@@ -29,6 +32,15 @@ const Navbar = () => {
   const cartItemsCount = getCartItemsCount();
   const wishlistCount = wishlistItems.length;
   const [navSearch, setNavSearch] = useState("");
+
+  // Handle scroll for glass header
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Memoized close handler
   const closeMenu = useCallback(() => setIsOpen(false), []);
@@ -105,7 +117,7 @@ const Navbar = () => {
     return () => document.body.classList.remove('has-fixed-nav');
   }, []);
 
-  // Keyboard shortcut: Ctrl/Cmd + K to open search
+  // Keyboard shortcut: Ctrl/Cmd + K to open search overlay
   useEffect(() => {
     const onKey = (e) => {
       // Ignore when typing in inputs to avoid interrupting users
@@ -113,12 +125,12 @@ const Navbar = () => {
       if (el && el.tagName && ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName)) return;
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        navigate('/search');
+        setIsSearchOverlayOpen(true);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [navigate]);
+  }, []);
 
   // Memoize active route checks
   const isHomePage = location.pathname === "/";
@@ -126,9 +138,9 @@ const Navbar = () => {
   const isRecommendationsPage = location.pathname.startsWith('/recommendations');
 
   return (
-    <nav className="fixed w-full top-0 z-50 will-change-transform font-sans">
+    <nav className={`fixed w-full top-0 z-50 transition-all duration-500 ease-in-out font-sans ${scrolled ? 'translate-y-[-36px]' : 'translate-y-0'}`}>
       {/* Announcement bar - Darker, Premium Gradient */}
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white text-[11px] md:text-xs overflow-hidden h-9 flex items-center relative z-20 shadow-sm border-b border-white/5">
+      <div className={`bg-gradient-to-r from-slate-900 to-slate-800 text-white text-[11px] md:text-xs overflow-hidden h-9 flex items-center relative z-20 shadow-sm border-b border-white/5 transition-opacity duration-300 ${scrolled ? 'opacity-0' : 'opacity-100'}`}>
         <div className="hidden md:flex items-center absolute left-6 text-emerald-400 font-bold tracking-wider z-10 gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
           PREMIUM QUALITY
@@ -146,7 +158,10 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="bg-white/80 backdrop-blur-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-b border-slate-100/50 transition-all duration-300" style={{ height: 'var(--nav-height)' }}>
+      <div className={`transition-all duration-500 ease-in-out border-b border-slate-100/50 ${scrolled
+        ? 'bg-white/70 backdrop-blur-xl h-16 shadow-[0_8px_32px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.02]'
+        : 'bg-white/80 backdrop-blur-2xl h-[calc(var(--nav-height))] shadow-sm'
+        }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex items-center justify-between h-full gap-6">
 
@@ -297,19 +312,17 @@ const Navbar = () => {
 
               {/* Search Bar - Desktop */}
               <div className="hidden xl:block w-72 ml-6">
-                <SearchAutocomplete
-                  value={navSearch}
-                  onChange={setNavSearch}
-                  onSubmit={(val) => {
-                    const q = typeof val === 'string' && val.length ? val : navSearch;
-                    if (q && q.trim()) {
-                      navigate(`/search?q=${encodeURIComponent(q.trim())}`);
-                      setNavSearch("");
-                    }
-                  }}
-                  placeholder="Search products..."
-                  className="w-full"
-                />
+                <div
+                  onClick={() => setIsSearchOverlayOpen(true)}
+                  className="flex items-center gap-3 px-5 py-3 bg-slate-50/50 hover:bg-slate-100/50 border border-slate-100 hover:border-emerald-100 rounded-2xl cursor-pointer transition-all group"
+                >
+                  <svg className="w-5 h-5 text-slate-400 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" /></svg>
+                  <span className="text-sm font-bold text-slate-400 group-hover:text-slate-500 transition-colors">Quick search...</span>
+                  <div className="ml-auto flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] font-black border border-slate-200 px-1 py-0.5 rounded">⌘</span>
+                    <span className="text-[10px] font-black border border-slate-200 px-1 py-0.5 rounded">K</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -317,7 +330,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-3 lg:gap-4">
               {/* Search Toggle (Tablet/Laptop) */}
               <button
-                onClick={() => navigate('/search')}
+                onClick={() => setIsSearchOverlayOpen(true)}
                 className="xl:hidden p-2.5 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50/80 rounded-full transition-all duration-300 hover:shadow-sm"
                 aria-label="Search"
               >
@@ -368,7 +381,7 @@ const Navbar = () => {
 
             {/* Mobile Actions */}
             <div className="flex items-center gap-1.5 md:hidden">
-              <button onClick={() => navigate('/search')} className="p-2 text-slate-600 hover:bg-slate-50/80 rounded-full transition-colors">
+              <button onClick={() => setIsSearchOverlayOpen(true)} className="p-2 text-slate-600 hover:bg-slate-50/80 rounded-full transition-colors">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" /></svg>
               </button>
 
@@ -461,6 +474,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <GlobalSearchOverlay isOpen={isSearchOverlayOpen} onClose={() => setIsSearchOverlayOpen(false)} />
     </nav>
   );
 };

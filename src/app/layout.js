@@ -4,6 +4,8 @@ import config from "../config";
 import Providers from "../components/Providers";
 import ScrollProgress from "../components/UI/ScrollProgress";
 import { ToastProvider } from "../context/ToastContext";
+import CustomCursor from "../components/UI/CustomCursor";
+import FloatingHearts from "../components/UI/FloatingHearts";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -33,6 +35,8 @@ export default function RootLayout({ children }) {
         <Providers>
           <ToastProvider>
             <ScrollProgress />
+            <CustomCursor />
+            <FloatingHearts />
             {children}
           </ToastProvider>
         </Providers>
