@@ -1,8 +1,10 @@
 import config from '../config';
 
+import { getProducts, getCategories } from '@/lib/data';
+
 export default async function sitemap() {
     const baseUrl = 'https://www.coolcache.app'; // Or strict config.api.baseUrl if it matches frontend
-    const apiBase = config.api.baseUrl;
+    // const apiBase = config.api.baseUrl; // No longer needed for internal fetch
 
     // Static routes
     const routes = [
@@ -21,8 +23,7 @@ export default async function sitemap() {
 
     try {
         // Fetch categories
-        const categoriesRes = await fetch(`${apiBase}/api/products/categories`);
-        const categoriesData = await categoriesRes.json();
+        const categoriesData = await getCategories();
         const categories = categoriesData.categories || [];
 
         const categoryUrls = categories.map((cat) => ({
@@ -35,8 +36,7 @@ export default async function sitemap() {
         // Fetch products
         // Note: Fetching all products might be heavy. Ideally paginate or use a specialized sitemap endpoint.
         // For now, we fetch the first 100 or so, assuming the API supports a limit.
-        const productsRes = await fetch(`${apiBase}/api/products?page=1&pageSize=1000`);
-        const productsData = await productsRes.json();
+        const productsData = await getProducts({ limit: 1000, page: 1 });
         const products = productsData.products || [];
 
         const productUrls = products.map((product) => ({

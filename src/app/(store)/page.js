@@ -10,23 +10,15 @@ export const metadata = {
     description: config.description,
 };
 
+import { getProducts, getCategories } from '@/lib/data';
+
 async function getData() {
     try {
-        const base = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
-
-        // Parallel Fetch for Performance
-        const [productsRes, categoriesRes] = await Promise.all([
-            fetch(`${base}/api/products?limit=24&sort=featured`, { next: { revalidate: 60 } }),
-            fetch(`${base}/api/products/categories`, { next: { revalidate: 3600 } })
+        // Parallel Fetch for Performance using direct DB calls
+        const [productsData, categoriesData] = await Promise.all([
+            getProducts({ limit: 24, sort: 'featured' }),
+            getCategories()
         ]);
-
-        if (!productsRes.ok || !categoriesRes.ok) {
-            console.error('Failed to fetch initial data');
-            return { productsData: null, categoriesData: null };
-        }
-
-        const productsData = await productsRes.json();
-        const categoriesData = await categoriesRes.json();
 
         return { productsData, categoriesData };
     } catch (e) {

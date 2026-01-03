@@ -3,65 +3,23 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { Buffer } from 'buffer';
+import { getProducts } from '@/lib/data';
 
 export async function GET(request) {
     try {
-        await dbConnect();
         const { searchParams } = new URL(request.url);
-        const category = searchParams.get('category');
-        const sort = searchParams.get('sort');
-        const q = searchParams.get('q');
-        const limit = parseInt(searchParams.get('limit')) || 100;
-        const showHidden = searchParams.get('showHidden') === 'true';
 
-        let query = {};
+        const filters = {
+            category: searchParams.get('category'),
+            sort: searchParams.get('sort'),
+            q: searchParams.get('q'),
+            limit: searchParams.get('limit'),
+            showHidden: searchParams.get('showHidden') === 'true'
+        };
 
-        // Visibility Filter (Default: Only show visible)
-        if (!showHidden) {
-            query.isVisible = true;
-        }
+        const result = await getProducts(filters);
 
-        // Filter by Category
-        if (category && category !== 'All') {
-            const decodedCategory = decodeURIComponent(category).toLowerCase();
-            // Match any element in the array that matches regex
-            query.category = { $elemMatch: { $regex: new RegExp(`^${decodedCategory}$`, 'i') } };
-            // Note: If category is stored as array of strings, simple regex also works:
-            // query.category = { $regex: new RegExp(`^${decodedCategory}$`, 'i') }; 
-            // Mongoose applies it to elements. But let's stick to simple regex on the field which Mongoose forwards.
-            query.category = { $regex: new RegExp(`^${decodedCategory}$`, 'i') };
-        }
-
-        // Filter by Search Query
-        if (q) {
-            query.$or = [
-                { title: { $regex: q, $options: 'i' } },
-                { description: { $regex: q, $options: 'i' } },
-            ];
-        }
-
-        let productsQuery = Product.find(query).limit(limit);
-
-        // Sorting
-        if (sort === 'priceAsc') {
-            productsQuery = productsQuery.sort({ price: 1 });
-        } else if (sort === 'priceDesc') {
-            productsQuery = productsQuery.sort({ price: -1 });
-        } else if (sort === 'newest') {
-            productsQuery = productsQuery.sort({ createdAt: -1 });
-        } else {
-            productsQuery = productsQuery.sort({ isFeatured: -1, createdAt: -1 });
-        }
-
-        const products = await productsQuery.exec();
-        const total = await Product.countDocuments(query);
-
-        return NextResponse.json({
-            products,
-            total,
-            page: 1,
-            totalPages: 1
-        });
+        return NextResponse.json(result);
 
     } catch (error) {
         console.error('API Error:', error);
