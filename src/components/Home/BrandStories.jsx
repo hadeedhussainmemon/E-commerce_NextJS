@@ -105,7 +105,7 @@ export default function BrandStories({ products = [] }) {
                             onClick={() => openStory(story)}
                             className="flex flex-col items-center gap-3 group shrink-0"
                         >
-                            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-[3px] bg-gradient-to-tr from-emerald-500 via-teal-400 to-indigo-500 active:scale-95 transition-all group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] group-hover:-translate-y-1">
+                            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-[3px] bg-gradient-to-tr from-emerald-500 via-teal-400 to-indigo-500 active:scale-95 transition-all group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] group-hover:-translate-y-1">
                                 <div className="w-full h-full rounded-full border-[3px] border-white overflow-hidden bg-slate-50 relative flex items-center justify-center">
                                     {story.image && !story.image.includes('placeholder') ? (
                                         <Image
@@ -124,7 +124,7 @@ export default function BrandStories({ products = [] }) {
                                     )}
                                 </div>
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-emerald-500 transition-colors w-20 sm:w-24 truncate text-center">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-emerald-500 transition-colors w-28 sm:w-32 truncate text-center">
                                 {story.title}
                             </span>
                         </button>
