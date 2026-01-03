@@ -98,57 +98,83 @@ export default function BrandStories({ products = [] }) {
                 </div>
 
                 {/* Story Cards - Facebook Style */}
-                <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide px-2">
-                    {stories.map((story) => (
-                        <button
-                            key={story.id}
-                            onClick={() => openStory(story)}
-                            className="relative shrink-0 w-32 h-48 sm:w-36 sm:h-56 rounded-2xl overflow-hidden group active:scale-95 transition-all shadow-lg hover:shadow-xl"
-                        >
-                            {/* Background Image */}
-                            {story.image && !story.image.includes('placeholder') ? (
-                                <Image
-                                    src={story.image}
-                                    alt={story.title}
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                                    unoptimized={true}
-                                />
-                            ) : (
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600" />
-                            )}
+                <div className="relative">
+                    {/* Previous Arrow */}
+                    <button
+                        onClick={() => {
+                            const container = document.getElementById('stories-scroll');
+                            if (container) container.scrollBy({ left: -300, behavior: 'smooth' });
+                        }}
+                        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 active:scale-95"
+                        aria-label="Previous stories"
+                    >
+                        <ChevronLeft className="w-6 h-6 text-slate-700" />
+                    </button>
 
-                            {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
+                    {/* Next Arrow */}
+                    <button
+                        onClick={() => {
+                            const container = document.getElementById('stories-scroll');
+                            if (container) container.scrollBy({ left: 300, behavior: 'smooth' });
+                        }}
+                        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 active:scale-95"
+                        aria-label="Next stories"
+                    >
+                        <ChevronRight className="w-6 h-6 text-slate-700" />
+                    </button>
 
-                            {/* Ring Border (like unread story) */}
-                            <div className="absolute inset-0 rounded-2xl ring-4 ring-emerald-500 ring-offset-2 ring-offset-white group-hover:ring-emerald-400 transition-all" />
-
-                            {/* Title at Bottom */}
-                            <div className="absolute bottom-3 left-3 right-3">
-                                <p className="text-white font-bold text-xs leading-tight drop-shadow-lg line-clamp-2">
-                                    {story.title}
-                                </p>
-                            </div>
-
-                            {/* Small Circle Avatar at Top */}
-                            <div className="absolute top-3 left-3 w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-lg">
+                    <div id="stories-scroll" className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide px-2 scroll-smooth">
+                        {stories.map((story) => (
+                            <button
+                                key={story.id}
+                                onClick={() => openStory(story)}
+                                className="relative shrink-0 w-36 h-64 sm:w-40 sm:h-72 rounded-2xl overflow-hidden group active:scale-95 transition-all shadow-lg hover:shadow-xl"
+                            >
+                                {/* Background Image */}
                                 {story.image && !story.image.includes('placeholder') ? (
                                     <Image
                                         src={story.image}
                                         alt={story.title}
                                         fill
-                                        className="object-cover"
+                                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                                         unoptimized={true}
                                     />
                                 ) : (
-                                    <div className="w-full h-full bg-emerald-600 flex items-center justify-center text-white text-xs font-black">
-                                        {story.title.charAt(0)}
-                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600" />
                                 )}
-                            </div>
-                        </button>
-                    ))}
+
+                                {/* Gradient Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
+
+                                {/* Ring Border (like unread story) */}
+                                <div className="absolute inset-0 rounded-2xl ring-4 ring-emerald-500 ring-offset-2 ring-offset-white group-hover:ring-emerald-400 transition-all" />
+
+                                {/* Title at Bottom */}
+                                <div className="absolute bottom-3 left-3 right-3">
+                                    <p className="text-white font-bold text-xs leading-tight drop-shadow-lg line-clamp-2">
+                                        {story.title}
+                                    </p>
+                                </div>
+
+                                {/* Small Circle Avatar at Top */}
+                                <div className="absolute top-3 left-3 w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-lg">
+                                    {story.image && !story.image.includes('placeholder') ? (
+                                        <Image
+                                            src={story.image}
+                                            alt={story.title}
+                                            fill
+                                            className="object-cover"
+                                            unoptimized={true}
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-emerald-600 flex items-center justify-center text-white text-xs font-black">
+                                            {story.title.charAt(0)}
+                                        </div>
+                                    )}
+                                </div>
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
