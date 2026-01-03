@@ -4,8 +4,13 @@ import getImageUrl from '../../utils/imageUrl';
 import PushToggle from '../Notifications/PushToggle';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import { triggerPremiumFeedback } from '../../utils/feedback';
 
 export default function OrderSuccess({ order, onClose }) {
+  useEffect(() => {
+    // Trigger the Zenith success response
+    triggerPremiumFeedback('success', 'heavy');
+  }, []);
   useEffect(() => {
     // Premium Confetti Blast
     const duration = 3 * 1000;

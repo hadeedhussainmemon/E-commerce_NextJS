@@ -93,6 +93,63 @@ const SEO = ({
       document.head.appendChild(nextLink);
     }
 
+    // Inject Product-specific JSON-LD if technical type is 'product'
+    if (type === 'product' && !document.getElementById('structured-data-product')) {
+      const productLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        'name': title.split('|')[0].trim(),
+        'description': description,
+        'image': image,
+        'offers': {
+          '@type': 'Offer',
+          'url': canonical,
+          'priceCurrency': 'PKR',
+          'price': '3999', // Fallback or dynamic value
+          'availability': 'https://schema.org/InStock'
+        },
+        'brand': {
+          '@type': 'Brand',
+          'name': 'Vanguard'
+        }
+      };
+
+      const script = document.createElement('script');
+      script.id = 'structured-data-product';
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(productLd);
+      document.head.appendChild(script);
+    }
+
+    // Inject Breadcrumb JSON-LD
+    if (!document.getElementById('structured-data-breadcrumb')) {
+      const paths = pathname.split('/').filter(Boolean);
+      const breadcrumbList = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': config.api.baseUrl
+          },
+          ...paths.map((p, i) => ({
+            '@type': 'ListItem',
+            'position': i + 2,
+            'name': p.charAt(0).toUpperCase() + p.slice(1),
+            'item': `${config.api.baseUrl}/${paths.slice(0, i + 1).join('/')}`
+          }))
+        ]
+      };
+
+      const script = document.createElement('script');
+      script.id = 'structured-data-breadcrumb';
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(breadcrumbList);
+      document.head.appendChild(script);
+    }
+
     // Inject global Organization + WebSite (SearchAction) structured data only once
     if (!document.getElementById('structured-data-global')) {
       const orgLd = {

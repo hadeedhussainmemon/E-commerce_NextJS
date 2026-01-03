@@ -24,6 +24,8 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
+  const [scrollContextTitle, setScrollContextTitle] = useState("");
+  const [showScrollTitle, setShowScrollTitle] = useState(false);
 
 
   const navigate = (path) => router.push(path);
@@ -32,14 +34,32 @@ const Navbar = () => {
   const wishlistCount = wishlistItems.length;
   const [navSearch, setNavSearch] = useState("");
 
-  // Handle scroll for glass header
+  // Handle scroll for glass header and identity morph
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+
+      // Threshold for title morph (past hero)
+      setShowScrollTitle(window.scrollY > 600);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Update context title based on route/content
+  useEffect(() => {
+    if (pathname === "/") setScrollContextTitle("Home Marketplace");
+    else if (pathname.startsWith("/category/")) {
+      const cat = pathname.split("/").pop();
+      setScrollContextTitle(cat.charAt(0).toUpperCase() + cat.slice(1));
+    }
+    else if (pathname === "/cart") setScrollContextTitle("Shopping Bag");
+    else if (pathname === "/wishlist") setScrollContextTitle("Saved Items");
+    else if (pathname === "/new-arrivals") setScrollContextTitle("New Releases");
+    else if (pathname === "/my-orders") setScrollContextTitle("Order Nexus");
+    else setScrollContextTitle(config.appName);
+  }, [pathname]);
 
   // Memoized close handler
   const closeMenu = useCallback(() => setIsOpen(false), []);
@@ -182,13 +202,42 @@ const Navbar = () => {
                     priority
                   />
                 </div>
-                <div className="hidden sm:flex sm:flex-col justify-center">
-                  <span className="font-display text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-none group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-teal-600 transition-all duration-300">
-                    {config.appName}
-                  </span>
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold group-hover:text-emerald-500 transition-colors leading-tight mt-0.5">
-                    {config.tagline || 'Store'}
-                  </span>
+                <div className="hidden sm:flex sm:flex-col justify-center min-w-[120px]">
+                  <AnimatePresence mode="wait">
+                    {!showScrollTitle ? (
+                      <motion.div
+                        key="brand"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <span className="font-display text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-none group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-teal-600 transition-all duration-300">
+                          {config.appName}
+                        </span>
+                        <span className="block text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold group-hover:text-emerald-500 transition-colors leading-tight mt-0.5">
+                          {config.tagline || 'Store'}
+                        </span>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="context"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex flex-col"
+                      >
+                        <span className="font-display text-lg font-black text-emerald-600 tracking-tighter leading-none">
+                          {scrollContextTitle}
+                        </span>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Active Section</span>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </Link>
             </div>

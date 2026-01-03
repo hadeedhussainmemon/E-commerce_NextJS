@@ -112,6 +112,9 @@ const Hero = ({ images = null, interval = 4000 }) => {
 
       {/* Cinema Background (Abstract Shapes) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Technical Data Grid Overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#10b981 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
+
         <motion.div
           style={{ x: bgX, y: bgY }}
           animate={{
@@ -140,54 +143,74 @@ const Hero = ({ images = null, interval = 4000 }) => {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="w-full h-[50vh] sm:h-[60vh] md:h-[550px] relative overflow-hidden md:rounded-[2.5rem] md:shadow-2xl md:shadow-emerald-900/10 border border-white/5">
+          <div className="w-full h-[50vh] sm:h-[60vh] md:h-[620px] relative overflow-hidden md:rounded-[3rem] md:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/10">
             <div className="flex flex-col md:flex-row h-full">
               {/* Left Content (Desktop) */}
-              <div className="hidden md:flex w-3/5 items-center p-12 lg:p-16 bg-slate-900/40 backdrop-blur-sm">
+              <div className="hidden md:flex w-3/5 items-center p-12 lg:p-20 bg-slate-950/40 backdrop-blur-md">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={index}
-                    style={{ x: xParallax, y: yParallax }}
+                    style={{ x: useSpring(useTransform(mouseX, [-0.5, 0.5], [-35, 35])), y: useSpring(useTransform(mouseY, [-0.5, 0.5], [-35, 35])) }}
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 30 }}
-                    transition={{ duration: 0.6, ease: "circOut" }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-lg"
                   >
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6"
+                      className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-emerald-500/5 border border-emerald-500/20 text-emerald-400 text-[9px] font-black uppercase tracking-[0.3em] mb-8"
                     >
-                      <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
-                      Limited Collection
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                      System Online: Operational Zenith
                     </motion.div>
-                    <h1 className="text-5xl lg:text-8xl font-display font-black leading-[0.95] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] tracking-tighter">
+
+                    <h1 className="text-6xl lg:text-[7.5rem] font-display font-black leading-[0.85] text-white drop-shadow-[0_20px_50px_rgba(0,0,0,0.6)] tracking-tighter mb-8">
                       {config.tagline.split(' ').map((word, i) => (
-                        <span key={i} className={i === 1 ? "text-emerald-500" : ""}>{word} </span>
+                        <motion.span
+                          key={i}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.1 * i, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                          className={`${i === 1 ? "text-emerald-500" : ""} block`}
+                        >
+                          {word}
+                        </motion.span>
                       ))}
                     </h1>
-                    <p className="mt-8 text-xl text-slate-300 leading-relaxed font-medium drop-shadow-lg max-w-md">
+
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.7 }}
+                      transition={{ delay: 0.6 }}
+                      className="text-lg text-slate-300 leading-relaxed font-medium max-w-sm mb-12 border-l-2 border-emerald-500/30 pl-6"
+                    >
                       {config.description}
-                    </p>
-                    <div className="mt-12 flex flex-wrap items-center gap-8">
+                    </motion.p>
+
+                    <div className="flex flex-wrap items-center gap-10">
                       <motion.a
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.98 }}
+                        whileHover={{ scale: 1.05, filter: "brightness(1.1)" }}
+                        whileTap={{ scale: 0.95 }}
                         href="#products"
-                        className="px-10 py-5 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-[2rem] shadow-2xl shadow-emerald-900/40 transition-all flex items-center gap-3 group uppercase text-xs tracking-[0.2em]"
+                        className="px-12 py-6 bg-emerald-600 text-white font-black rounded-2xl shadow-[0_20px_40px_-10px_rgba(16,185,129,0.3)] transition-all flex items-center gap-4 group uppercase text-[10px] tracking-[0.3em] ring-1 ring-emerald-400/20"
                       >
                         Initiate Store
                         <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                       </motion.a>
-                      <button className="flex items-center gap-4 group">
-                        <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center bg-white/5 backdrop-blur-md relative group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-all duration-500">
-                          <div className="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping opacity-0 group-hover:opacity-100 transition-opacity" />
-                          <svg className="w-5 h-5 text-white group-hover:text-emerald-500 transition-colors fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+
+                      <button className="flex items-center gap-5 group">
+                        <div className="w-16 h-16 rounded-2xl border border-white/10 flex items-center justify-center bg-white/5 backdrop-blur-xl relative group-hover:bg-emerald-500/10 group-hover:border-emerald-500/40 transition-all duration-700">
+                          <div className="absolute inset-0 rounded-2xl bg-emerald-500/20 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <svg className="w-6 h-6 text-white group-hover:text-emerald-500 transition-colors fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                         </div>
                         <div className="text-left">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-emerald-500 transition-colors">Visual Archive</p>
+                          <p className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 group-hover:text-emerald-500 transition-colors mb-1">Visual Archive</p>
                           <p className="text-sm font-bold text-white uppercase tracking-tight">Watch Identity</p>
                         </div>
                       </button>
@@ -201,10 +224,10 @@ const Hero = ({ images = null, interval = 4000 }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, scale: 1.1, rotate: 1 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0.5, scale: 0.95 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ opacity: 0, scale: 1.15, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0.3, scale: 0.9, filter: "blur(20px)" }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute inset-0"
                   >
                     <Image
@@ -212,46 +235,51 @@ const Hero = ({ images = null, interval = 4000 }) => {
                       alt={config.appName}
                       fill
                       priority
-                      className="object-cover"
+                      className="object-cover transition-transform duration-[10s] ease-linear hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent md:bg-gradient-to-l" />
+                    {/* Multi-layer Gradient for depth */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent md:bg-gradient-to-l" />
+                    <div className="absolute inset-0 bg-emerald-500/5 mix-blend-overlay" />
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Mobile Overlay */}
-                <div className="md:hidden absolute inset-0 z-20 flex flex-col justify-end p-8 bg-gradient-to-t from-slate-950/80 via-slate-950/40 to-transparent">
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="w-full text-center sm:text-left"
-                  >
-                    <h2 className="text-3xl font-display font-black text-white leading-[1.1] mb-2">
-                      Everything in <span className="text-emerald-500">one cart</span>
-                    </h2>
-                    <p className="text-slate-300 text-xs font-medium mb-6 leading-relaxed px-4 sm:px-0">
-                      Electronics, luxury watches, and curated finds — premium quality at your fingertips.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-3 px-4 sm:px-0">
-                      <a href="#products" className="flex-1 bg-white text-slate-900 h-12 rounded-2xl flex items-center justify-center font-black shadow-xl active:scale-95 transition-transform text-sm">
-                        Shop Collection
-                      </a>
-                      <button className="flex-1 bg-emerald-600/20 backdrop-blur-md text-emerald-400 h-12 rounded-2xl flex items-center justify-center font-bold border border-emerald-500/30 text-sm">
-                        Discover More
-                      </button>
-                    </div>
-                  </motion.div>
+                {/* Mobile Identity Overlay */}
+                <div className="md:hidden absolute inset-0 z-20 flex flex-col justify-end p-10 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className="w-full"
+                    >
+                      <h2 className="text-4xl font-display font-black text-white leading-[0.9] mb-4 tracking-tighter">
+                        Everything in <span className="text-emerald-500">Zenith</span>
+                      </h2>
+                      <p className="text-slate-400 text-sm font-medium mb-8 leading-relaxed">
+                        Curated horology and lifestyle technology for the elite connoisseur.
+                      </p>
+                      <div className="flex flex-col gap-4">
+                        <a href="#products" className="w-full bg-white text-slate-900 h-14 rounded-2xl flex items-center justify-center font-black shadow-2xl active:scale-95 transition-transform text-xs tracking-widest uppercase">
+                          Shop Collection
+                        </a>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
 
-                {/* Index Indicators */}
-                <div className="absolute bottom-6 right-6 z-30 flex gap-2">
+                {/* Technical Index Indicators */}
+                <div className="absolute bottom-10 right-10 z-30 flex flex-col gap-3">
                   {slidesToShow.map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setIndex(i)}
-                      className="group p-2"
+                      className="group flex items-center gap-4 py-1"
                     >
-                      <div className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'w-8 bg-emerald-500' : 'w-4 bg-white/20 group-hover:bg-white/40'}`} />
+                      <span className={`text-[9px] font-black transition-all ${i === index ? 'text-emerald-500 translate-x-0 opacity-100' : 'text-white/20 -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0'}`}>
+                        0{i + 1}
+                      </span>
+                      <div className={`h-1 cursor-pointer transition-all duration-500 rounded-full ${i === index ? 'w-12 bg-emerald-500' : 'w-4 bg-white/10 group-hover:bg-white/30'}`} />
                     </button>
                   ))}
                 </div>

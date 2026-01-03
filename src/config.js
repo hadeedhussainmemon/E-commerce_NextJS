@@ -1,16 +1,16 @@
 /**
- * Global Configuration for HH Store Template (Next.js Version)
+ * Global Configuration for Vanguard E-commerce Platform
  * Change values here to update the entire application.
  */
 
 const config = {
     // Branding
-    appName: "HH Store",
-    appShortName: "HH Store", // Used in mobile view or small spaces
+    appName: "Vanguard",
+    appShortName: "Vanguard", // Used in mobile view or small spaces
     // Signature: base64(Hadeed Hussain Memon)
     _sig: "SGFkZWVkIEh1c3NhaW4gTWVtb24=",
-    tagline: "Premium Neutral E-commerce Template",
-    description: "A neutral, customizable e-commerce template ready for your API.",
+    tagline: "Everything in one cart",
+    description: "Premium watches, electronics, and curated lifestyle products for the modern connoisseur.",
 
     // SEO & Socials
     socials: {
