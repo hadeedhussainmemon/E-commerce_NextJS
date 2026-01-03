@@ -31,14 +31,13 @@ const Hero = ({ images = null, interval = 4000 }) => {
     const { left, top, width, height } = heroRef.current.getBoundingClientRect();
     const x = (e.clientX - left) / width - 0.5;
     const y = (e.clientY - top) / height - 0.5;
-    mouseX.set(x);
-    mouseY.set(y);
+    mouseX.set(x * 20); // Reduced from 35 to 20
+    mouseY.set(y * 20);
   };
 
-  const xParallax = useSpring(useTransform(mouseX, [-0.5, 0.5], [-20, 20]), { stiffness: 100, damping: 30 });
-  const yParallax = useSpring(useTransform(mouseY, [-0.5, 0.5], [-20, 20]), { stiffness: 100, damping: 30 });
-  const bgX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-50, 50]), { stiffness: 50, damping: 20 });
-  const bgY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-50, 50]), { stiffness: 50, damping: 20 });
+  // Simplified parallax - no springs for better performance
+  const xParallax = useTransform(mouseX, (v) => v);
+  const yParallax = useTransform(mouseY, (v) => v);
   // slidesToShow will contain only images that successfully load.
   const [slidesToShow, setSlidesToShow] = useState([]);
   const candidateSlides = images && images.length ? images : defaultImages;
@@ -112,29 +111,12 @@ const Hero = ({ images = null, interval = 4000 }) => {
 
       {/* Cinema Background (Abstract Shapes) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Technical Data Grid Overlay */}
+        {/* Technical Grid Overlay */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#10b981 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
 
-        <motion.div
-          style={{ x: bgX, y: bgY }}
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            opacity: [0.1, 0.15, 0.1]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/2 -left-1/4 w-full h-full bg-emerald-500/10 rounded-full blur-[40px] gpu-accelerated"
-        />
-        <motion.div
-          style={{ x: useTransform(bgX, v => -v), y: useTransform(bgY, v => -v) }}
-          animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, -45, 0],
-            opacity: [0.05, 0.1, 0.05]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/2 -right-1/4 w-full h-full bg-indigo-500/10 rounded-full blur-[40px] gpu-accelerated"
-        />
+        {/* Simplified static gradients - no animation for performance */}
+        <div className="absolute -top-1/2 -left-1/4 w-full h-full bg-emerald-500/10 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-1/2 -right-1/4 w-full h-full bg-indigo-500/5 rounded-full blur-[100px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -150,7 +132,7 @@ const Hero = ({ images = null, interval = 4000 }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={index}
-                    style={{ x: useSpring(useTransform(mouseX, [-0.5, 0.5], [-35, 35])), y: useSpring(useTransform(mouseY, [-0.5, 0.5], [-35, 35])) }}
+                    style={{ x: xParallax, y: yParallax }}
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 30 }}

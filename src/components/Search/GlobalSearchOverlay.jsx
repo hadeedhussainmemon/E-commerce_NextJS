@@ -76,7 +76,7 @@ export default function GlobalSearchOverlay({ isOpen, onClose }) {
         localStorage.setItem('recentSearches', JSON.stringify(newRecent));
 
         triggerPremiumFeedback('success', 'light');
-        router.push(`/?q=${encodeURIComponent(query)}`);
+        router.push(`/search?q=${encodeURIComponent(query)}`);
         onClose();
     };
 
