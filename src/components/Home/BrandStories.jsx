@@ -97,36 +97,56 @@ export default function BrandStories({ products = [] }) {
                     </h3>
                 </div>
 
-                {/* Story Circles */}
-                <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide px-2">
+                {/* Story Cards - Facebook Style */}
+                <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide px-2">
                     {stories.map((story) => (
                         <button
                             key={story.id}
                             onClick={() => openStory(story)}
-                            className="flex flex-col items-center gap-3 group shrink-0"
+                            className="relative shrink-0 w-32 h-48 sm:w-36 sm:h-56 rounded-2xl overflow-hidden group active:scale-95 transition-all shadow-lg hover:shadow-xl"
                         >
-                            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-[3px] bg-gradient-to-tr from-emerald-500 via-teal-400 to-indigo-500 active:scale-95 transition-all group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] group-hover:-translate-y-1">
-                                <div className="w-full h-full rounded-full border-[3px] border-white overflow-hidden bg-slate-50 relative flex items-center justify-center">
-                                    {story.image && !story.image.includes('placeholder') ? (
-                                        <Image
-                                            src={story.image}
-                                            alt={story.title}
-                                            fill
-                                            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                                            unoptimized={true}
-                                        />
-                                    ) : (
-                                        <div className="text-center p-2">
-                                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-tighter leading-none block">
-                                                {story.title.split(' ').slice(0, 2).join('\n')}
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
+                            {/* Background Image */}
+                            {story.image && !story.image.includes('placeholder') ? (
+                                <Image
+                                    src={story.image}
+                                    alt={story.title}
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                                    unoptimized={true}
+                                />
+                            ) : (
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600" />
+                            )}
+
+                            {/* Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
+
+                            {/* Ring Border (like unread story) */}
+                            <div className="absolute inset-0 rounded-2xl ring-4 ring-emerald-500 ring-offset-2 ring-offset-white group-hover:ring-emerald-400 transition-all" />
+
+                            {/* Title at Bottom */}
+                            <div className="absolute bottom-3 left-3 right-3">
+                                <p className="text-white font-bold text-xs leading-tight drop-shadow-lg line-clamp-2">
+                                    {story.title}
+                                </p>
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-emerald-500 transition-colors w-28 sm:w-32 truncate text-center">
-                                {story.title}
-                            </span>
+
+                            {/* Small Circle Avatar at Top */}
+                            <div className="absolute top-3 left-3 w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-lg">
+                                {story.image && !story.image.includes('placeholder') ? (
+                                    <Image
+                                        src={story.image}
+                                        alt={story.title}
+                                        fill
+                                        className="object-cover"
+                                        unoptimized={true}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-emerald-600 flex items-center justify-center text-white text-xs font-black">
+                                        {story.title.charAt(0)}
+                                    </div>
+                                )}
+                            </div>
                         </button>
                     ))}
                 </div>
