@@ -39,6 +39,14 @@ const ProductSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    isVisible: {
+        type: Boolean,
+        default: true,
+    },
+    images: {
+        type: [String],
+        default: [],
+    },
     createdAt: {
         type: Date,
         default: Date.now,

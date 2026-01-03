@@ -21,10 +21,12 @@ const productSchema = new mongoose.Schema({
     price: Number,
     salePrice: Number,
     category: String,
+    image: String,
     images: [String],
     slug: { type: String, unique: true },
     stock: Number,
     isFeatured: Boolean,
+    isVisible: Boolean,
     createdAt: { type: Date, default: Date.now }
 });
 
@@ -56,6 +58,12 @@ function generateSlug(title) {
 function scanAndGenerateProducts() {
     const baseDir = path.resolve(__dirname, '../public/images/products');
     const products = [];
+
+    if (!fs.existsSync(baseDir)) {
+        console.error(`Directory not found: ${baseDir}`);
+        return [];
+    }
+
     const folders = fs.readdirSync(baseDir).filter(file => fs.statSync(path.join(baseDir, file)).isDirectory());
 
     folders.forEach(folder => {
@@ -65,21 +73,23 @@ function scanAndGenerateProducts() {
 
         files.forEach(file => {
             const title = formatTitle(file);
-            // Higher price for certain categories
             const basePrice = ['Electronics', 'Watches'].includes(categoryName) ? 5000 : 1000;
             const price = Math.floor(Math.random() * 5000) + basePrice;
             const isSale = Math.random() > 0.7;
+            const imagePath = `/images/products/${folder}/${file}`;
 
             products.push({
                 title: title,
                 description: `Experience the premium quality of our ${title}. This item from our ${categoryName} collection is designed with attention to detail and style. Perfect for yourself or as a gift.`,
                 price: price,
-                salePrice: isSale ? Math.floor(price * 0.85) : null, // 15% off if on sale
+                salePrice: isSale ? Math.floor(price * 0.85) : null,
                 category: categoryName,
-                images: [`/images/products/${folder}/${file}`],
+                image: imagePath,
+                images: [imagePath],
                 slug: generateSlug(title),
-                stock: Math.floor(Math.random() * 100) + 5, // At least 5 in stock
+                stock: Math.floor(Math.random() * 100) + 5,
                 isFeatured: Math.random() > 0.85,
+                isVisible: true
             });
         });
     });
