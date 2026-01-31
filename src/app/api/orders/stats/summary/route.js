@@ -1,25 +1,53 @@
-
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
+import { jwtVerify } from 'jose';
 
-export async function GET() {
+const SECRET_KEY = new TextEncoder().encode(
+    process.env.JWT_SECRET || 'your-fallback-secret-key-change-this-in-prod'
+);
+
+export async function GET(request) {
     try {
         await dbConnect();
 
-        const totalOrders = await Order.countDocuments();
+        // Auth check
+        const token = request.cookies.get('adminToken')?.value || request.headers.get('authorization')?.split(' ')[1];
+        if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        // Revenue (Sum of total field)
-        const revenueAgg = await Order.aggregate([
-            { $group: { _id: null, total: { $sum: "$total" } } }
-        ]);
-        const totalRevenue = revenueAgg[0]?.total || 0;
+        const { payload } = await jwtVerify(token, SECRET_KEY);
 
-        const pendingOrders = await Order.countDocuments({ status: 'Pending' });
-        const deliveredOrders = await Order.countDocuments({ status: 'Delivered' });
+        let query = {};
+        if (payload.role === 'seller') {
+            query['items.sellerId'] = payload.id;
+        }
 
-        // Mock Monthly Sales for Chart (Dynamic based on generic data)
-        // In a real app, you would aggregate by createdAt date
+        const totalOrders = await Order.countDocuments(query);
+
+        // Revenue (Sum of items matching sellerId)
+        let totalRevenue = 0;
+        if (payload.role === 'seller') {
+            const revenueAgg = await Order.aggregate([
+                { $match: { 'items.sellerId': payload.id } },
+                { $unwind: "$items" },
+                { $match: { 'items.sellerId': payload.id } },
+                { $group: { _id: null, total: { $sum: { $multiply: ["$items.price", "$items.quantity"] } } } }
+            ]);
+            totalRevenue = revenueAgg[0]?.total || 0;
+        } else {
+            const revenueAgg = await Order.aggregate([
+                { $group: { _id: null, total: { $sum: "$total" } } }
+            ]);
+            totalRevenue = revenueAgg[0]?.total || 0;
+        }
+
+        const pendingOrders = await Order.countDocuments({ ...query, status: 'pending' });
+        const confirmedOrders = await Order.countDocuments({ ...query, status: 'confirmed' });
+        const processingOrders = await Order.countDocuments({ ...query, status: 'processing' });
+        const shippedOrders = await Order.countDocuments({ ...query, status: 'shipped' });
+        const deliveredOrders = await Order.countDocuments({ ...query, status: 'delivered' });
+        const cancelledOrders = await Order.countDocuments({ ...query, status: 'cancelled' });
+
         const monthlySales = [
             { name: 'Jan', value: totalRevenue * 0.05 },
             { name: 'Feb', value: totalRevenue * 0.08 },
@@ -34,9 +62,13 @@ export async function GET() {
         return NextResponse.json({
             total: totalOrders,
             totalRevenue,
-            totalProfit: totalRevenue * 0.35, // Approx 35% margin
+            totalProfit: totalRevenue * 0.35,
             pending: pendingOrders,
+            confirmed: confirmedOrders,
+            processing: processingOrders,
+            shipped: shippedOrders,
             delivered: deliveredOrders,
+            cancelled: cancelledOrders,
             monthlySales
         });
 

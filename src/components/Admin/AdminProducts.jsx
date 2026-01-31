@@ -6,7 +6,7 @@ import AdminCoupons from './AdminCoupons';
 import config from '../../config';
 import AddProduct from './AddProduct';
 
-function AdminProducts() {
+function AdminProducts({ user }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,8 +26,13 @@ function AdminProducts() {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const apiUrl = API_BASE_URL ? `${API_BASE_URL} /api/products ? pageSize = 1000 & showHidden=true` : '/api/products?pageSize=1000&showHidden=true';
-      const response = await fetch(apiUrl);
+      const apiUrl = `/api/products?pageSize=1000&showHidden=true`;
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status} `);
       }
@@ -582,6 +587,7 @@ function AdminProducts() {
       {
         isAddModalOpen && (
           <AddProduct
+            user={user}
             onClose={() => {
               setIsAddModalOpen(false);
               setEditingProduct(null);

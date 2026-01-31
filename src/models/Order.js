@@ -18,6 +18,10 @@ const OrderSchema = new mongoose.Schema({
             quantity: Number,
             price: Number,
             color: String,
+            sellerId: {
+                type: String,
+                default: 'admin',
+            },
         },
     ],
     total: {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Ticket, Trash2, Plus, Calendar, AlertCircle, Percent, DollarSign, Loader, X, Tag, Copy, Check } from 'lucide-react';
 import config from '../../config';
 
-export default function AdminCoupons() {
+export default function AdminCoupons({ user }) {
     const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ export default function AdminCoupons() {
             const token = localStorage.getItem('adminToken');
             const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
 
-            const response = await fetch(`${API_BASE_URL}/api/coupons`, { headers });
+            const response = await fetch(`/api/coupons`, { headers });
             if (!response.ok) throw new Error('Failed to fetch coupons');
 
             const data = await response.json();
@@ -49,7 +49,7 @@ export default function AdminCoupons() {
             const token = localStorage.getItem('adminToken');
             const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
 
-            const response = await fetch(`${API_BASE_URL}/api/coupons/${id}`, {
+            const response = await fetch(`/api/coupons/${id}`, {
                 method: 'DELETE',
                 headers
             });
@@ -77,7 +77,7 @@ export default function AdminCoupons() {
                 usageLimit: formData.usageLimit || null // Send null if empty string
             };
 
-            const response = await fetch(`${API_BASE_URL}/api/coupons`, {
+            const response = await fetch(`/api/coupons`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify(payload)

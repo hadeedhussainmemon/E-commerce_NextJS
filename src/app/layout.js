@@ -1,4 +1,4 @@
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import config from "../config";
 import Providers from "../components/Providers";
@@ -17,15 +17,20 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
+
 export const metadata = {
   title: {
-    default: "Vanguard OS | Premium Digital Atelier",
-    template: "%s | Vanguard OS"
+    default: "Petal & Pup | Fashion & Lifestyle",
+    template: "%s | Petal & Pup"
   },
-  description: "Experience the zenith of digital curation. Vanguard OS provides a sanctuary for elite connoisseurs seeking masterpieces in horology, leather craft, and lifestyle technology.",
-  keywords: ["vanguard", "premium store", "luxury watches", "leather goods", "exclusive accessories"],
-  authors: [{ name: "Vanguard Engineering" }],
-  creator: "Vanguard OS",
+  description: "Curated collections for the modern lifestyle. Shop our latest arrivals in dresses, tops, and accessories.",
+  keywords: ["fashion", "clothing", "dresses", "lifestyle", "boutique"],
+  authors: [{ name: "Petal & Pup Team" }],
+  creator: "Petal & Pup",
   publisher: "Vanguard OS",
   formatDetection: {
     email: false,
@@ -51,13 +56,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${playfair.variable} antialiased bg-white text-slate-900`}
+        className={`${inter.variable} ${playfair.variable} ${montserrat.variable} antialiased bg-white text-gray-900 font-sans`}
       >
         <Providers>
           <ToastProvider>
             <ScrollProgress />
-            <NeuralCursor />
-            <FloatingHearts />
             {children}
           </ToastProvider>
         </Providers>

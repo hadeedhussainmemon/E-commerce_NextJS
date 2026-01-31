@@ -21,7 +21,7 @@ const StatsCard = ({ title, value, icon: Icon, color }) => (
     </div>
 );
 
-export default function AdminOverview({ onChangeSection }) {
+export default function AdminOverview({ onChangeSection, user }) {
     const [stats, setStats] = useState({
         totalRevenue: 0,
         totalProfit: 0,
@@ -32,10 +32,8 @@ export default function AdminOverview({ onChangeSection }) {
     });
     const [recentOrders, setRecentOrders] = useState([]);
     const [lowStockProducts, setLowStockProducts] = useState([]);
-    const [chartData, setChartData] = useState([]); // New chart data state
+    const [chartData, setChartData] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const API_BASE_URL = config.api.baseUrl;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,40 +41,36 @@ export default function AdminOverview({ onChangeSection }) {
                 const token = localStorage.getItem('adminToken');
                 const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
 
-                // Fetch Orders (for stats & recent)
-                // Note: In a real app, use dedicated stats endpoints. Here we fetch all/recent lists if needed or mock aggregation if endpoints missing.
-                // Re-using the summary endpoint seen in AdminOrders
-                const statsRes = await fetch(`${API_BASE_URL}/api/orders/stats/summary`, { headers });
+                // Fetch Summary Stats
+                const statsRes = await fetch(`/api/orders/stats/summary`, { headers });
                 const statsData = statsRes.ok ? await statsRes.json() : null;
 
-                // Fetch Recent Orders (First page)
-                const ordersRes = await fetch(`${API_BASE_URL}/api/orders?page=1&pageSize=5`, { headers });
-                const ordersData = ordersRes.ok ? await ordersRes.json() : [];
+                // Fetch Recent Orders
+                const ordersRes = await fetch(`/api/orders?page=1&pageSize=5`, { headers });
+                const ordersData = ordersRes.ok ? await ordersRes.json() : { orders: [] };
+                const orders = ordersData.orders || [];
 
-                // Fetch Products (for stock)
-                const prodRes = await fetch(`${API_BASE_URL}/api/products?pageSize=1000`);
-                const prodData = prodRes.ok ? await prodRes.json() : [];
+                // Fetch Products for stock alerts
+                const prodRes = await fetch(`/api/products?pageSize=1000&showHidden=true`, { headers });
+                const prodData = prodRes.ok ? await prodRes.json() : { products: [] };
                 const products = Array.isArray(prodData) ? prodData : prodData.products || [];
 
                 // Process Data
-                // Update process data logic
-                const lowStock = products.filter(p => p.stock < 5 && p.stock > 0);
-
-                // Sort monthly sales properly by month index if needed, or rely on backend
+                const lowStock = products.filter(p => p.stock < 10 && p.stock > 0);
                 const chartData = statsData?.monthlySales || [];
 
                 setStats({
                     totalRevenue: statsData?.totalRevenue || 0,
-                    totalProfit: statsData?.totalProfit || 0, // New field
-                    totalOrders: statsData?.total || 0, // Count of all non-cancelled orders
+                    totalProfit: statsData?.totalProfit || 0,
+                    totalOrders: statsData?.total || 0,
                     pendingOrders: statsData?.pending || 0,
                     totalProducts: products.length,
                     lowStockCount: lowStock.length
                 });
 
-                setRecentOrders(Array.isArray(ordersData) ? ordersData.slice(0, 5) : []);
+                setRecentOrders(orders.slice(0, 5));
                 setLowStockProducts(lowStock.slice(0, 5));
-                setChartData(chartData); // Need state for this
+                setChartData(chartData);
             } catch (error) {
                 console.error("Dashboard fetch error:", error);
             } finally {
@@ -85,7 +79,7 @@ export default function AdminOverview({ onChangeSection }) {
         };
 
         fetchData();
-    }, [API_BASE_URL]);
+    }, []);
 
     if (loading) {
         return (

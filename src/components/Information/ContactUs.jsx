@@ -11,72 +11,66 @@ export default function ContactUs() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setFormState('sending');
-        triggerPremiumFeedback('pop', 'medium');
 
         setTimeout(() => {
             setFormState('sent');
-            triggerPremiumFeedback('success', 'heavy');
         }, 2000);
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 pt-20">
-            <div className="max-w-7xl mx-auto px-6 py-20">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="min-h-screen bg-white pt-32 pb-24">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
                     {/* Info Column */}
-                    <div className="lg:col-span-5 space-y-12">
+                    <div className="lg:col-span-5 space-y-16">
                         <div>
-                            <motion.span
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="text-xs font-black text-emerald-500 uppercase tracking-[0.4em] mb-4 block"
-                            >
-                                Establish Connection
-                            </motion.span>
-                            <h1 className="text-5xl md:text-7xl font-playfair font-black text-white italic leading-tight">
-                                Reach the <br />
-                                <span className="text-emerald-500">Vanguard</span>
+                            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.4em] mb-6 block">
+                                Contact Us
+                            </span>
+                            <h1 className="font-fashion-serif text-5xl md:text-7xl italic font-black text-black leading-tight tracking-tighter">
+                                Let's Start A <br />
+                                Conversation
                             </h1>
                         </div>
 
-                        <div className="space-y-8">
-                            <div className="flex gap-6 group">
-                                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all">
-                                    <Mail className="text-emerald-500" />
+                        <div className="space-y-12">
+                            <div className="flex gap-8 group">
+                                <div className="w-12 h-12 border border-gray-100 flex items-center justify-center shrink-0 group-hover:border-black transition-all">
+                                    <Mail size={20} strokeWidth={1} />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Digital Protocol</p>
-                                    <p className="text-xl text-white font-bold tracking-tight">hello@vanguard-os.co</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Email Us</p>
+                                    <p className="text-xl text-black font-medium tracking-tight">hello@petalpluspup.com</p>
                                 </div>
                             </div>
 
-                            <div className="flex gap-6 group">
-                                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all">
-                                    <Phone className="text-emerald-500" />
+                            <div className="flex gap-8 group">
+                                <div className="w-12 h-12 border border-gray-100 flex items-center justify-center shrink-0 group-hover:border-black transition-all">
+                                    <Phone size={20} strokeWidth={1} />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Direct Line</p>
-                                    <p className="text-xl text-white font-bold tracking-tight">+1 (888) VANGUARD</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Call Us</p>
+                                    <p className="text-xl text-black font-medium tracking-tight">+1 (555) 000-0000</p>
                                 </div>
                             </div>
 
-                            <div className="flex gap-6 group">
-                                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all">
-                                    <MapPin className="text-emerald-500" />
+                            <div className="flex gap-8 group">
+                                <div className="w-12 h-12 border border-gray-100 flex items-center justify-center shrink-0 group-hover:border-black transition-all">
+                                    <MapPin size={20} strokeWidth={1} />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Main Atelier</p>
-                                    <p className="text-xl text-white font-bold tracking-tight">335 Vanguard Plaza, Metro City</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Visit Our Atelier</p>
+                                    <p className="text-xl text-black font-medium tracking-tight">123 Fashion Ave, Suite 456, New York</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="pt-12 border-t border-white/5">
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600 mb-6">Social Nodes</h4>
-                            <div className="flex gap-4">
-                                {[Twitter, Instagram, Facebook].map((Icon, i) => (
-                                    <button key={i} className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all active:scale-95">
-                                        <Icon size={20} />
+                        <div className="pt-16 border-t border-gray-100">
+                            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-8">Follow Our Journey</h4>
+                            <div className="flex gap-6">
+                                {[Instagram, Facebook, Twitter].map((Icon, i) => (
+                                    <button key={i} className="text-gray-400 hover:text-black transition-colors">
+                                        <Icon size={20} strokeWidth={1.5} />
                                     </button>
                                 ))}
                             </div>
@@ -85,68 +79,66 @@ export default function ContactUs() {
 
                     {/* Form Column */}
                     <div className="lg:col-span-7">
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="bg-white/[0.02] backdrop-blur-[40px] border border-white/10 rounded-[3rem] p-8 md:p-12 relative overflow-hidden"
-                        >
-                            {/* Form decorative background */}
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
-
-                            <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Codename / Name</label>
+                        <div className="bg-gray-50/50 p-8 md:p-16 border border-gray-50">
+                            <form onSubmit={handleSubmit} className="space-y-10">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-bold uppercase tracking-widest text-black">Your Name</label>
                                         <input
                                             required
                                             type="text"
-                                            placeholder="Enter your identity"
-                                            className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-700 font-bold"
+                                            placeholder="Enter your name"
+                                            className="w-full bg-transparent border-b border-gray-200 py-4 text-black outline-none focus:border-black transition-all placeholder:text-gray-300 font-medium text-sm"
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Neural Address / Email</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-bold uppercase tracking-widest text-black">Email Address</label>
                                         <input
                                             required
                                             type="email"
-                                            placeholder="identity@server.co"
-                                            className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-700 font-bold"
+                                            placeholder="hello@example.com"
+                                            className="w-full bg-transparent border-b border-gray-200 py-4 text-black outline-none focus:border-black transition-all placeholder:text-gray-300 font-medium text-sm"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Transmission Priority</label>
-                                    <select className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-emerald-500 transition-all font-bold appearance-none cursor-pointer">
-                                        <option className="bg-slate-900">Standard Inquiry</option>
-                                        <option className="bg-slate-900">Urgent Support</option>
-                                        <option className="bg-slate-900">Partnership Proposal</option>
-                                        <option className="bg-slate-900">Media Request</option>
-                                    </select>
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-black">Inquiry Type</label>
+                                    <div className="relative">
+                                        <select className="w-full bg-transparent border-b border-gray-200 py-4 text-black outline-none focus:border-black transition-all font-medium text-sm appearance-none cursor-pointer">
+                                            <option>General Inquiry</option>
+                                            <option>Order Support</option>
+                                            <option>Press & Media</option>
+                                            <option>Partnerships</option>
+                                        </select>
+                                        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                            <MessageSquare size={16} strokeWidth={1.5} />
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Transmission Payload / Message</label>
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-black">Message</label>
                                     <textarea
                                         required
-                                        rows={6}
-                                        placeholder="Type your transmission here..."
-                                        className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-700 font-bold resize-none"
+                                        rows={5}
+                                        placeholder="How can we help you?"
+                                        className="w-full bg-transparent border-b border-gray-200 py-4 text-black outline-none focus:border-black transition-all placeholder:text-gray-300 font-medium text-sm resize-none"
                                     />
                                 </div>
 
                                 <button
                                     disabled={formState !== 'idle'}
-                                    className="w-full py-5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-400 text-white rounded-3xl font-black uppercase tracking-[0.2em] transition-all active:scale-95 shadow-2xl shadow-emerald-900/40 relative overflow-hidden group"
+                                    className="w-full py-5 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-gray-900 transition-all active:scale-[0.98] disabled:bg-gray-200 disabled:text-gray-400"
                                 >
-                                    <span className="relative z-10 flex items-center justify-center gap-3">
-                                        {formState === 'idle' && <>Initiate Transmission <Send size={18} /></>}
-                                        {formState === 'sending' && <>Sending... <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /></>}
-                                        {formState === 'sent' && <>Transmission Delivered <MessageSquare size={18} /></>}
+                                    <span className="flex items-center justify-center gap-3">
+                                        {formState === 'idle' && <>Send Message <Send size={16} /></>}
+                                        {formState === 'sending' && <>Sending... <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /></>}
+                                        {formState === 'sent' && <>Message Sent <MessageSquare size={16} /></>}
                                     </span>
                                 </button>
                             </form>
-                        </motion.div>
+                        </div>
                     </div>
                 </div>
             </div>

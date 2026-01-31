@@ -33,6 +33,10 @@ const CouponSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    sellerId: {
+        type: String,
+        default: 'admin'
+    },
     createdAt: {
         type: Date,
         default: Date.now

@@ -1,8 +1,12 @@
-
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
+import { jwtVerify } from 'jose';
+
+const SECRET_KEY = new TextEncoder().encode(
+    process.env.JWT_SECRET || 'your-fallback-secret-key-change-this-in-prod'
+);
 
 export async function GET(request) {
     try {
@@ -12,9 +16,27 @@ export async function GET(request) {
         const page = parseInt(searchParams.get('page')) || 1;
         const status = searchParams.get('status');
 
+        // Auth check
+        const token = request.cookies.get('adminToken')?.value || request.headers.get('authorization')?.split(' ')[1];
+        if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+
         let query = {};
         if (status && status !== 'All' && status !== 'all') {
             query.status = { $regex: new RegExp(`^${status}$`, 'i') };
+        }
+
+        // Seller isolation: filter orders that contain at least one item from this seller
+        if (payload.role === 'seller') {
+            query['items.sellerId'] = payload.id;
+        } else if (payload.role === 'superadmin') {
+            const filterSellerId = searchParams.get('sellerId');
+            if (filterSellerId) {
+                query['items.sellerId'] = filterSellerId;
+            }
+        } else {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
         const skip = (page - 1) * limit;
@@ -24,14 +46,25 @@ export async function GET(request) {
             .limit(limit)
             .skip(skip);
 
+        // If seller, we might want to filter the items shown in the order too?
+        // or just show the whole order if it belongs to them.
+        // Usually, a seller should only see THEIR items in a multi-seller order.
+        let processedOrders = orders;
+        if (payload.role === 'seller') {
+            processedOrders = orders.map(order => {
+                const orderObj = order.toObject();
+                orderObj.items = orderObj.items.filter(item => item.sellerId === payload.id);
+                // Adjust total to only reflect this seller's items?
+                // This is a design decision. Let's keep the items filter for now.
+                orderObj.total = orderObj.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                return orderObj;
+            });
+        }
+
         const total = await Order.countDocuments(query);
 
         return NextResponse.json({
-            orders, // Some frontends expect array directly, but admin often wants pagination metadata
-            // If the Admin component expects array directly, we might need to adjust.
-            // But usually pagination implies this structure.
-            // Let's check AdminOrders.optimized.jsx usage.
-            // It calls /api/orders?page=...
+            orders: processedOrders,
             total,
             page,
             totalPages: Math.ceil(total / limit)
@@ -48,15 +81,22 @@ export async function POST(request) {
         await dbConnect();
         const body = await request.json();
 
-        // Validate basics
         if (!body.items || body.items.length === 0) {
             return NextResponse.json({ error: 'No items in order' }, { status: 400 });
         }
 
-        // Create Order
+        // Populate sellerId for each item by fetching product
+        const itemsWithSeller = await Promise.all(body.items.map(async (item) => {
+            const product = await Product.findById(item.productId);
+            return {
+                ...item,
+                sellerId: product?.sellerId || 'admin'
+            };
+        }));
+
         const order = await Order.create({
             customer: body.customer,
-            items: body.items,
+            items: itemsWithSeller,
             total: body.total,
             status: 'pending'
         });

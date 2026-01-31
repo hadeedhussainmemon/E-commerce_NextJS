@@ -1,16 +1,16 @@
 /**
- * Global Configuration for Vanguard E-commerce Platform
+ * Global Configuration for Petal + Pup E-commerce Platform
  * Change values here to update the entire application.
  */
 
 const config = {
     // Branding
-    appName: "Vanguard",
-    appShortName: "Vanguard", // Used in mobile view or small spaces
+    appName: "Petal + Pup",
+    appShortName: "Petal + Pup", // Used in mobile view or small spaces
     // Signature: base64(Hadeed Hussain Memon)
     _sig: "SGFkZWVkIEh1c3NhaW4gTWVtb24=",
-    tagline: "Everything in one cart",
-    description: "Premium watches, electronics, and curated lifestyle products for the modern connoisseur.",
+    tagline: "Curating The Modern Lifestyle",
+    description: "Boutique fashion and minimalist lifestyle pieces for the discerning modern observer.",
 
     // SEO & Socials
     socials: {
@@ -43,9 +43,9 @@ const config = {
 
     // Theme & UI Defaults
     theme: {
-        primaryColor: "#0f172a", // Slate-900
-        accentColor: "#10b981",  // Emerald-500
-        borderRadius: "0.5rem"
+        primaryColor: "#000000", // Black
+        accentColor: "#f3f4f6",  // Gray-100
+        borderRadius: "0px"      // Sharp edges for fashion aesthetic
     },
 
     // Feature Flags

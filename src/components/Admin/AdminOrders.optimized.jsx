@@ -195,7 +195,7 @@ const OrderCard = React.memo(({
 
 OrderCard.displayName = 'OrderCard';
 
-export default function AdminOrders() {
+export default function AdminOrders({ user }) {
   const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -214,9 +214,8 @@ export default function AdminOrders() {
     try {
       setLoading(true);
       const url = filter === 'all'
-        ? `${API_BASE_URL}/api/orders`
-        : `${API_BASE_URL}/api/orders?status=${filter}`;
-      // Attach admin auth header if available
+        ? `/api/orders`
+        : `/api/orders?status=${filter}`;
       const token = localStorage.getItem('adminToken');
       const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
 
@@ -246,7 +245,7 @@ export default function AdminOrders() {
     try {
       const token = localStorage.getItem('adminToken');
       const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
-      const response = await fetch(`${API_BASE_URL}/api/orders/stats/summary`, { headers });
+      const response = await fetch(`/api/orders/stats/summary`, { headers });
       if (response.status === 401) {
         localStorage.removeItem('adminToken');
         window.location.href = '/admin/login';

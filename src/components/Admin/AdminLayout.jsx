@@ -16,9 +16,12 @@ const SidebarLink = ({ children, onClick, active, icon: Icon }) => (
   </button>
 );
 
-const AdminLayout = ({ children, section = 'dashboard', onSectionChange }) => {
+const AdminLayout = ({ children, section = 'dashboard', onSectionChange, user }) => {
   const [currentSection, setCurrentSection] = useState(section);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const displayName = user?.businessName || user?.name || 'Vanguard';
+  const roleLabel = user?.role === 'superadmin' ? 'OS Matrix' : 'Merchant Protocol';
 
   // Remove body padding for admin panel
   useEffect(() => {
@@ -69,8 +72,8 @@ const AdminLayout = ({ children, section = 'dashboard', onSectionChange }) => {
             <Menu size={20} />
           </button>
           <div>
-            <h1 className="text-xl font-playfair font-black text-white italic tracking-tight">Vanguard</h1>
-            <p className="text-[8px] text-emerald-500 font-black uppercase tracking-[0.2em] leading-none mt-1">OS Matrix</p>
+            <h1 className="text-xl font-playfair font-black text-white italic tracking-tight">{displayName}</h1>
+            <p className="text-[8px] text-emerald-500 font-black uppercase tracking-[0.2em] leading-none mt-1">{roleLabel}</p>
           </div>
         </div>
         <button onClick={handleLogout} className="p-3 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-xl transition-all active:scale-95">
@@ -100,8 +103,8 @@ const AdminLayout = ({ children, section = 'dashboard', onSectionChange }) => {
       `}>
         <div className="px-8 py-8 flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-playfair font-black text-white italic tracking-tighter">Vanguard</h2>
-            <p className="text-[10px] text-emerald-500/60 mt-1 uppercase tracking-[0.3em] font-black">Control Terminal</p>
+            <h2 className="text-3xl font-playfair font-black text-white italic tracking-tighter">{displayName}</h2>
+            <p className="text-[10px] text-emerald-500/60 mt-1 uppercase tracking-[0.3em] font-black">{roleLabel}</p>
           </div>
           {/* Close button for mobile */}
           <button

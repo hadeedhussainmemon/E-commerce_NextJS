@@ -1,29 +1,24 @@
-"use client";
-
-import React from 'react';
-import LegalPage from './LegalPage';
-
 export default function TermsOfService() {
     return (
-        <LegalPage title="Service Terms" lastUpdated="January 2026">
-            <h2>1. Platform Access</h2>
+        <LegalPage title="Terms of Service" lastUpdated="January 2026">
+            <h2>1. Website Use</h2>
             <p>
-                By accessing Vanguard, you agree to comply with our operational protocols. This platform is a curated marketplace for premium entities and masterpieces.
+                By accessing Petal + Pup, you agree to comply with our terms and conditions. This platform is a curated marketplace designed to provide a premium shopping experience.
             </p>
 
-            <h2>2. Acquisition Protocols</h2>
+            <h2>2. Orders & Availability</h2>
             <p>
-                All "Acquisitions" (orders) are subject to availability. We reserve the right to limit quantities or terminate orders if suspicious bot activity or neural scraping is detected.
+                All orders are subject to product availability. We reserve the right to limit quantities or cancel orders if we suspect any fraudulent activity or misuse of our platform.
             </p>
 
-            <h2>3. Intellectual Assets</h2>
+            <h2>3. Intellectual Property</h2>
             <p>
-                All visual assets, stories, and "Neural Narratives" (AI-generated descriptions) are the property of Vanguard. Reproduction without authorization initiates a termination protocol.
+                All visual assets, product descriptions, and brand imagery are the property of Petal + Pup. Reproduction or unauthorized use of any content on this site is strictly prohibited.
             </p>
 
             <h2>4. Limitation of Liability</h2>
             <p>
-                Vanguard is not responsible for any digital vertigo or aesthetic overload experienced while browsing our high-definition masterpieces.
+                Petal + Pup shall not be liable for any indirect or consequential damages arising from the use of our website or the purchase of our products.
             </p>
         </LegalPage>
     );

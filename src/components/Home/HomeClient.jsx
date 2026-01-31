@@ -10,10 +10,11 @@ import SEO from '../SEO/SEO';
 import config from '../../config';
 import Link from 'next/link';
 import BrandStories from './BrandStories';
+import Lookbook from './Lookbook';
 
 // Constants
 import { motion } from 'framer-motion';
-import { Truck, ShieldCheck, Check, Clock, Star, Zap } from 'lucide-react';
+import { Truck, ShieldCheck, Check, Clock, Star, Zap, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const API_BASE_URL = config.api.baseUrl;
 const API_PRODUCTS_ENDPOINT = config.api.endpoints.products || '/api/products';
@@ -54,25 +55,16 @@ export default function HomeClient({ initialProducts = null, initialCategories =
     const [query, setQuery] = useState('');
     const [debouncedQuery, setDebouncedQuery] = useState('');
     const pageSize = 24;
-    const [activePromo, setActivePromo] = useState(0);
 
-    // Fetch Categories (SSR + Client)
+    // Fetch Categories
     const { data: categoryData } = useQuery({
         queryKey: ['categories'],
         queryFn: fetchCategoriesQuery,
-        initialData: initialCategories || undefined, // Use SSR data
+        initialData: initialCategories || undefined,
         staleTime: 1000 * 60 * 60,
     });
 
     const categories = ['All', ...(categoryData?.categories?.map(c => typeof c === 'string' ? c : c.name) || [])];
-
-    // Promo rotation
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActivePromo((prev) => (prev + 1) % PROMOS.length);
-        }, 4000);
-        return () => clearInterval(interval);
-    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -86,10 +78,8 @@ export default function HomeClient({ initialProducts = null, initialCategories =
         setCurrentPage(1);
     }, [selectedCategory, sortOption]);
 
-    // Use initialData mostly for the *first* render (default params)
     const isDefaultParams = selectedCategory === 'All' && sortOption === 'featured' && !debouncedQuery && currentPage === 1;
 
-    // React Query
     const { data, isLoading, isError, error, isPlaceholderData } = useQuery({
         queryKey: ['products', {
             category: selectedCategory === 'All' ? '' : selectedCategory,
@@ -99,7 +89,6 @@ export default function HomeClient({ initialProducts = null, initialCategories =
             pageSize
         }],
         queryFn: fetchProductsQuery,
-        // Only use valid initialData if checking default params, otherwise fetch fresh
         initialData: isDefaultParams ? initialProducts : undefined,
         placeholderData: keepPreviousData,
     });
@@ -107,257 +96,175 @@ export default function HomeClient({ initialProducts = null, initialCategories =
     const products = data?.products || [];
     const totalProducts = data?.total || 0;
     const totalPages = Math.ceil(totalProducts / pageSize);
-    const soldOutCount = products.filter(p => p?.stock === 0).length;
 
     const handlePageChange = (p) => {
         if (p >= 1 && p <= totalPages) {
             setCurrentPage(p);
-            // Scroll to top of products section
             const el = document.getElementById('products');
             if (el) {
-                const offset = 80;
+                const offset = 120;
                 const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
                 window.scrollTo({ top, behavior: 'smooth' });
             }
         }
     };
 
-    // SEO Canonical
     const seoCanonical = `${config.api.baseUrl}/${currentPage > 1 ? `?page=${currentPage}` : ''}`;
 
     return (
-        <>
+        <div className="bg-white">
             <SEO canonical={seoCanonical} />
             <Hero />
 
-            <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                id="main-content"
-                className="relative overflow-hidden"
-            >
-                {/* Floating Micro-assets for Depth */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                    <motion.div
-                        animate={{
-                            y: [0, -40, 0],
-                            x: [0, 20, 0],
-                            rotate: [0, 90, 0],
-                        }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-[10%] left-[5%] w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl"
-                    />
-                    <motion.div
-                        animate={{
-                            y: [0, 60, 0],
-                            x: [0, -30, 0],
-                            rotate: [0, -120, 0],
-                        }}
-                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-[40%] right-[2%] w-96 h-96 bg-indigo-500/5 rounded-full blur-[100px]"
-                    />
-                    <motion.div
-                        animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.03, 0.08, 0.03],
-                        }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute bottom-[20%] left-[10%] w-80 h-80 bg-teal-500/5 rounded-full blur-[80px]"
-                    />
-                </div>
-
-                {/* Premium Benefits Section */}
-                <section className="py-16 bg-white border-y border-slate-50">
+            <main id="main-content" className="relative">
+                {/* Minimalist Benefits Section */}
+                <section className="py-32 border-b border-gray-100 bg-gray-50/30">
                     <div className="max-w-7xl mx-auto px-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.1 }}
-                                className="flex items-center gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100/50 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-500 hover:shadow-xl hover:shadow-emerald-900/5"
-                            >
-                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500 group-hover:rotate-3">
-                                    <Truck className="w-8 h-8 text-emerald-600" />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
+                            <div className="space-y-6">
+                                <div className="text-black inline-block pb-4 border-b border-black/10">
+                                    <Truck size={24} strokeWidth={1} />
                                 </div>
-                                <div>
-                                    <h3 className="font-black text-slate-900 group-hover:text-emerald-900 tracking-tight">Fast Delivery</h3>
-                                    <p className="text-xs font-medium text-slate-500 group-hover:text-emerald-700/70 mt-1">Orders delivered within 3-5 days</p>
+                                <h3 className="text-[11px] font-bold uppercase tracking-[0.4em] text-black italic font-fashion-serif">Express Shipping</h3>
+                                <p className="text-sm text-gray-500 font-medium leading-relaxed max-w-xs mx-auto">Complimentary delivery on orders above Rs. 4999.</p>
+                            </div>
+                            <div className="space-y-6">
+                                <div className="text-black inline-block pb-4 border-b border-black/10">
+                                    <Star size={24} strokeWidth={1} />
                                 </div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2 }}
-                                className="flex items-center gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100/50 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-500 hover:shadow-xl hover:shadow-emerald-900/5"
-                            >
-                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500 group-hover:-rotate-3">
-                                    <ShieldCheck className="w-8 h-8 text-emerald-600" />
+                                <h3 className="text-[11px] font-bold uppercase tracking-[0.4em] text-black italic font-fashion-serif">Curated Quality</h3>
+                                <p className="text-sm text-gray-500 font-medium leading-relaxed max-w-xs mx-auto">Hand-selected pieces for the discerning lifestyle.</p>
+                            </div>
+                            <div className="space-y-6">
+                                <div className="text-black inline-block pb-4 border-b border-black/10">
+                                    <ShieldCheck size={24} strokeWidth={1} />
                                 </div>
-                                <div>
-                                    <h3 className="font-black text-slate-900 group-hover:text-emerald-900 tracking-tight">Quality Assured</h3>
-                                    <p className="text-xs font-medium text-slate-500 group-hover:text-emerald-700/70 mt-1">100% authentic premium gear</p>
-                                </div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.3 }}
-                                className="hidden lg:flex items-center gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100/50 group hover:bg-emerald-50 hover:border-emerald-100 transition-all duration-500 hover:shadow-xl hover:shadow-emerald-900/5"
-                            >
-                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500 group-hover:rotate-6">
-                                    <Star className="w-8 h-8 text-emerald-600" />
-                                </div>
-                                <div>
-                                    <h3 className="font-black text-slate-900 group-hover:text-emerald-900 tracking-tight">Premium Support</h3>
-                                    <p className="text-xs font-medium text-slate-500 group-hover:text-emerald-700/70 mt-1">Dedicated assistance for you</p>
-                                </div>
-                            </motion.div>
+                                <h3 className="text-[11px] font-bold uppercase tracking-[0.4em] text-black italic font-fashion-serif">Secure Checkout</h3>
+                                <p className="text-sm text-gray-500 font-medium leading-relaxed max-w-xs mx-auto">Integrated protected payment gateways.</p>
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                <BrandStories products={products} />
+                <div className="pt-24">
+                    <BrandStories products={products} />
+                </div>
 
-                <CategoryGrid categoriesFromSSR={categoryData} />
+                <div className="border-t border-gray-100">
+                    <CategoryGrid categoriesFromSSR={categoryData} />
+                </div>
 
+                <div className="border-t border-gray-100">
+                    <Lookbook />
+                </div>
 
-                <section id="products" className="py-16 bg-gradient-to-b from-gray-50/50 to-white">
-                    {/* Promo Banner */}
-                    <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 overflow-hidden mb-8">
-                        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-                            <div className="flex items-center gap-2 animate-fade-in-up">
-                                <span className="text-xl">✨</span>
-                                <p className="font-medium text-sm md:text-base tracking-wide">{PROMOS[activePromo]}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        {/* Header & Filters */}
-                        <div className="text-center mb-10">
-                            <h2 className="text-4xl md:text-5xl font-playfair font-bold bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 bg-clip-text text-transparent mb-3 animate-gradient">
-                                All Products
-                            </h2>
-                            <div className="w-24 h-1 bg-gradient-to-r from-emerald-600 to-teal-500 mx-auto rounded-full mb-4"></div>
-                        </div>
-
-                        <div className="flex flex-col gap-8 mb-12 px-6 py-8 bg-white/40 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl shadow-emerald-900/5">
-                            {/* Interactive Category Pills */}
-                            <div className="w-full">
-                                <div className="flex items-center justify-between mb-4 px-2">
-                                    <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                                        <Zap size={16} className="text-emerald-500" />
-                                        Explore Collections
-                                    </h3>
-                                    <Link href="/categories" className="text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
-                                        View All
-                                    </Link>
-                                </div>
-                                <div className="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide px-2">
-                                    {categories.map((c) => (
-                                        <button
-                                            key={c}
-                                            onClick={() => setSelectedCategory(c)}
-                                            className={`px-6 py-2.5 rounded-2xl text-sm font-bold whitespace-nowrap transition-all duration-300 border ${selectedCategory === c
-                                                ? 'bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-600/20 scale-105'
-                                                : 'bg-white text-slate-600 border-slate-100 hover:border-emerald-200 hover:bg-emerald-50'
-                                                }`}
-                                        >
-                                            {c}
-                                        </button>
-                                    ))}
-                                </div>
+                {/* Products Section */}
+                <section id="products" className="py-32">
+                    <div className="max-w-7xl mx-auto px-6">
+                        {/* Section Header */}
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-20">
+                            <div className="max-w-xl">
+                                <span className="text-[11px] font-bold uppercase tracking-[0.5em] text-gray-400 mb-6 block">Our Collection</span>
+                                <h2 className="font-fashion-serif text-5xl md:text-7xl italic font-black text-black tracking-tighter leading-none">
+                                    Shop New Pieces
+                                </h2>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                                {/* Sort Filter */}
-                                <div className="w-full">
-                                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 px-2">Sort by Preference</label>
-                                    <div className="relative group">
-                                        <select
-                                            value={sortOption}
-                                            onChange={(e) => setSortOption(e.target.value)}
-                                            className="block w-full pl-5 pr-10 py-4 rounded-2xl bg-white/80 border border-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-slate-700 appearance-none shadow-sm transition-all group-hover:border-emerald-200"
-                                        >
-                                            <option value="featured">Featured Trends</option>
-                                            <option value="priceAsc">Price: Minimalist to Luxury</option>
-                                            <option value="priceDesc">Price: Luxury to Minimalist</option>
-                                        </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" /></svg>
-                                        </div>
-                                    </div>
+                            {/* Search & Sort */}
+                            <div className="flex flex-col sm:flex-row gap-6 flex-grow max-w-2xl md:justify-end">
+                                <div className="relative group flex-grow max-w-xs">
+                                    <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-300" size={18} strokeWidth={1.5} />
+                                    <input
+                                        type="text"
+                                        placeholder="SEARCH PIECES"
+                                        value={query}
+                                        onChange={(e) => setQuery(e.target.value)}
+                                        className="w-full pl-8 pr-4 py-4 bg-transparent border-b-2 border-gray-100 outline-none text-[11px] font-bold uppercase tracking-[0.2em] transition-all focus:border-black placeholder:text-gray-200"
+                                    />
                                 </div>
-                                {/* Search */}
-                                <div className="w-full relative">
-                                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 px-2">Search Products</label>
-                                    <div className="relative group">
-                                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={20} />
-                                        <input
-                                            type="text"
-                                            placeholder="Find something special..."
-                                            value={query}
-                                            onChange={(e) => setQuery(e.target.value)}
-                                            className="block w-full pl-12 pr-4 py-4 rounded-2xl bg-white/80 border border-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-slate-700 shadow-sm transition-all group-hover:border-emerald-200"
-                                        />
+                                <div className="relative">
+                                    <select
+                                        value={sortOption}
+                                        onChange={(e) => setSortOption(e.target.value)}
+                                        className="px-8 py-4 bg-black text-white outline-none text-[10px] font-bold uppercase tracking-[0.2em] appearance-none cursor-pointer hover:bg-gray-900 transition-colors pr-12"
+                                    >
+                                        <option value="featured">Featured</option>
+                                        <option value="priceAsc">Price: Low to High</option>
+                                        <option value="priceDesc">Price: High to Low</option>
+                                    </select>
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
+                                        <ChevronDown size={14} />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Content */}
+                        {/* Category Filter */}
+                        <div className="flex items-center gap-10 overflow-x-auto pb-8 mb-16 border-b border-gray-100 scrollbar-hide">
+                            {categories.map((c) => (
+                                <button
+                                    key={c}
+                                    onClick={() => setSelectedCategory(c)}
+                                    className={`text-[11px] font-bold uppercase tracking-[0.3em] whitespace-nowrap transition-all duration-300 relative pb-4 ${selectedCategory === c ? 'text-black' : 'text-gray-300 hover:text-gray-500'
+                                        }`}
+                                >
+                                    {c}
+                                    {selectedCategory === c && (
+                                        <motion.div layoutId="underline_home" className="absolute bottom-0 left-0 right-0 h-0.5 bg-black" />
+                                    )}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Content Grid */}
                         {isError ? (
-                            <div className="text-center py-12">
-                                <p className="text-red-600 mb-4">{error?.message || "Error loading products"}</p>
-                                <button onClick={() => window.location.reload()} className="px-6 py-2 bg-emerald-600 text-white rounded-lg">Try Again</button>
+                            <div className="text-center py-32">
+                                <p className="text-black font-fashion-serif text-2xl italic font-black mb-10">{error?.message || "Something went wrong."}</p>
+                                <button onClick={() => window.location.reload()} className="px-12 py-4 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-gray-900 transition-colors">Try Again</button>
                             </div>
                         ) : isLoading ? (
-                            <div className="text-center py-12">Loading products...</div>
-                        ) : products.length === 0 ? (
-                            <div className="text-center py-16 text-gray-500">
-                                No products found.
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 animate-pulse">
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className="space-y-6">
+                                        <div className="aspect-[3/4] bg-gray-50 rounded-sm" />
+                                        <div className="h-4 bg-gray-50 w-2/3" />
+                                        <div className="h-4 bg-gray-50 w-1/3" />
+                                    </div>
+                                ))}
                             </div>
                         ) : (
                             <>
-                                <div className="flex justify-between items-center mb-4 px-2 text-sm text-gray-600">
-                                    <span>Showing {totalProducts} products</span>
-                                    {soldOutCount > 0 && <span className="bg-gray-100 px-2 py-0.5 rounded-full text-xs">Sold out: {soldOutCount}</span>}
-                                </div>
-
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
                                     {products.map((p, i) => (
-                                        <div key={`${p.id}-${i}`} className="animate-stagger-item h-full">
-                                            <ProductCard product={p} priority={i < 4} />
-                                        </div>
+                                        <ProductCard key={`${p.id}-${i}`} product={p} />
                                     ))}
                                 </div>
 
+                                {products.length === 0 && (
+                                    <div className="text-center py-40 border-t border-gray-50 mt-16">
+                                        <p className="font-fashion-serif text-4xl italic text-gray-200">No pieces found.</p>
+                                    </div>
+                                )}
+
                                 {/* Pagination */}
                                 {totalPages > 1 && (
-                                    <div className="flex justify-center mt-8 gap-2">
+                                    <div className="flex justify-center mt-32 gap-6 items-center">
                                         <button
                                             onClick={() => handlePageChange(currentPage - 1)}
-                                            disabled={currentPage === 1 || isPlaceholderData}
-                                            className="px-4 py-2 bg-white border rounded-lg disabled:opacity-50"
+                                            disabled={currentPage === 1}
+                                            className="w-14 h-14 flex items-center justify-center border border-gray-100 disabled:opacity-20 hover:border-black transition-all group"
                                         >
-                                            Prev
+                                            <ChevronLeft size={20} className="text-gray-400 group-hover:text-black" />
                                         </button>
-                                        <span className="flex items-center px-4 font-medium">
-                                            Page {currentPage} of {totalPages}
-                                        </span>
+                                        <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-gray-300">
+                                            <span className="text-black">{currentPage}</span> / {totalPages}
+                                        </div>
                                         <button
                                             onClick={() => handlePageChange(currentPage + 1)}
-                                            disabled={currentPage === totalPages || isPlaceholderData}
-                                            className="px-4 py-2 bg-white border rounded-lg disabled:opacity-50"
+                                            disabled={currentPage === totalPages}
+                                            className="w-14 h-14 flex items-center justify-center border border-gray-100 disabled:opacity-20 hover:border-black transition-all group"
                                         >
-                                            Next
+                                            <ChevronRight size={20} className="text-gray-400 group-hover:text-black" />
                                         </button>
                                     </div>
                                 )}
@@ -365,7 +272,7 @@ export default function HomeClient({ initialProducts = null, initialCategories =
                         )}
                     </div>
                 </section>
-            </motion.div>
-        </>
+            </main>
+        </div>
     );
 }

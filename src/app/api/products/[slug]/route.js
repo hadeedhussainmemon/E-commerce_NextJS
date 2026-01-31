@@ -1,9 +1,24 @@
-
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import mongoose from 'mongoose';
 import { Buffer } from 'buffer';
+import { jwtVerify } from 'jose';
+
+const SECRET_KEY = new TextEncoder().encode(
+    process.env.JWT_SECRET || 'your-fallback-secret-key-change-this-in-prod'
+);
+
+async function verifyAuth(request) {
+    const token = request.cookies.get('adminToken')?.value || request.headers.get('authorization')?.split(' ')[1];
+    if (!token) return null;
+    try {
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        return payload;
+    } catch {
+        return null;
+    }
+}
 
 export async function GET(request, { params }) {
     try {
@@ -11,7 +26,6 @@ export async function GET(request, { params }) {
         await dbConnect();
 
         let product;
-
         if (mongoose.Types.ObjectId.isValid(slug)) {
             product = await Product.findById(slug);
         }
@@ -37,6 +51,25 @@ export async function PUT(request, { params }) {
         const { slug } = await params;
         await dbConnect();
 
+        const payload = await verifyAuth(request);
+        if (!payload) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+        let product;
+        if (mongoose.Types.ObjectId.isValid(slug)) {
+            product = await Product.findById(slug);
+        } else {
+            product = await Product.findOne({ slug: slug });
+        }
+
+        if (!product) {
+            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+        }
+
+        // Authorization check
+        if (payload.role === 'seller' && product.sellerId !== payload.id) {
+            return NextResponse.json({ error: 'Forbidden: You do not own this product' }, { status: 403 });
+        }
+
         const contentType = request.headers.get('content-type') || '';
         let body = {};
 
@@ -47,7 +80,6 @@ export async function PUT(request, { params }) {
             for (const [key, value] of formData.entries()) {
                 if (key !== 'image') {
                     if (key === 'colors' || key === 'category') {
-                        // Split comma separated strings into arrays
                         body[key] = value.split(',').map(c => c.trim()).filter(Boolean);
                     } else if (key === 'isCustomizable' || key === 'isVisible' || key === 'isFeatured') {
                         body[key] = value === 'true';
@@ -57,16 +89,6 @@ export async function PUT(request, { params }) {
                         body[key] = value;
                     }
                 }
-            }
-
-            // Allow slug update if title update? or keep stable URLs?
-            // Let's assume slug updates are manual if needed, or tied to title.
-            // For now, let's not auto-update slug on PUT to avoid breaking links, 
-            // unless we want to strict sync it.
-            // If body.slug is sent, use it.
-            if (!body.slug && body.title) {
-                // Optional: Auto-update logic if you want
-                // body.slug = ...
             }
 
             if (imageFile && imageFile instanceof Blob) {
@@ -79,18 +101,13 @@ export async function PUT(request, { params }) {
             body = await request.json();
         }
 
-        let product;
-        if (mongoose.Types.ObjectId.isValid(slug)) {
-            product = await Product.findByIdAndUpdate(slug, body, { new: true, runValidators: true });
+        // Sellers cannot change sellerId
+        if (payload.role === 'seller') {
+            delete body.sellerId;
         }
 
-        if (!product) {
-            product = await Product.findOneAndUpdate({ slug: slug }, body, { new: true, runValidators: true });
-        }
-
-        if (!product) {
-            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
-        }
+        Object.assign(product, body);
+        await product.save();
 
         return NextResponse.json(product);
     } catch (error) {
@@ -108,16 +125,26 @@ export async function DELETE(request, { params }) {
         const { slug } = await params;
         await dbConnect();
 
+        const payload = await verifyAuth(request);
+        if (!payload) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
         let product;
         if (mongoose.Types.ObjectId.isValid(slug)) {
-            product = await Product.findByIdAndDelete(slug);
+            product = await Product.findById(slug);
         } else {
-            product = await Product.findOneAndDelete({ slug: slug });
+            product = await Product.findOne({ slug: slug });
         }
 
         if (!product) {
             return NextResponse.json({ error: 'Product not found' }, { status: 404 });
         }
+
+        // Authorization check
+        if (payload.role === 'seller' && product.sellerId !== payload.id) {
+            return NextResponse.json({ error: 'Forbidden: You do not own this product' }, { status: 403 });
+        }
+
+        await Product.deleteOne({ _id: product._id });
 
         return NextResponse.json({ success: true, message: 'Product deleted' });
     } catch (error) {

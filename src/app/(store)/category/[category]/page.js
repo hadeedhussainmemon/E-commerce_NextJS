@@ -1,9 +1,8 @@
 import React from 'react';
 import { getProducts } from '@/lib/data';
 import Link from 'next/link';
-import Image from 'next/image';
-import getImageUrl from '@/utils/imageUrl';
-import { ArrowLeft } from 'lucide-react';
+import ProductCard from '@/components/ProductCard/ProductCard';
+import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 
 // Server-side fetch for metadata
 export async function generateMetadata({ params }) {
@@ -11,72 +10,58 @@ export async function generateMetadata({ params }) {
     const decodedCategory = decodeURIComponent(category).replace(/-/g, ' ');
 
     return {
-        title: `${decodedCategory.toUpperCase()} | Vanguard OS`,
-        description: `Explore our exclusive collection of premium ${decodedCategory}. Curated for excellence, engineered for style.`,
+        title: `${decodedCategory.toUpperCase()} | Petal + Pup`,
+        description: `Shop our latest collection of ${decodedCategory}. Curated for style and elegance.`,
         openGraph: {
-            title: `${decodedCategory} - Vanguard Collection`,
-            description: `Browse the finest ${decodedCategory} at Vanguard.`,
+            title: `${decodedCategory} - Petal + Pup Collection`,
+            description: `Browse the finest ${decodedCategory} at Petal + Pup.`,
             type: 'website',
         },
     };
 }
 
 export default async function CategoryPage({ params }) {
-    // Await params first (Next.js 15+ requirement, good practice generally)
     const { category } = await params;
     const decodedCategory = decodeURIComponent(category).replace(/-/g, ' ');
 
     // Fetch products for this category
     const { products } = await getProducts({ category: decodedCategory, limit: 100 });
 
+    const breadcrumbItems = [
+        { name: 'Home', to: '/' },
+        { name: decodedCategory, to: null }
+    ];
+
     return (
-        <div className="min-h-screen pt-24 pb-12 bg-slate-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-8">
-                    <Link href="/" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-emerald-600 mb-4 transition-colors">
-                        <ArrowLeft size={16} />
-                        Back to Home
-                    </Link>
-                    <h1 className="text-3xl font-bold text-slate-900 capitalize mb-2">{decodedCategory}</h1>
-                    <p className="text-slate-500">Browse our collection of {decodedCategory}</p>
-                </div>
+        <div className="min-h-screen bg-white">
+            <div className="max-w-7xl mx-auto px-6 py-24">
+                <header className="mb-20">
+                    <div className="mb-12">
+                        <Breadcrumb items={breadcrumbItems} />
+                    </div>
+
+                    <div className="max-w-md">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-gray-400 mb-4 block">Collection</span>
+                        <h1 className="font-fashion-serif text-5xl md:text-6xl italic font-black text-black tracking-tighter leading-tight mb-6 capitalize">
+                            {decodedCategory}
+                        </h1>
+                        <p className="text-gray-500 text-sm font-medium leading-relaxed">
+                            Discover our curated selection of {decodedCategory}, designed for the modern lifestyle with an emphasis on quality and timeless elegance.
+                        </p>
+                    </div>
+                </header>
 
                 {products.length === 0 ? (
-                    <div className="text-center py-24 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                        <p className="text-xl text-slate-600 font-medium">No products found in this category.</p>
-                        <Link href="/" className="mt-4 inline-block text-emerald-600 hover:underline">Browse all products</Link>
+                    <div className="text-center py-32 border-t border-gray-100">
+                        <p className="font-fashion-serif text-2xl italic text-gray-400 mb-8">No pieces found in this collection.</p>
+                        <Link href="/" className="text-[11px] font-bold uppercase tracking-[0.2em] text-black border-b border-black pb-1 hover:opacity-50 transition-all">
+                            Back To Home
+                        </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16">
                         {products.map(product => (
-                            <Link key={product._id} href={`/product/${product.slug}`} className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg hover:border-emerald-200 transition-all duration-300">
-                                <div className="aspect-[4/5] bg-slate-100 relative overflow-hidden">
-                                    <Image
-                                        src={getImageUrl(product.images?.[0])}
-                                        alt={product.title}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                    {product.salePrice && (
-                                        <span className="absolute top-3 left-3 bg-rose-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
-                                            Sale
-                                        </span>
-                                    )}
-                                </div>
-                                <div className="p-4">
-                                    <h3 className="font-semibold text-slate-900 line-clamp-1 group-hover:text-emerald-700 transition-colors mb-1">{product.title}</h3>
-                                    <div className="flex items-baseline gap-2">
-                                        {product.salePrice ? (
-                                            <>
-                                                <span className="font-bold text-emerald-600">Rs. {product.salePrice.toLocaleString()}</span>
-                                                <span className="text-xs text-slate-400 line-through">Rs. {product.price.toLocaleString()}</span>
-                                            </>
-                                        ) : (
-                                            <span className="font-bold text-slate-900">Rs. {product.price.toLocaleString()}</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </Link>
+                            <ProductCard key={product.id || product._id} product={product} />
                         ))}
                     </div>
                 )}

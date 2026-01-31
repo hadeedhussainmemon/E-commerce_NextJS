@@ -47,6 +47,10 @@ const ProductSchema = new mongoose.Schema({
         type: [String],
         default: [],
     },
+    sellerId: {
+        type: String,
+        default: 'admin', // Super admin by default
+    },
     createdAt: {
         type: Date,
         default: Date.now,

@@ -156,11 +156,11 @@ const ProductDetailClient = ({ slug, initialProduct }) => {
                 <motion.div variants={itemVariants} className="space-y-4">
                     <div className="relative aspect-square rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 group">
                         {isSoldOut ? (
-                            <div className="absolute top-6 left-6 bg-red-500 text-white px-4 py-1.5 rounded-full text-xs font-black z-10 shadow-xl uppercase tracking-widest">
+                            <div className="absolute top-6 left-6 bg-black text-white px-4 py-1.5 text-[10px] font-bold z-10 uppercase tracking-widest">
                                 Sold Out
                             </div>
                         ) : (
-                            <div className="absolute top-6 left-6 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-xs font-black z-10 shadow-xl uppercase tracking-widest animate-pulse-soft">
+                            <div className="absolute top-6 left-6 bg-white border border-gray-100 text-black px-4 py-1.5 text-[10px] font-bold z-10 uppercase tracking-widest">
                                 In Stock
                             </div>
                         )}
@@ -206,8 +206,8 @@ const ProductDetailClient = ({ slug, initialProduct }) => {
                                     <div className="text-4xl font-black text-slate-900 tracking-tight">
                                         {config.currency.symbol}{product.price.toLocaleString()}
                                     </div>
-                                    <span className="bg-emerald-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-emerald-500/20">
-                                        Save 20%
+                                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest border border-gray-100 px-3 py-1">
+                                        Limited Time Offer
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -323,26 +323,26 @@ const ProductDetailClient = ({ slug, initialProduct }) => {
             <RelatedProducts currentId={product.id} category={product.category} />
 
             {/* Sticky Mobile Buy Bar */}
-            <div className={`fixed bottom-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-2xl border-t border-slate-100 p-4 transition-transform duration-500 ease-in-out md:hidden shadow-[0_-10px_30px_rgba(0,0,0,0.08)] ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
-                <div className="flex items-center justify-between gap-4">
+            <div className={`fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-gray-100 p-6 transition-transform duration-500 ease-in-out md:hidden ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className="flex items-center justify-between gap-6">
                     <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Selected Item</span>
-                        <div className="text-sm font-bold text-slate-900 line-clamp-1">{product.title}</div>
-                        <div className="text-emerald-700 font-black">{config.currency.symbol} {product.price.toLocaleString()}</div>
+                        <span className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Total</span>
+                        <div className="text-lg font-fashion-sans font-light text-black">
+                            {config.currency.symbol}{product.price.toLocaleString()}
+                        </div>
                     </div>
                     <button
                         onClick={handleBuyNow}
                         disabled={isSoldOut}
-                        className="flex-1 bg-slate-900 text-white rounded-xl py-3 px-6 font-bold shadow-lg shadow-slate-900/10 active:scale-95 disabled:opacity-50"
+                        className="flex-1 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] py-4 shadow-xl active:scale-95 disabled:opacity-50"
                     >
                         {isSoldOut ? 'Sold Out' : 'Buy Now'}
                     </button>
                     <button
-                        onClick={() => router.push('/cart')}
-                        className="relative w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100"
+                        onClick={openCart}
+                        className="relative w-12 h-12 flex items-center justify-center border border-gray-100"
                     >
-                        <ShoppingBag size={20} className="text-slate-600" />
-                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">1</span>
+                        <ShoppingBag size={20} strokeWidth={1} className="text-black" />
                     </button>
                 </div>
             </div>

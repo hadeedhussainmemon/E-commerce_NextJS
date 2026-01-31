@@ -6,27 +6,27 @@ import { Shield, Target, Users, Sparkles, Zap, Award } from 'lucide-react';
 import Image from 'next/image';
 
 const Stats = [
-    { label: 'Exquisite Pieces', value: '1,200+' },
-    { label: 'Happy Connoisseurs', value: '45k' },
-    { label: 'Global Destinations', value: '120+' },
-    { label: 'Years of Excellence', value: '12' },
+    { label: 'Curated Pieces', value: '1,200+' },
+    { label: 'Global Community', value: '45k' },
+    { label: 'Destinations', value: '120+' },
+    { label: 'Years of Style', value: '12' },
 ];
 
 const Values = [
     {
-        icon: <Shield className="w-8 h-8 text-emerald-500" />,
-        title: "Uncompromising Integrity",
-        desc: "Every piece in our collection undergoes a rigorous multi-point authentication process by industry veterans."
+        icon: <Shield size={24} strokeWidth={1} />,
+        title: "Artisanal Integrity",
+        desc: "Every piece in our collection is hand-selected to ensure the highest standards of quality and craftsmanship."
     },
     {
-        icon: <Target className="w-8 h-8 text-emerald-500" />,
-        title: "The Vanguard Vision",
-        desc: "We don't just follow trends; we define them. Our curation team spans 5 continents to find the unique and the bold."
+        icon: <Target size={24} strokeWidth={1} />,
+        title: "Curated Vision",
+        desc: "We prioritize curated excellence over mass production, bringing you unique pieces from around the globe."
     },
     {
-        icon: <Sparkles className="w-8 h-8 text-emerald-500" />,
-        title: "Artisanal Heritage",
-        desc: "We prioritize craftsmanship over mass production, partnering with ateliers that preserve centuries-old techniques."
+        icon: <Sparkles size={24} strokeWidth={1} />,
+        title: "Sustainable Mindset",
+        desc: "We value pieces that are designed to last, promoting a more considered and sustainable approach to fashion."
     }
 ];
 
@@ -34,36 +34,37 @@ export default function AboutUs() {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section */}
-            <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-slate-950">
+            <section className="relative h-[80vh] flex items-center justify-center overflow-hidden bg-black">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=2000"
-                        alt="Our Atelier"
+                        src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000"
+                        alt="Our Aesthetic"
                         fill
-                        className="object-cover opacity-40 grayscale"
+                        className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/60 to-slate-950" />
+                    <div className="absolute inset-0 bg-black/20" />
                 </div>
 
                 <div className="relative z-10 text-center max-w-4xl px-6">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 1 }}
                     >
-                        <span className="text-xs font-black text-emerald-500 uppercase tracking-[0.4em] mb-4 block">Our Narrative</span>
-                        <h1 className="text-5xl md:text-7xl font-playfair font-black text-white italic mb-6">
-                            Defining the <span className="text-emerald-500">Vanguard</span> Standard
+                        <span className="text-[11px] font-bold text-white uppercase tracking-[0.5em] mb-6 block">Our Story</span>
+                        <h1 className="font-fashion-serif text-5xl md:text-8xl italic font-black text-white leading-tight tracking-tighter mb-8">
+                            Curating The <br />
+                            Modern Lifestyle
                         </h1>
-                        <p className="text-xl text-slate-300 font-medium leading-relaxed">
-                            Since 2012, we have curated a sanctuary for those who seek the extraordinary.
+                        <p className="text-lg md:text-xl text-white/80 font-medium leading-relaxed max-w-2xl mx-auto">
+                            Since 2012, Petal + Pup has been a sanctuary for those who seek minimalist elegance and sophisticated style.
                         </p>
                     </motion.div>
                 </div>
             </section>
 
             {/* Stats Section */}
-            <section className="py-20 bg-slate-950 border-b border-white/5">
+            <section className="py-32 border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
                         {Stats.map((stat, i) => (
@@ -74,8 +75,8 @@ export default function AboutUs() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                             >
-                                <h4 className="text-4xl md:text-5xl font-playfair font-black text-white mb-2">{stat.value}</h4>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500/60">{stat.label}</p>
+                                <h4 className="font-fashion-serif text-4xl md:text-6xl italic font-black text-black mb-4">{stat.value}</h4>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">{stat.label}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -83,79 +84,77 @@ export default function AboutUs() {
             </section>
 
             {/* Story Section */}
-            <section className="py-24 max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <section className="py-32 max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="space-y-8"
+                        className="space-y-12"
                     >
-                        <h2 className="text-4xl md:text-5xl font-playfair font-black text-slate-900 leading-tight">
-                            Beyond Curating. <br />
-                            <span className="italic text-emerald-600">We Architect Legacies.</span>
+                        <h2 className="font-fashion-serif text-5xl md:text-7xl italic font-black text-black leading-tight tracking-tighter">
+                            Beyond Fashion. <br />
+                            <span className="text-gray-200">Architecting Legacies.</span>
                         </h2>
-                        <div className="space-y-4 text-slate-600 font-medium leading-relaxed">
+                        <div className="space-y-6 text-gray-500 font-medium leading-relaxed text-base">
                             <p>
-                                What began as a small boutique for rare horological pieces has evolved into a global destination for curated lifestyle excellence. Vanguard was born from the belief that simplicity is the ultimate sophistication.
+                                What began as a small collection of curated pieces has evolved into a global destination for those who value simplicity and sophistication. Petal + Pup was born from a singular belief: that effortless style should be accessible to everyone.
                             </p>
                             <p>
-                                Every item in our catalog is personally vetted. We don't believe in the "everything store" model. We believe in the "only the best" model. If it doesn't meet our standards of craftsmanship, innovation, and aesthetic value, it doesn't make the cut.
+                                Every item in our catalog is thoughtfully selected. We don't believe in fast fashion; we believe in "forever pieces." If it doesn't meet our rigorous standards of design and durability, it doesn't make the cut.
                             </p>
                         </div>
-                        <div className="flex gap-4">
-                            <div className="p-4 rounded-3xl bg-emerald-50 border border-emerald-100 flex-1">
-                                <Award className="w-10 h-10 text-emerald-600 mb-3" />
-                                <h4 className="font-black text-slate-900 text-sm">Certified Quality</h4>
-                                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Global Standards</p>
+                        <div className="flex gap-8 border-t border-gray-100 pt-12">
+                            <div>
+                                <h4 className="font-bold text-black text-[11px] uppercase tracking-[0.2em] mb-2">Quality First</h4>
+                                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-widest">Global Sourcing</p>
                             </div>
-                            <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100 flex-1">
-                                <Zap className="w-10 h-10 text-slate-900 mb-3" />
-                                <h4 className="font-black text-slate-900 text-sm">Instant Access</h4>
-                                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Fast Logistics</p>
+                            <div>
+                                <h4 className="font-bold text-black text-[11px] uppercase tracking-[0.2em] mb-2">Fast Transit</h4>
+                                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-widest">Global Logistics</p>
                             </div>
                         </div>
                     </motion.div>
 
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="relative h-[600px] rounded-[3rem] overflow-hidden shadow-2xl"
+                        transition={{ duration: 0.8 }}
+                        className="relative aspect-[4/5] overflow-hidden"
                     >
                         <Image
-                            src="https://images.unsplash.com/photo-1556740734-79383679198c?auto=format&fit=crop&q=80&w=800"
-                            alt="The Vanguard Workspace"
+                            src="https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?auto=format&fit=crop&q=80&w=1200"
+                            alt="The Atelier"
                             fill
-                            className="object-cover"
+                            className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                         />
-                        <div className="absolute inset-0 bg-emerald-600/10 mix-blend-multiply" />
                     </motion.div>
                 </div>
             </section>
 
             {/* Values Grid */}
-            <section className="py-24 bg-slate-50">
+            <section className="py-32 bg-gray-50/30 border-t border-gray-100">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <span className="text-xs font-black text-emerald-600 uppercase tracking-[0.4em] mb-4 block">Core Identity</span>
-                        <h2 className="text-3xl md:text-5xl font-playfair font-black text-slate-900 italic">Our Principles</h2>
+                    <div className="text-center mb-24">
+                        <span className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.5em] mb-6 block">Our Essence</span>
+                        <h2 className="font-fashion-serif text-4xl md:text-6xl italic font-black text-black tracking-tighter">Core Principles</h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
                         {Values.map((value, i) => (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
-                                className="p-10 rounded-[2.5rem] bg-white border border-slate-100 hover:border-emerald-200 transition-all duration-500 group"
+                                className="text-center"
                             >
-                                <div className="p-4 w-16 h-16 rounded-2xl bg-emerald-50 mb-6 group-hover:scale-110 transition-transform">
+                                <div className="inline-block pb-8 border-b border-black mb-10 text-black">
                                     {value.icon}
                                 </div>
-                                <h3 className="text-xl font-black text-slate-900 mb-4 tracking-tight">{value.title}</h3>
-                                <p className="text-slate-500 font-medium leading-relaxed">{value.desc}</p>
+                                <h3 className="text-[11px] font-bold text-black mb-6 uppercase tracking-[0.3em]">{value.title}</h3>
+                                <p className="text-gray-500 font-medium leading-relaxed max-w-xs mx-auto text-sm">{value.desc}</p>
                             </motion.div>
                         ))}
                     </div>

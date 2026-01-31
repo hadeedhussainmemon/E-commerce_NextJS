@@ -1,13 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --nav-height: 72px; /* Slightly taller for premium feel */
-  --announce-height: 32px;
-}
-
-/* Global layout guards */
-*, *::before, *::after {
-  box-sizing: border-box;
+  --nav-height: 80px; 
+  --announce-height: 36px;
+  
+  /* Fashion Palette */
+  --color-bg: #ffffff;
+  --color-text-main: #1a1a1a;
+  --color-text-muted: #666666;
+  --color-accent: #000000;
+  --color-border: #eeeeee;
+  --color-surface: #f9f9f9;
+  
+  /* Fonts */
+  --font-serif: var(--font-playfair), serif;
+  --font-sans: var(--font-montserrat), var(--font-inter), sans-serif;
 }
 
 html, body {
@@ -18,147 +25,87 @@ html, body {
 }
 
 body {
-  background-color: #f8fafc; /* Slate-50 - softer than pure white */
-  color: #0f172a; /* Slate-900 */
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
 }
 
-section, .smooth-section {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 500px;
-}
-
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  will-change: transform, opacity;
-}
-
-/* --- Premium UI Enhancements --- */
-
-/* Modern Scrollbar */
+/* Modern Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 5px;
-  border: 2px solid #f1f5f9;
+  background: #dddddd;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #bbbbbb;
 }
 
-/* Selection */
 ::selection {
-  background-color: #10b981; /* Emerald-500 */
+  background-color: #000000;
   color: white;
 }
 
-/* Glassmorphism Utilities */
-.glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.glass-dark {
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Admin Dashboard Override */
-body.admin-page {
-  padding-top: 0 !important;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-/* Fixed Nav Padding */
+/* Navbar Padding */
 .has-fixed-nav {
   padding-top: calc(var(--nav-height) + var(--announce-height)) !important;
 }
 
-/* --- Animations --- */
-
-/* Fade In Up */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Typography Utilities */
+.font-fashion-serif {
+  font-family: var(--font-serif);
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.font-fashion-sans {
+  font-family: var(--font-sans);
 }
 
-/* Slide In */
-@keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.animate-slideIn {
-  animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Pulse Glow */
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
-  50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 3s ease-in-out infinite;
-}
-
-/* Infinite Scroll */
-@keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
-.animate-scroll-rtl {
-  animation: scroll-left 40s linear infinite;
-}
-
-/* Staggered Animations */
-.stagger-item {
-  opacity: 0;
-  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.stagger-item:nth-child(1) { animation-delay: 0.05s; }
-.stagger-item:nth-child(2) { animation-delay: 0.1s; }
-.stagger-item:nth-child(3) { animation-delay: 0.15s; }
-.stagger-item:nth-child(4) { animation-delay: 0.2s; }
-.stagger-item:nth-child(5) { animation-delay: 0.25s; }
-.stagger-item:nth-child(6) { animation-delay: 0.3s; }
-
-/* Utilities */
 .text-balance {
   text-wrap: balance;
 }
 
-/* Hide scrollbar but keep functionality */
+/* Minimalist Clean Sections */
+section {
+  padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 40px 0;
+  }
+}
+
+/* Utility Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+/* Fashion-style buttons */
+.btn-fashion {
+  @apply px-8 py-3 bg-black text-white text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gray-800 disabled:opacity-50;
+}
+
+.btn-fashion-outline {
+  @apply px-8 py-3 border border-black text-black text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-black hover:text-white disabled:opacity-50;
 }

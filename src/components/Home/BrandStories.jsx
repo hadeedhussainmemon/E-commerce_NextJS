@@ -28,11 +28,8 @@ export default function BrandStories({ products = [] }) {
     const [activeStory, setActiveStory] = useState(null);
     const [progress, setProgress] = useState(0);
 
-    // Generate random stories from products
     const stories = useMemo(() => {
         if (!products || products.length === 0) return FALLBACK_STORIES;
-
-        // Shuffle and pick 15
         const shuffled = [...products]
             .sort(() => 0.5 - Math.random())
             .slice(0, 15);
@@ -43,14 +40,14 @@ export default function BrandStories({ products = [] }) {
             image: getImageUrl(p.image),
             content: p.description?.slice(0, 100) + (p.description?.length > 100 ? '...' : '') || 'Discover this masterpiece from our collection.',
             price: p.price,
-            category: p.category
+            category: p.category,
+            slug: p.slug
         }));
     }, [products]);
 
     const openStory = (story) => {
         setActiveStory(story);
         setProgress(0);
-        triggerPremiumFeedback('pop', 'light');
     };
 
     const closeStory = () => {
@@ -64,7 +61,6 @@ export default function BrandStories({ products = [] }) {
             interval = setInterval(() => {
                 setProgress((prev) => {
                     if (prev >= 100) {
-                        // Navigate to next or close
                         const currentIndex = stories.findIndex(s => s.id === activeStory.id);
                         if (currentIndex < stories.length - 1) {
                             setActiveStory(stories[currentIndex + 1]);
@@ -76,101 +72,67 @@ export default function BrandStories({ products = [] }) {
                     }
                     return prev + 1;
                 });
-            }, 50); // 5 seconds per story
+            }, 50);
         }
         return () => clearInterval(interval);
     }, [activeStory, stories]);
 
     return (
-        <section className="w-full mb-16 px-4 sm:px-6 lg:px-8">
+        <section className="w-full mb-24 px-6 sm:px-8">
             <div className="max-w-7xl mx-auto">
                 {/* Section Title */}
-                <div className="flex items-center justify-between mb-6 px-2">
-                    <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                        <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        >
-                            <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                        </motion.div>
-                        Live Highlights
+                <div className="flex items-center justify-between mb-10">
+                    <h3 className="text-[11px] font-bold text-black uppercase tracking-[0.4em]">
+                        Latest Stories
                     </h3>
                 </div>
 
-                {/* Story Cards - Facebook Style */}
+                {/* Story Cards */}
                 <div className="relative">
-                    {/* Previous Arrow */}
                     <button
                         onClick={() => {
                             const container = document.getElementById('stories-scroll');
-                            if (container) container.scrollBy({ left: -300, behavior: 'smooth' });
+                            if (container) container.scrollBy({ left: -400, behavior: 'smooth' });
                         }}
-                        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 active:scale-95"
-                        aria-label="Previous stories"
+                        className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 items-center justify-center bg-white border border-gray-100 rounded-full shadow-sm hover:border-black transition-all"
                     >
-                        <ChevronLeft className="w-6 h-6 text-slate-700" />
+                        <ChevronLeft size={20} className="text-black" />
                     </button>
 
-                    {/* Next Arrow */}
                     <button
                         onClick={() => {
                             const container = document.getElementById('stories-scroll');
-                            if (container) container.scrollBy({ left: 300, behavior: 'smooth' });
+                            if (container) container.scrollBy({ left: 400, behavior: 'smooth' });
                         }}
-                        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 active:scale-95"
-                        aria-label="Next stories"
+                        className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 items-center justify-center bg-white border border-gray-100 rounded-full shadow-sm hover:border-black transition-all"
                     >
-                        <ChevronRight className="w-6 h-6 text-slate-700" />
+                        <ChevronRight size={20} className="text-black" />
                     </button>
 
-                    <div id="stories-scroll" className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide px-2 scroll-smooth">
+                    <div id="stories-scroll" className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide scroll-smooth">
                         {stories.map((story) => (
                             <button
                                 key={story.id}
                                 onClick={() => openStory(story)}
-                                className="relative shrink-0 w-36 h-64 sm:w-40 sm:h-72 rounded-2xl overflow-hidden group active:scale-95 transition-all shadow-lg hover:shadow-xl"
+                                className="relative shrink-0 w-40 h-72 rounded-sm overflow-hidden group active:scale-[0.98] transition-all"
                             >
-                                {/* Background Image */}
-                                {story.image && !story.image.includes('placeholder') ? (
-                                    <Image
-                                        src={story.image}
-                                        alt={story.title}
-                                        fill
-                                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                                        unoptimized={true}
-                                    />
-                                ) : (
-                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600" />
-                                )}
+                                <Image
+                                    src={story.image}
+                                    alt={story.title}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+                                <div className="absolute inset-0 border border-black/5 group-hover:border-black/20 transition-all" />
 
-                                {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
-
-                                {/* Ring Border (like unread story) */}
-                                <div className="absolute inset-0 rounded-2xl ring-4 ring-emerald-500 ring-offset-2 ring-offset-white group-hover:ring-emerald-400 transition-all" />
-
-                                {/* Title at Bottom */}
-                                <div className="absolute bottom-3 left-3 right-3">
-                                    <p className="text-white font-bold text-xs leading-tight drop-shadow-lg line-clamp-2">
-                                        {story.title}
-                                    </p>
+                                <div className="absolute top-4 left-4 w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-lg ring-2 ring-black/5">
+                                    <Image src={story.image} alt="" fill className="object-cover" />
                                 </div>
 
-                                {/* Small Circle Avatar at Top */}
-                                <div className="absolute top-3 left-3 w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-lg">
-                                    {story.image && !story.image.includes('placeholder') ? (
-                                        <Image
-                                            src={story.image}
-                                            alt={story.title}
-                                            fill
-                                            className="object-cover"
-                                            unoptimized={true}
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full bg-emerald-600 flex items-center justify-center text-white text-xs font-black">
-                                            {story.title.charAt(0)}
-                                        </div>
-                                    )}
+                                <div className="absolute bottom-4 left-4 right-4 text-left">
+                                    <p className="text-white font-fashion-sans font-bold text-[10px] leading-tight uppercase tracking-wider line-clamp-2">
+                                        {story.title}
+                                    </p>
                                 </div>
                             </button>
                         ))}
@@ -185,11 +147,11 @@ export default function BrandStories({ products = [] }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[200] bg-black flex items-center justify-center p-0 sm:p-4"
+                        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md flex items-center justify-center"
                     >
-                        <div className="relative w-full max-w-sm aspect-[9/16] bg-slate-900 overflow-hidden shadow-2xl sm:rounded-3xl">
+                        <div className="relative w-full max-w-sm aspect-[9/16] bg-black overflow-hidden shadow-2xl">
                             {/* Progress Bars */}
-                            <div className="absolute top-4 left-4 right-4 z-50 flex gap-1">
+                            <div className="absolute top-6 left-6 right-6 z-50 flex gap-1.5">
                                 {stories.map((story, idx) => {
                                     const activeIdx = stories.findIndex(s => s.id === activeStory.id);
                                     let w = "0%";
@@ -197,7 +159,7 @@ export default function BrandStories({ products = [] }) {
                                     if (idx === activeIdx) w = `${progress}%`;
 
                                     return (
-                                        <div key={story.id} className="h-0.5 flex-1 bg-white/20 rounded-full overflow-hidden">
+                                        <div key={story.id} className="h-[2px] flex-1 bg-white/20 rounded-full overflow-hidden">
                                             <div className="h-full bg-white transition-all duration-100 ease-linear" style={{ width: w }} />
                                         </div>
                                     );
@@ -205,15 +167,18 @@ export default function BrandStories({ products = [] }) {
                             </div>
 
                             {/* Header */}
-                            <div className="absolute top-8 left-4 right-4 z-20 flex items-center justify-between">
+                            <div className="absolute top-10 left-6 right-6 z-20 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full border border-white/20 overflow-hidden relative">
-                                        <Image src={activeStory.image} alt="Logo" fill className="object-cover" />
+                                    <div className="w-9 h-9 rounded-full border border-white/20 overflow-hidden relative">
+                                        <Image src={activeStory.image} alt="" fill className="object-cover" />
                                     </div>
-                                    <span className="text-white font-bold text-sm tracking-wide">{activeStory.title}</span>
+                                    <div className="flex flex-col">
+                                        <span className="text-white font-bold text-[11px] uppercase tracking-widest">{activeStory.title}</span>
+                                        <span className="text-[9px] text-white/40 font-bold uppercase tracking-widest">{activeStory.category}</span>
+                                    </div>
                                 </div>
-                                <button onClick={closeStory} className="text-white/80 hover:text-white p-2">
-                                    <X size={24} />
+                                <button onClick={closeStory} className="text-white/60 hover:text-white transition-colors">
+                                    <X size={24} strokeWidth={1.5} />
                                 </button>
                             </div>
 
@@ -223,34 +188,27 @@ export default function BrandStories({ products = [] }) {
                                 initial={{ x: 300, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 exit={{ x: -300, opacity: 0 }}
-                                transition={{ type: "spring", damping: 20, stiffness: 100 }}
+                                transition={{ type: "spring", damping: 25, stiffness: 120 }}
                                 className="absolute inset-0"
                             >
-                                <Image
-                                    src={activeStory.image}
-                                    alt={activeStory.title}
-                                    fill
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
-                                <div className="absolute bottom-12 left-6 right-6 text-white space-y-4">
-                                    <h2 className="text-3xl font-playfair font-black leading-tight italic">{activeStory.title}</h2>
-                                    <div className="flex items-center gap-3">
-                                        <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-widest border border-white/20">{activeStory.category}</span>
-                                        <span className="text-emerald-400 font-black tracking-tight">Rs. {activeStory.price}</span>
-                                        <span className="text-[9px] text-white/30 font-mono font-bold uppercase tracking-tighter ml-auto">Node: {activeStory.id.slice(-6).toUpperCase()}</span>
-                                    </div>
-                                    <p className="text-white/80 font-medium text-sm leading-relaxed">{activeStory.content}</p>
+                                <Image src={activeStory.image} alt={activeStory.title} fill className="object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
+
+                                <div className="absolute bottom-16 left-8 right-8 text-white space-y-6">
+                                    <h2 className="font-fashion-serif text-4xl italic font-black leading-tight tracking-tighter">
+                                        {activeStory.title}
+                                    </h2>
+                                    <p className="text-white/70 font-medium text-sm leading-relaxed line-clamp-3 italic">
+                                        {activeStory.content}
+                                    </p>
+
                                     <Link
-                                        href={`/product/${activeStory.id}`}
-                                        onClick={() => {
-                                            triggerPremiumFeedback('success', 'medium');
-                                            closeStory();
-                                        }}
-                                        className="w-full py-4 bg-white text-black text-center rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-transform inline-block group"
+                                        href={`/product/${activeStory.slug}`}
+                                        onClick={closeStory}
+                                        className="w-full py-5 bg-white text-black text-center text-[11px] font-bold uppercase tracking-[0.3em] active:scale-95 transition-transform inline-block group"
                                     >
-                                        Extract Masterpiece
-                                        <ChevronRight size={16} className="inline-block ml-1 group-hover:translate-x-1 transition-transform" />
+                                        Shop Piece
+                                        <ChevronRight size={14} className="inline-block ml-2 group-hover:translate-x-1 transition-transform" />
                                     </Link>
                                 </div>
                             </motion.div>

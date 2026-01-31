@@ -44,56 +44,83 @@ export default function SearchPage() {
     };
 
     return (
-        <div className="min-h-screen pt-24 pb-12 bg-slate-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold text-slate-900 mb-8">Search Results</h1>
+        <div className="min-h-screen bg-white pt-32 pb-24">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="flex flex-col md:flex-row items-baseline justify-between mb-16 gap-4">
+                    <h1 className="font-fashion-serif text-5xl md:text-6xl italic font-black text-black tracking-tighter">
+                        Discover
+                    </h1>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-gray-400">
+                        {loading ? 'Searching...' : `${results.length} ${results.length === 1 ? 'Result' : 'Results'}`}
+                    </span>
+                </div>
 
                 {/* Search Bar */}
-                <form onSubmit={handleSearch} className="relative mb-12 max-w-2xl mx-auto">
+                <form onSubmit={handleSearch} className="relative mb-24 max-w-2xl">
                     <input
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Search for products..."
-                        className="w-full pl-12 pr-4 py-4 rounded-xl border border-slate-200 shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg transition-all"
+                        placeholder="Search for essentials, dresses, and more..."
+                        className="w-full pl-0 pr-12 py-6 bg-transparent border-b-2 border-gray-100 focus:border-black outline-none font-fashion-serif text-2xl italic tracking-tight transition-all placeholder:text-gray-200"
                         autoFocus
                     />
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
+                    <Search className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400" size={24} strokeWidth={1.5} />
                 </form>
 
                 {/* Results */}
                 {loading ? (
-                    <div className="flex justify-center py-20">
-                        <Loader2 className="animate-spin text-emerald-600" size={48} />
+                    <div className="flex flex-col items-center justify-center py-32 space-y-4">
+                        <Loader2 className="animate-spin text-black" size={32} strokeWidth={1} />
+                        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400">Loading Pieces</p>
                     </div>
                 ) : results.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
                         {results.map(product => (
-                            <Link key={product._id} href={`/product/${product.slug}`} className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg hover:border-emerald-200 transition-all duration-300">
-                                <div className="aspect-[4/5] bg-slate-100 relative overflow-hidden">
-                                    <Image
-                                        src={getImageUrl(product.images?.[0])}
-                                        alt={product.title}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                </div>
-                                <div className="p-4">
-                                    <h3 className="font-semibold text-slate-900 line-clamp-1 group-hover:text-emerald-700 transition-colors mb-1">{product.title}</h3>
-                                    <p className="font-bold text-slate-900">Rs. {product.price?.toLocaleString() || 0}</p>
-                                </div>
-                            </Link>
+                            <div key={product._id} className="group flex flex-col">
+                                <Link href={`/product/${product.slug}`} className="block">
+                                    <div className="aspect-[3/4] bg-gray-50 relative overflow-hidden mb-6">
+                                        <Image
+                                            src={getImageUrl(product.images?.[0])}
+                                            alt={product.title}
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                        />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div className="space-y-1">
+                                            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                                                {product.category}
+                                            </span>
+                                            <h3 className="font-fashion-serif text-lg italic font-black text-black tracking-tight group-hover:opacity-70 transition-opacity whitespace-nowrap overflow-hidden text-ellipsis">
+                                                {product.title}
+                                            </h3>
+                                        </div>
+                                        <p className="text-sm font-bold text-black font-fashion-sans">
+                                            Rs. {product.price?.toLocaleString() || 0}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
                         ))}
                     </div>
                 ) : query ? (
-                    <div className="text-center py-20 text-slate-500">
-                        <p className="text-xl">No results found for "{query}"</p>
-                        <p className="mt-2">Try checking your spelling or using different keywords.</p>
+                    <div className="text-center py-32 border-t border-gray-100">
+                        <h2 className="font-fashion-serif text-3xl italic font-black text-black mb-4">No Pieces Found</h2>
+                        <p className="text-gray-500 text-sm font-medium mb-12">Try refining your search or checking your spelling.</p>
+                        <button
+                            onClick={() => setQuery('')}
+                            className="px-12 py-4 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-gray-900 transition-colors"
+                        >
+                            Clear Search
+                        </button>
                     </div>
                 ) : (
-                    <div className="text-center py-20 text-slate-400">
-                        <Search size={48} className="mx-auto mb-4 opacity-50" />
-                        <p>Start typing to search for products</p>
+                    <div className="text-center py-32 border-t border-gray-100">
+                        <div className="w-16 h-16 border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-8">
+                            <Search size={24} strokeWidth={1} className="text-gray-300" />
+                        </div>
+                        <h2 className="font-fashion-serif text-2xl italic font-black text-gray-300">Searching for something special?</h2>
                     </div>
                 )}
             </div>

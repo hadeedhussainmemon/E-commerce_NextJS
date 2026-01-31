@@ -1,24 +1,19 @@
-"use client";
-
-import React from 'react';
-import LegalPage from './LegalPage';
-
 export default function Returns() {
     return (
-        <LegalPage title="Reversal Protocol" lastUpdated="January 2026">
+        <LegalPage title="Returns & Exchanges" lastUpdated="January 2026">
             <h2>1. Refund Window</h2>
             <p>
-                If a masterpiece does not align with your aesthetic frequency, you may initiate a Reversal Protocol within 14 cycles of acquisition.
+                If your order does not meet your expectations, you may initiate a return within 14 days of receiving your items.
             </p>
 
-            <h2>2. Entity Condition</h2>
+            <h2>2. Condition of Items</h2>
             <p>
-                Masterpieces must be returned in their original "mint" state, with all cryptographic tags and packaging intact.
+                Items must be returned in their original condition, unworn and unwashed, with all original tags and packaging intact.
             </p>
 
-            <h2>3. Processing Flow</h2>
+            <h2>3. Processing Your Return</h2>
             <p>
-                Once the returned entity is verified at our main atelier, a refund fragment will be deployed to your original acquisition method within 7 cycles.
+                Once your return is received and inspected at our warehouse, a refund will be processed to your original payment method within 7 business days.
             </p>
         </LegalPage>
     );

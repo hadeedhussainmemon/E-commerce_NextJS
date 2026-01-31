@@ -47,49 +47,43 @@ const ProductBundles = ({ currentProduct }) => {
     };
 
     return (
-        <div className="mt-8 p-6 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-100">
-            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <span className="text-xl">🎁</span> Frequently Bought Together
+        <div className="mt-12 py-12 border-t border-b border-gray-100">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.4em] text-gray-400 mb-10 text-center">
+                Frequently Bought Together
             </h3>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
-                {/* Images */}
-                <div className="flex items-center gap-4">
-                    <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-white shadow-sm">
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
+                {/* Images with Plus Icon */}
+                <div className="flex items-center gap-6">
+                    <div className="relative w-32 h-40 bg-gray-50 rounded-sm overflow-hidden">
                         <Image src={getImageUrl(currentProduct.image)} alt={currentProduct.title} fill className="object-cover" />
                     </div>
-                    <div className="text-gray-400 font-bold text-xl">+</div>
-                    <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-white shadow-sm">
+                    <div className="text-gray-300 font-light text-3xl">+</div>
+                    <div className="relative w-32 h-40 bg-gray-50 rounded-sm overflow-hidden">
                         <Image src={getImageUrl(bundleItem.image)} alt={bundleItem.title} fill className="object-cover" />
                     </div>
                 </div>
 
                 {/* Info & Action */}
-                <div className="flex-1 text-center sm:text-left">
-                    <p className="text-sm text-gray-600 mb-2">
-                        <span className="font-medium text-gray-900">{currentProduct.title}</span>
-                        <span className="mx-1">&</span>
-                        <Link href={`/product/${bundleItem.slug || bundleItem.id}`} className="font-medium text-emerald-600 hover:underline">
-                            {bundleItem.title}
-                        </Link>
+                <div className="max-w-sm text-center lg:text-left space-y-6">
+                    <p className="text-[13px] text-gray-500 font-medium leading-relaxed">
+                        Combine <span className="text-black font-bold">{currentProduct.title}</span> with <Link href={`/product/${bundleItem.slug || bundleItem.id}`} className="text-black font-bold border-b border-black hover:opacity-70 transition-opacity">{bundleItem.title}</Link> and elevate your style.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
-                        <div className="text-left">
-                            <div className="flex items-center gap-2">
-                                <span className="text-lg font-bold text-gray-900">{config.currency.symbol} {bundlePrice.toLocaleString('en-PK')}</span>
-                                <span className="text-sm text-gray-400 line-through">{config.currency.symbol} {totalPrice.toLocaleString('en-PK')}</span>
-                            </div>
-                            <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
-                                Save {config.currency.symbol} {savedAmount.toLocaleString('en-PK')} (10%)
+                    <div className="flex flex-col gap-4">
+                        <div className="flex items-baseline justify-center lg:justify-start gap-3">
+                            <span className="text-xl font-bold text-black">{config.currency.symbol}{bundlePrice.toLocaleString('en-PK')}</span>
+                            <span className="text-sm text-gray-300 line-through">{config.currency.symbol}{totalPrice.toLocaleString('en-PK')}</span>
+                            <span className="text-[10px] font-bold text-white bg-black px-2 py-0.5 uppercase tracking-wider">
+                                Save {config.currency.symbol}{savedAmount.toLocaleString('en-PK')}
                             </span>
                         </div>
 
                         <button
                             onClick={handleAddBundle}
-                            className="bg-gray-900 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-black transition-all active:scale-95 shadow-lg hover:shadow-xl w-full sm:w-auto"
+                            className="w-full lg:w-max px-10 py-4 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-gray-900 transition-colors active:scale-[0.98]"
                         >
-                            Add Bundle to Cart
+                            Add Bundle To Cart
                         </button>
                     </div>
                 </div>

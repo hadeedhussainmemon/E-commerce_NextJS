@@ -9,11 +9,17 @@ export async function getProducts(filters = {}) {
         sort,
         q,
         limit = 100,
-        page = 1, // Default to page 1 if not provided, though not strictly used in the limit-based query in original code, adding for future proofing or strictly following original logic which just used limit.
-        showHidden = false
+        page = 1,
+        showHidden = false,
+        sellerId = null
     } = filters;
 
     let query = {};
+
+    // Seller Filter
+    if (sellerId) {
+        query.sellerId = sellerId;
+    }
 
     // Visibility Filter (Default: Only show visible)
     if (!showHidden) {

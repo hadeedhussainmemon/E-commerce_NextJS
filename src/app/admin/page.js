@@ -8,21 +8,36 @@ import AdminOrders from '../../components/Admin/AdminOrders.optimized'; // Using
 import AdminLogin from '../../components/Admin/AdminLogin';
 
 export default function AdminPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [currentSection, setCurrentSection] = useState('dashboard');
-    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        // Simple mock auth check for now - replace with context or real auth
-        const token = localStorage.getItem('adminToken');
-        if (token) {
-            setIsAuthenticated(true);
-        }
-        setLoading(false);
+        const checkAuth = async () => {
+            try {
+                const res = await fetch('/api/auth/me');
+                if (res.ok) {
+                    const data = await res.json();
+                    setUser(data.user);
+                    setIsAuthenticated(true);
+                } else {
+                    // Check if token exists in localStorage as fallback or clear it
+                    const token = localStorage.getItem('adminToken');
+                    if (token) {
+                        // If token exists but /api/auth/me failed, it might be expired
+                        localStorage.removeItem('adminToken');
+                    }
+                }
+            } catch (err) {
+                console.error('Auth check error:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        checkAuth();
     }, []);
 
-    const handleLogin = (token) => {
+    const handleLogin = (token, userData) => {
         localStorage.setItem('adminToken', token);
+        setUser(userData);
         setIsAuthenticated(true);
     };
 
@@ -34,15 +49,15 @@ export default function AdminPage() {
 
     const renderSection = () => {
         switch (currentSection) {
-            case 'dashboard': return <AdminOverview onChangeSection={setCurrentSection} />;
-            case 'products': return <AdminProducts />;
-            case 'orders': return <AdminOrders />;
-            default: return <AdminOverview onChangeSection={setCurrentSection} />;
+            case 'dashboard': return <AdminOverview user={user} onChangeSection={setCurrentSection} />;
+            case 'products': return <AdminProducts user={user} />;
+            case 'orders': return <AdminOrders user={user} />;
+            default: return <AdminOverview user={user} onChangeSection={setCurrentSection} />;
         }
     };
 
     return (
-        <AdminLayout section={currentSection} onSectionChange={setCurrentSection}>
+        <AdminLayout user={user} section={currentSection} onSectionChange={setCurrentSection}>
             {renderSection()}
         </AdminLayout>
     );

@@ -103,177 +103,176 @@ const ProductDetail = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 font-sans">
+    <div className="bg-white min-h-screen">
       <SEO
-        title={`${product.title} | CoolCache Pakistan`}
-        description={`Buy ${product.title} - ${String(product.description || '').substring(0, 150)}...`}
-        canonical={`https://www.coolcache.app/product/${product.slug || product.id}`}
+        title={`${product.title} | Petal + Pup`}
+        description={`Shop ${product.title} - ${String(product.description || '').substring(0, 150)}...`}
+        canonical={`https://www.petalpluspup.com/product/${product.slug || product.id}`}
         image={imageUrl}
         type="product"
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div className="mb-6">
-        <button
-          onClick={() => router.back()}
-          className="mb-4 flex items-center gap-2 text-sm text-slate-500 hover:text-emerald-600 transition-colors group"
-        >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          Back
-        </button>
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
-        {/* Product Image */}
-        <div className="relative aspect-square sm:aspect-auto h-full min-h-[400px]">
-          {isSoldOut && (
-            <div className="absolute top-4 left-4 bg-slate-900 text-white px-4 py-1.5 rounded-full text-sm font-bold z-10 shadow-lg">
-              Sold Out
-            </div>
-          )}
-          <div className="relative w-full h-full rounded-xl overflow-hidden bg-slate-50 border border-slate-100">
-            <Image
-              src={getImageUrl(product.image)}
-              alt={product.title}
-              fill
-              className="object-contain hover:scale-105 transition-transform duration-500"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="mb-12">
+          <Breadcrumb items={breadcrumbItems} />
         </div>
 
-        {/* Product Details */}
-        <div className="flex flex-col">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-3 text-slate-900 leading-tight">{product.title}</h1>
-
-          <div className="flex items-center gap-4 mb-6 text-sm text-slate-500 border-b border-slate-100 pb-6">
-            <span className="bg-slate-100 px-3 py-1 rounded-full text-slate-700 font-medium">
-              {Array.isArray(product.category) ? product.category.join(', ') : product.category}
-            </span>
-            {product.material && product.material.toLowerCase() !== 'handmade' && (
-              <span>{product.material}</span>
-            )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Product Image Section */}
+          <div className="space-y-4">
+            <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 rounded-sm">
+              {isSoldOut && (
+                <div className="absolute top-6 left-6 bg-black text-white px-4 py-1 text-[10px] font-bold uppercase tracking-[0.2em] z-10">
+                  Sold Out
+                </div>
+              )}
+              <Image
+                src={getImageUrl(product.image)}
+                alt={product.title}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            {/* Gallery Thumbs - Placeholder for now if needed */}
           </div>
 
-          {/* Price */}
-          <div className="mb-8">
-            {product.price > 0 ? (
-              <div className="flex items-end gap-3 flex-wrap">
-                <span className="text-4xl font-bold text-slate-900">
-                  {config.currency.symbol} {product.price.toLocaleString('en-PK')}
-                </span>
-                <span className="text-lg text-slate-400 line-through mb-1.5">
-                  {config.currency.symbol} {Math.round(product.price * 1.25).toLocaleString('en-PK')}
-                </span>
-                <span className="bg-emerald-100 text-emerald-700 text-sm font-bold px-3 py-1 mb-2 rounded-full">
-                  20% OFF
-                </span>
+          {/* Product Details Section */}
+          <div className="flex flex-col pt-4">
+            <div className="mb-10">
+              <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-gray-400 mb-4 block">
+                {categoryLabel}
+              </span>
+              <h1 className="font-fashion-serif text-4xl md:text-5xl italic font-black text-black tracking-tighter mb-6 leading-tight">
+                {product.title}
+              </h1>
+
+              <div className="flex items-center gap-4">
+                {product.price > 0 ? (
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-2xl font-bold text-black font-fashion-sans">
+                      {config.currency.symbol} {product.price.toLocaleString('en-PK')}
+                    </span>
+                    <span className="text-lg text-gray-300 line-through">
+                      {config.currency.symbol} {Math.round(product.price * 1.2).toLocaleString('en-PK')}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-xl font-bold text-gray-400">Price on Request</span>
+                )}
               </div>
-            ) : (
-              <div className="text-2xl text-slate-500">Contact for price</div>
-            )}
-            <p className="text-sm text-slate-400 mt-2">Tax included. Shipping calculated at checkout.</p>
-          </div>
+            </div>
 
-          {/* Color Selection */}
-          {product.colors && product.colors.length > 0 && (
-            <div className="mb-8">
-              <div className="text-sm font-medium text-slate-900 mb-3">Select Color</div>
-              <div className="flex items-center gap-3">
-                {product.colors.map((c) => (
+            {/* Color Selection */}
+            {product.colors && product.colors.length > 0 && (
+              <div className="mb-10">
+                <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-black mb-4">Color</div>
+                <div className="flex items-center gap-4">
+                  {product.colors.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setSelectedColor(c)}
+                      className={`w-8 h-8 rounded-full border transition-all ${selectedColor === c
+                        ? 'border-black ring-1 ring-black ring-offset-4'
+                        : 'border-gray-200 hover:border-black'
+                        }`}
+                      style={{ background: c }}
+                      aria-label={c}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-4 mb-12">
+              {product.price > 0 && !isSoldOut ? (
+                <>
                   <button
-                    key={c}
-                    onClick={() => setSelectedColor(c)}
-                    className={`w-10 h-10 rounded-full border-2 shadow-sm transition-all ${selectedColor === c ? 'ring-2 ring-offset-2 ring-emerald-500 border-emerald-500 scale-110' : 'border-slate-200 hover:scale-105'}`}
-                    style={{ background: c }}
-                  />
-                ))}
+                    onClick={handleAddToCartWithAnimation}
+                    className="w-full py-5 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-gray-900 transition-colors active:scale-[0.99]"
+                  >
+                    Add To Cart
+                  </button>
+                  <button
+                    onClick={handleBuyNow}
+                    className="w-full py-5 border border-black text-black text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-black hover:text-white transition-all active:scale-[0.99]"
+                  >
+                    Buy It Now
+                  </button>
+                </>
+              ) : (
+                <button disabled className="w-full py-5 bg-gray-100 text-gray-400 text-[11px] font-bold uppercase tracking-[0.3em] cursor-not-allowed">
+                  {isSoldOut ? 'Sold Out' : 'Unavailable'}
+                </button>
+              )}
+            </div>
+
+            {/* Product description (mini) */}
+            <div className="border-t border-gray-100 pt-10">
+              <div className="prose prose-sm text-gray-500 font-medium leading-relaxed max-w-none mb-10">
+                {product.description}
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12 py-10 border-t border-gray-100">
+                <div className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-black group-hover:text-white transition-colors">
+                    <Truck size={18} strokeWidth={1.5} />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-black">Express Shipping</span>
+                    <span className="text-xs text-gray-500">2-4 business days</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-black group-hover:text-white transition-colors">
+                    <ShieldCheck size={18} strokeWidth={1.5} />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-black">Authentic</span>
+                    <span className="text-xs text-gray-500">100% Quality Assured</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-black group-hover:text-white transition-colors">
+                    <Share2 size={18} strokeWidth={1.5} />
+                  </div>
+                  <button onClick={handleWhatsAppShare} className="text-[10px] font-bold uppercase tracking-[0.1em] text-black hover:underline text-left">
+                    Share This Item
+                  </button>
+                </div>
               </div>
             </div>
-          )}
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
-            {product.price > 0 && !isSoldOut ? (
-              <>
-                <button
-                  onClick={handleAddToCartWithAnimation}
-                  className="flex-1 px-8 py-4 rounded-xl border-2 border-slate-200 text-slate-900 font-bold hover:border-slate-900 hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
-                >
-                  <ShoppingBag size={20} />
-                  Add to Cart
-                </button>
-                <button
-                  onClick={handleBuyNow}
-                  className="flex-1 px-8 py-4 rounded-xl bg-slate-900 text-white font-bold hover:bg-emerald-600 shadow-lg shadow-slate-200 hover:shadow-emerald-200 transition-all active:scale-[0.98]"
-                >
-                  Buy Now
-                </button>
-              </>
-            ) : (
-              <button disabled className="w-full py-4 rounded-xl bg-slate-100 text-slate-400 font-bold cursor-not-allowed">
-                {isSoldOut ? 'Sold Out' : 'Contact for Price'}
-              </button>
-            )}
           </div>
+        </div>
 
-          {/* Trust Indicators */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-600 bg-slate-50 p-6 rounded-xl border border-slate-100">
-            <div className="flex items-center gap-3">
-              <Truck className="text-emerald-500" size={20} />
-              <span>Fast Delivery (2-4 Days)</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <ShieldCheck className="text-indigo-500" size={20} />
-              <span>Authentic Guarantee</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="text-emerald-500" size={20} />
-              <span>Cash on Delivery Available</span>
-            </div>
-            <button onClick={handleWhatsAppShare} className="flex items-center gap-3 text-slate-500 hover:text-emerald-600 transition-colors text-left">
-              <Share2 size={20} />
-              <span>Share with Friends</span>
-            </button>
-          </div>
+        <div className="mt-24">
+          <ProductBundles currentProduct={product} />
+        </div>
 
-          {/* Description */}
-          <div className="mt-8 pt-8 border-t border-slate-100">
-            <h3 className="text-lg font-bold text-slate-900 mb-4">Description</h3>
-            <div className="prose prose-slate text-slate-600 leading-relaxed max-w-none">
-              {product.description}
-            </div>
+        <RelatedProducts currentId={product.id} category={product.category} />
+
+        <div className="mt-32 pt-20 border-t border-gray-100">
+          <div className="text-center mb-16">
+            <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-gray-400 mb-4 block">Feedback</span>
+            <h2 className="font-fashion-serif text-4xl italic font-black text-black">Customer Reviews</h2>
           </div>
+          <Reviews />
         </div>
       </div>
 
-      <ProductBundles currentProduct={product} />
-      <RelatedProducts currentId={product.id} category={product.category} />
-
-      <div className="mt-16 pt-10 border-t border-slate-200">
-        <Reviews />
-      </div>
-
-      {/* Mobile Sticky Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-100 p-4 shadow-2xl safe-area-bottom">
-        <div className="flex gap-3">
-          <button
-            onClick={handleAddToCartWithAnimation}
-            disabled={isSoldOut}
-            className="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-900"
-          >
-            Add
-          </button>
-          <button
-            onClick={handleBuyNow}
-            disabled={isSoldOut}
-            className="flex-[2] py-3 rounded-xl bg-slate-900 text-white font-bold shadow-lg"
-          >
-            Buy Now
-          </button>
-        </div>
+      {/* Mobile Sticky CTA */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-gray-100 px-6 py-4 pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+        <button
+          onClick={handleBuyNow}
+          disabled={isSoldOut}
+          className="w-full py-4 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] disabled:bg-gray-100 disabled:text-gray-400 transition-colors"
+        >
+          {isSoldOut ? 'Sold Out' : 'Quick Shop'}
+        </button>
       </div>
     </div>
   );
@@ -308,9 +307,14 @@ const RelatedProducts = ({ currentId, category }) => {
   if (loading || !items.length) return null;
 
   return (
-    <div className="mt-16">
-      <h2 className="text-2xl font-bold mb-8 text-slate-900">You might also like</h2>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="mt-32">
+      <div className="flex items-center justify-between mb-12">
+        <h2 className="font-fashion-serif text-3xl italic font-black text-black">Complete The Look</h2>
+        <Link href={`/category/${Array.isArray(category) ? category[0].toLowerCase() : (category || '').toLowerCase()}`} className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors">
+          View All
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
         {items.map(p => (
           <ProductCard key={p.id} product={p} />
         ))}

@@ -8,7 +8,7 @@ import config from '../../config';
 
 const QuickViewModal = ({ product, isOpen, onClose }) => {
     const { addToCart, isInCart, openCart } = useCart();
-    const { startAnimation } = useCartAnimation(); // Use global animation context
+    const { startAnimation } = useCartAnimation();
     const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || null);
 
     if (!isOpen) return null;
@@ -16,7 +16,6 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
     const handleAddToCart = (e) => {
         addToCart({ ...product, selectedOptions: { color: selectedColor } });
 
-        // Trigger animation
         const img = document.getElementById(`quickview-img-${product.id}`);
         if (img) {
             startAnimation(img.getBoundingClientRect(), getImageUrl(product.image));
@@ -24,7 +23,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
 
         setTimeout(() => {
             onClose();
-            openCart(); // Optional: open cart or just stay
+            openCart();
         }, 300);
     };
 
@@ -38,99 +37,90 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
                     />
 
                     {/* Modal Content */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 30 }}
+                        className="relative w-full max-w-4xl bg-white shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Close Button */}
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 z-10 p-2 bg-white/80 hover:bg-gray-100 rounded-full text-gray-500 transition-colors"
+                            className="absolute top-6 right-6 z-10 p-2 hover:rotate-90 transition-transform duration-300"
                         >
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                            <svg className="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
 
                         {/* Image Section */}
-                        <div className="w-full md:w-1/2 bg-gray-50 flex items-center justify-center p-6 relative">
-                            <div className="relative w-full aspect-square max-w-sm">
+                        <div className="w-full md:w-1/2 bg-gray-50 flex items-center justify-center p-0 relative">
+                            <div className="relative w-full aspect-[3/4]">
                                 <Image
                                     id={`quickview-img-${product.id}`}
                                     src={getImageUrl(product.image)}
                                     alt={product.title}
                                     fill
-                                    className="object-contain drop-shadow-lg"
+                                    className="object-cover"
                                 />
                             </div>
                         </div>
 
                         {/* Details Section */}
-                        <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col overflow-y-auto">
-                            <div className="mb-4">
-                                {product.isTrending && (
-                                    <span className="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded-full mb-2 inline-block">
-                                        🔥 Trending
-                                    </span>
-                                )}
-                                <h2 className="text-2xl font-playfair font-bold text-gray-900 mb-1">{product.title}</h2>
-                                <p className="text-sm text-gray-500">{product.category}</p>
+                        <div className="w-full md:w-1/2 p-10 md:p-12 flex flex-col overflow-y-auto">
+                            <div className="mb-8">
+                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.4em] mb-4 block">
+                                    {product.category}
+                                </span>
+                                <h1 className="font-fashion-serif text-4xl md:text-5xl italic font-black text-black leading-tight tracking-tighter mb-6">
+                                    {product.title}
+                                </h1>
+                                <div className="text-2xl font-fashion-sans font-light tracking-tight text-black">
+                                    {config.currency.symbol}{product.price.toLocaleString()}
+                                </div>
                             </div>
 
-                            <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                            <p className="text-gray-500 text-sm font-medium leading-relaxed mb-10 pb-10 border-b border-gray-100">
                                 {product.description}
                             </p>
 
-                            <div className="flex items-center gap-3 mb-6">
-                                <span className="text-3xl font-bold text-gray-900">
-                                    {config.currency.symbol} {product.price.toLocaleString()}
-                                </span>
-                                {product.price > 0 && (
-                                    <span className="text-sm text-green-600 font-medium bg-green-50 px-2 py-1 rounded-lg">
-                                        In Stock
-                                    </span>
-                                )}
-                            </div>
-
                             {product.colors && product.colors.length > 0 && (
-                                <div className="mb-6">
-                                    <span className="text-sm font-semibold text-gray-700 block mb-2">Select Color</span>
-                                    <div className="flex gap-2">
+                                <div className="mb-10">
+                                    <span className="text-[11px] font-bold text-black uppercase tracking-[0.2em] block mb-6">Select Color</span>
+                                    <div className="flex gap-4">
                                         {product.colors.map(color => (
                                             <button
                                                 key={color}
                                                 onClick={() => setSelectedColor(color)}
-                                                className={`w-8 h-8 rounded-full border-2 transition-all ${selectedColor === color ? 'ring-2 ring-violet-500 border-white' : 'border-gray-200 hover:border-violet-300'}`}
-                                                style={{ backgroundColor: color }}
-                                                title={color}
-                                            />
+                                                className={`w-10 h-10 rounded-full border transition-all relative ${selectedColor === color ? 'border-black scale-110' : 'border-transparent hover:border-gray-200'}`}
+                                            >
+                                                <span
+                                                    className="absolute inset-1 rounded-full shadow-inner"
+                                                    style={{ backgroundColor: color }}
+                                                />
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
                             )}
 
-                            <div className="mt-auto pt-4 border-t border-gray-100 flex gap-3">
+                            <div className="mt-auto space-y-4">
                                 <button
                                     onClick={handleAddToCart}
-                                    className="flex-1 bg-gray-900 text-white font-bold py-3.5 rounded-xl hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-2"
+                                    className="w-full bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] py-5 hover:bg-gray-900 transition-colors active:scale-95"
                                 >
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                    </svg>
                                     Add to Cart
                                 </button>
                                 <button
-                                    onClick={() => window.location.href = `/product/${product.id}`}
-                                    className="px-4 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                                    onClick={() => window.location.href = `/product/${product.slug || product.id}`}
+                                    className="w-full text-black text-[10px] font-bold uppercase tracking-[0.3em] py-4 border border-transparent hover:border-gray-100 transition-all"
                                 >
-                                    View Details
+                                    View Full Details
                                 </button>
                             </div>
                         </div>
