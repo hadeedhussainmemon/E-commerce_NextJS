@@ -89,9 +89,9 @@ const AddProduct = ({ onClose, onProductAdded, product = null, existingCategorie
     const generateMagicDescription = () => {
         if (!formData.title) return;
         const templates = [
-            `Emanating absolute sophistication, the OBSIDIAN ${formData.title} marks a new meridian in design. Engineered with precision ${formData.material || 'elements'}, this node features a silhouette that defies temporal standards. Synchronized for the modern vanguard.`,
-            `Protocol: VANGUARD. Asset: ${formData.title}. A master-class in structural integrity and aesthetic flow, utilizing high-density ${formData.material || 'polymers'}. Designed for high-velocity environments where performance and prestige converge.`,
-            `The ${formData.title} exists at the intersection of utility and art. Forged from elite ${formData.material || 'composites'}, it offers a tactile experience redefined. A pivotal expansion to the ${selectedCategories[0] || 'Neural'} cluster.`
+            `Exuding effortless grace, the ${formData.title} is an essential addition to the modern wardrobe. Crafted from premium ${formData.material || 'fabrics'}, this piece features a silhouette that celebrates minimalist form. An exclusive selection for the Petal + Pup collection.`,
+            `A masterpiece of artisanal craftsmanship, the ${formData.title} balances structural integrity with ethereal flow. Utilizing high-density ${formData.material || 'textiles'}, it is designed for the discerning observer who values both substance and style.`,
+            `The ${formData.title} resides at the intersection of contemporary design and timeless elegance. Forged from elite ${formData.material || 'components'}, it provides a tactile experience that is truly refined. A quintessential piece for your personal curate.`
         ];
         const random = templates[Math.floor(Math.random() * templates.length)];
         setFormData(prev => ({ ...prev, description: random }));
@@ -144,8 +144,8 @@ const AddProduct = ({ onClose, onProductAdded, product = null, existingCategorie
                 {/* Header */}
                 <div className="flex items-center justify-between px-10 py-8 border-b border-white/5 bg-white/[0.02] relative z-10">
                     <div>
-                        <h2 className="text-3xl font-playfair font-black text-white italic tracking-tighter">{isEditing ? 'Sync Entity' : 'Forging Asset'}</h2>
-                        <p className="text-[10px] text-emerald-500 font-black uppercase tracking-[0.3em] mt-1">Configuration Matrix</p>
+                        <h2 className="text-3xl font-fashion-serif font-black text-white italic tracking-tighter">{isEditing ? 'Refine Piece' : 'Curate New Piece'}</h2>
+                        <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.3em] mt-1">Collection Management</p>
                     </div>
                     <button
                         onClick={onClose}

@@ -153,9 +153,9 @@ function CategoryPage() {
   return (
     <>
       <SEO
-        title={`${displayName} | CoolCache`}
-        description={`Shop the best ${displayName} at CoolCache.`}
-        canonical={`https://www.coolcache.app/category/${slug.toLowerCase()}`}
+        title={`${displayName} | Petal + Pup`}
+        description={`Shop the best ${displayName} at Petal + Pup.`}
+        canonical={`https://petal-plus-pup.vercel.app/category/${slug.toLowerCase()}`}
       />
 
       <div className="min-h-screen bg-gray-50/50 pb-20">

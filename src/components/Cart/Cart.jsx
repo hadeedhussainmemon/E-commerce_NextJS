@@ -423,7 +423,7 @@ export default function Cart() {
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
             </button>
-            <p className="text-xs text-center text-gray-400">Secure Checkout powered by CoolCache</p>
+            <p className="text-xs text-center text-gray-400">Secure Checkout powered by Petal + Pup</p>
           </div>
         )}
       </div>

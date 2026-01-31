@@ -79,6 +79,7 @@ const AdminLogin = ({ onLogin }) => {
             </div>
 
             <h2 className="text-4xl font-playfair font-black text-white italic tracking-tighter mb-2">Gatekeeper Alpha</h2>
+            <p className="text-xs text-center text-gray-400">Secure Checkout powered by Petal + Pup</p>
             <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em]">Neural Identity Verification</p>
           </div>
 
@@ -90,7 +91,7 @@ const AdminLogin = ({ onLogin }) => {
               {error && (
                 <div className="p-5 bg-rose-500/5 border border-rose-500/10 text-rose-400 rounded-2xl flex items-center gap-4 text-[10px] font-black uppercase tracking-widest animate-pulse backdrop-blur-md">
                   <AlertCircle size={18} />
-                  <span>Protocol Alert: {error}</span>
+                  <span>Petal + Pup Alert: {error}</span>
                 </div>
               )}
 
@@ -158,7 +159,7 @@ const AdminLogin = ({ onLogin }) => {
           {/* Footer */}
           <div className="px-10 py-6 bg-black/40 border-t border-white/5 text-center">
             <p className="text-[9px] text-slate-700 font-black uppercase tracking-[0.4em]">
-              Vanguard OS Matrix // Secure Tunnel Alpha
+              Petal + Pup Portal // Secure Admin Access
             </p>
           </div>
         </div>

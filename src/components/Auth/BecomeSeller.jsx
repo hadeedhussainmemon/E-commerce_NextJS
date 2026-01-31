@@ -137,17 +137,17 @@ export default function BecomeSeller() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-xs font-black uppercase tracking-[0.2em]"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-black uppercase tracking-[0.2em]"
                         >
                             <Rocket size={14} className="animate-bounce" />
-                            Merchant Protocol Alpha
+                            Curator Portal Access
                         </motion.div>
-                        <h1 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-[0.9] text-white">
-                            THE FUTURE OF <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400">COMMERCE.</span>
+                        <h1 className="text-6xl md:text-8xl font-fashion-serif italic font-black tracking-tighter leading-[0.9] text-white">
+                            CRAFT YOUR <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">LEGACY.</span>
                         </h1>
-                        <p className="text-xl text-slate-400 font-medium max-w-lg leading-relaxed">
-                            Vanguard isn't just a store; it's a launchpad for your vision. Precision infrastructure meets global scale.
+                        <p className="text-xl text-gray-400 font-medium max-w-lg leading-relaxed">
+                            Petal + Pup is the premiere destination for independent designers. Our infrastructure is designed for your artistic growth.
                         </p>
                     </div>
 
@@ -270,13 +270,12 @@ export default function BecomeSeller() {
                                         <button
                                             disabled={loading}
                                             type="submit"
-                                            className="w-full relative group h-16 bg-emerald-600 hover:bg-emerald-500 rounded-[1.5rem] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 overflow-hidden shadow-lg shadow-emerald-500/20"
+                                            className="w-full relative group h-16 bg-white text-black rounded-[1.5rem] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 overflow-hidden shadow-lg shadow-white/5"
                                         >
-                                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <span className="relative z-10 flex items-center gap-3">
-                                                {loading ? <Loader2 className="animate-spin" /> : (
+                                                {loading ? <Loader2 className="animate-spin text-black" /> : (
                                                     <>
-                                                        {isLogin ? 'INITIALIZE UPLINK' : 'CREATE PROTOCOL'}
+                                                        {isLogin ? 'INITIALIZE ACCESS' : 'CREATE ACCOUNT'}
                                                         <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-500" />
                                                     </>
                                                 )}
@@ -326,9 +325,9 @@ export default function BecomeSeller() {
                                         </div>
 
                                         <div className="p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-[1.5rem] flex items-start gap-4 backdrop-blur-md">
-                                            <ShieldCheck className="text-emerald-400 shrink-0" size={20} />
-                                            <p className="text-[10px] text-slate-400 leading-relaxed font-bold uppercase tracking-widest">
-                                                Your digital footprint will be visible across the Vanguard Nexus. Proceed with strategic naming.
+                                            <ShieldCheck className="text-white shrink-0" size={20} />
+                                            <p className="text-[10px] text-gray-400 leading-relaxed font-bold uppercase tracking-widest">
+                                                Your boutique will be showcased across the Petal + Pup collective. Choose a name that reflects your artistry.
                                             </p>
                                         </div>
 
@@ -388,7 +387,7 @@ export default function BecomeSeller() {
             {/* Footer Signifier */}
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-full text-center px-6">
                 <p className="text-[9px] text-slate-700 font-black uppercase tracking-[0.6em]">
-                    Vanguard Matrix Integration // Secure Merchant Channel Alpha-1
+                    Petal + Pup Collective Integration // Secure Merchant Channel Alpha-1
                 </p>
             </div>
 

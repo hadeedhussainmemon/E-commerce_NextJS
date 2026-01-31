@@ -1,7 +1,7 @@
 import MyOrders from "../../../components/MyOrders/MyOrders";
 
 export const metadata = {
-    title: "My Orders | Vanguard - Order History",
+    title: "My Orders | Petal + Pup - Order History",
     description: "Track and manage your orders",
 };
 

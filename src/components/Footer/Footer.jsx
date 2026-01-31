@@ -54,9 +54,14 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="space-y-8">
             <Link href="/" className="inline-block">
-              <span className="font-fashion-serif text-2xl font-black italic tracking-tighter text-black lowercase">
-                petal <span className="text-gray-300 font-fashion-sans not-italic text-xl font-light mx-0.5">+</span> pup
-              </span>
+              <div className="relative h-8 w-40">
+                <Image
+                  src="/logo.png"
+                  alt="Petal + Pup"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </Link>
             <p className="text-sm leading-relaxed text-gray-500 font-medium max-w-xs">
               {config.description || "Elevating your everyday with curated pieces designed for the modern lifestyle. Minimalist, sophisticated, and sustainably minded."}

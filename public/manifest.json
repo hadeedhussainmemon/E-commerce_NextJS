@@ -1,11 +1,11 @@
 {
-  "name": "CoolCache Pakistan - Trending Electronics & Premium Gifts Online",
-  "short_name": "CoolCache",
-  "description": "Shop trending smartwatches, wireless earbuds, power banks, premium gifts, lifestyle accessories & more. Fast delivery across Pakistan with COD available.",
+  "name": "Petal + Pup - Boutique Fashion & Minimalist Lifestyle",
+  "short_name": "Petal + Pup",
+  "description": "Boutique fashion and minimalist lifestyle pieces for the discerning modern observer. Shop our latest curated collections.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#8B5CF6",
+  "theme_color": "#000000",
   "orientation": "portrait-primary",
   "lang": "en-PK",
   "dir": "ltr",
@@ -24,50 +24,66 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["shopping", "lifestyle", "electronics"],
+  "categories": [
+    "shopping",
+    "lifestyle",
+    "fashion"
+  ],
   "screenshots": [
     {
-      "src": "/og-image.jpg",
+      "src": "/og-image.png",
       "sizes": "1200x630",
-      "type": "image/jpeg",
+      "type": "image/png",
       "form_factor": "wide"
     }
   ],
   "shortcuts": [
     {
-      "name": "Shop Products",
-      "short_name": "Products",
-      "description": "Browse all products",
+      "name": "Shop Collection",
+      "short_name": "Shop",
+      "description": "Browse our latest collection",
       "url": "/#products",
-      "icons": [{ "src": "/favicon-32x32.png", "sizes": "32x32" }]
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
     },
     {
       "name": "Categories",
       "short_name": "Categories",
-      "description": "Browse categories",
+      "description": "Explore curated categories",
       "url": "/categories",
-      "icons": [{ "src": "/favicon-32x32.png", "sizes": "32x32" }]
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
     },
     {
-      "name": "Cart",
-      "short_name": "Cart",
-      "description": "View shopping cart",
-      "url": "/cart",
-      "icons": [{ "src": "/favicon-32x32.png", "sizes": "32x32" }]
+      "name": "Wishlist",
+      "short_name": "Wishlist",
+      "description": "View your curated selection",
+      "url": "/wishlist",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
     }
   ],
   "related_applications": [],
   "prefer_related_applications": false,
   "keywords": [
-    "online shopping Pakistan",
-    "smartwatch Pakistan",
-    "wireless earbuds",
-    "power bank",
-    "premium gifts",
-    "electronics Pakistan",
-    "trending gadgets",
-    "COD shopping",
-    "fast delivery Pakistan",
-    "CoolCache"
+    "fashion",
+    "boutique",
+    "lifestyle",
+    "curated",
+    "minimalist",
+    "Petal + Pup",
+    "online shopping"
   ]
 }

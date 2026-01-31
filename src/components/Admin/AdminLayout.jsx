@@ -20,7 +20,7 @@ const AdminLayout = ({ children, section = 'dashboard', onSectionChange, user })
   const [currentSection, setCurrentSection] = useState(section);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const displayName = user?.businessName || user?.name || 'Vanguard';
+  const displayName = user?.businessName || user?.name || 'Petal + Pup';
   const roleLabel = user?.role === 'superadmin' ? 'OS Matrix' : 'Merchant Protocol';
 
   // Remove body padding for admin panel

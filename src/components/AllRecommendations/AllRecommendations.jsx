@@ -19,7 +19,7 @@ const AllRecommendations = () => {
         setLoading(true);
 
         // Get view history from localStorage
-        const history = JSON.parse(localStorage.getItem('coolcacheViewHistory') || '[]');
+        const history = JSON.parse(localStorage.getItem('petal_plus_pupViewHistory') || '[]');
 
         if (history.length === 0) {
           // If no history, fetch trending products (cached short-term)

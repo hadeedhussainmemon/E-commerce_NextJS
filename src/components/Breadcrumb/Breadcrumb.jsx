@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-function makeAbsolute(href, { useCanonicalDomain = false, canonicalDomain = 'https://www.coolcache.app' } = {}) {
+function makeAbsolute(href, { useCanonicalDomain = false, canonicalDomain = 'https://petal-plus-pup.vercel.app' } = {}) {
   if (!href) return undefined;
   try {
     // if already absolute
@@ -11,12 +11,12 @@ function makeAbsolute(href, { useCanonicalDomain = false, canonicalDomain = 'htt
     return u.href;
   } catch (e) {
     // relative -> use canonicalDomain if requested, otherwise window.origin if available
-    const base = useCanonicalDomain ? canonicalDomain : (typeof window !== 'undefined' ? window.location.origin : 'https://www.coolcache.app');
+    const base = useCanonicalDomain ? canonicalDomain : (typeof window !== 'undefined' ? window.location.origin : 'https://petal-plus-pup.vercel.app');
     return `${base}${href.startsWith('/') ? href : `/${href}`}`;
   }
 }
 
-export default function Breadcrumb({ items = [], renderLd = true, className = '', useCanonicalDomain = false, canonicalDomain = 'https://www.coolcache.app' }) {
+export default function Breadcrumb({ items = [], renderLd = true, className = '', useCanonicalDomain = false, canonicalDomain = 'https://petal-plus-pup.vercel.app' }) {
   const ld = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

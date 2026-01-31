@@ -90,8 +90,8 @@ export default function OrderTracking() {
   return (
     <>
       <SEO
-        title="Track Your Order - CoolCache"
-        description="Track your CoolCache order status and delivery information"
+        title="Track Your Order - Petal + Pup"
+        description="Track your Petal + Pup order status and delivery information"
       />
 
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12 px-4 sm:px-6 lg:px-8">

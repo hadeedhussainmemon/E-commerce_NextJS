@@ -24,14 +24,14 @@ const montserrat = Montserrat({
 
 export const metadata = {
   title: {
-    default: "Petal & Pup | Fashion & Lifestyle",
-    template: "%s | Petal & Pup"
+    default: "Petal + Pup | Modern Fashion & Lifestyle",
+    template: "%s | Petal + Pup"
   },
-  description: "Curated collections for the modern lifestyle. Shop our latest arrivals in dresses, tops, and accessories.",
-  keywords: ["fashion", "clothing", "dresses", "lifestyle", "boutique"],
-  authors: [{ name: "Petal & Pup Team" }],
-  creator: "Petal & Pup",
-  publisher: "Vanguard OS",
+  description: "Boutique fashion and minimalist lifestyle pieces for the discerning modern observer. Shop our curated collections online.",
+  keywords: ["fashion", "clothing", "dresses", "lifestyle", "boutique", "Petal + Pup"],
+  authors: [{ name: "Petal + Pup team" }],
+  creator: "Petal + Pup",
+  publisher: "Petal + Pup",
   formatDetection: {
     email: false,
     address: false,
@@ -40,14 +40,23 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://vanguard-os.co",
-    siteName: "Vanguard OS",
+    url: "https://petal-plus-pup.vercel.app",
+    siteName: "Petal + Pup",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Petal + Pup Fashion Lookbook",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vanguard OS | Premium Digital Atelier",
-    description: "Experience the zenith of digital curation.",
-    creator: "@vanguard_os",
+    title: "Petal + Pup | Curated Fashion & Lifestyle",
+    description: "Discover minimalist elegance and boutique style curated for the modern observer.",
+    creator: "@petalpluspup",
+    images: ["/og-image.png"],
   },
   manifest: '/manifest.json',
 };

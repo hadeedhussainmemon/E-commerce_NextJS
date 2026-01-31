@@ -110,7 +110,7 @@ const SEO = ({
         },
         'brand': {
           '@type': 'Brand',
-          'name': 'Vanguard'
+          'name': 'Petal + Pup'
         }
       };
 
@@ -128,15 +128,11 @@ const SEO = ({
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         'itemListElement': [
-          {
-            '@type': 'ListItem',
-            'position': 1,
-            'name': 'Home',
-            'item': config.api.baseUrl
-          },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petal-plus-pup.vercel.app/' },
+          { '@type': 'ListItem', position: 2, name: 'FAQ', item: 'https://petal-plus-pup.vercel.app/faq' },
           ...paths.map((p, i) => ({
             '@type': 'ListItem',
-            'position': i + 2,
+            'position': i + 3, // Adjusted position for dynamic paths
             'name': p.charAt(0).toUpperCase() + p.slice(1),
             'item': `${config.api.baseUrl}/${paths.slice(0, i + 1).join('/')}`
           }))

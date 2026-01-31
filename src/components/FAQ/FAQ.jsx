@@ -70,8 +70,8 @@ We’ll confirm an estimated delivery date after you place your order.`
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.coolcache.app/' },
-      { '@type': 'ListItem', position: 2, name: 'FAQ', item: 'https://www.coolcache.app/faq' }
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petal-plus-pup.vercel.app/' },
+      { '@type': 'ListItem', position: 2, name: 'FAQ', item: 'https://petal-plus-pup.vercel.app/faq' }
     ]
   };
 

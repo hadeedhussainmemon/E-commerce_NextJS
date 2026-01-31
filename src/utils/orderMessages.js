@@ -10,14 +10,14 @@ export function formatOrderConfirmationMessage(order) {
   if (city.includes('karachi')) eta = '2–4 days';
   else if (city.includes('lahore') || city.includes('islamabad') || city.includes('rawalpindi')) eta = '3–6 days';
 
-  const trackUrl = `https://www.coolcache.app/track-order/${order.id}`;
+  const trackUrl = `https://petal-plus-pup.vercel.app/track-order/${order.id}`;
 
   const itemsList = (order.items || []).map(i => `• ${i.title} (x${i.quantity})`).join('\n');
 
-  return `📦 CoolCache — Order Confirmation Required
+  return `📦 Petal + Pup — Order Confirmation Required
 
 Hello ${customerName},
-Thank you for placing an order with CoolCache! Before we proceed, please confirm the details below:
+Thank you for placing an order with Petal + Pup! Before we proceed, please confirm the details below:
 
 📝 Order Summary
 
@@ -37,7 +37,7 @@ To process your order, please reply with:
 
 If you need any changes or have questions, feel free to message us anytime.
 
-Thank you for choosing CoolCache!
+Thank you for choosing Petal + Pup!
 We appreciate your quick response.`.trim();
 }
 
@@ -45,9 +45,9 @@ export function formatOrderThankYouMessage(order) {
   if (!order) return '';
   const customerName = order.customerName || 'Customer';
   const firstName = customerName.split(' ')[0];
-  const trackUrl = `https://www.coolcache.app/track-order/${order.id}`;
+  const trackUrl = `https://petal-plus-pup.vercel.app/track-order/${order.id}`;
 
-  return `✨ CoolCache — Order Confirmed
+  return `✨ Petal + Pup — Order Confirmed
 
 Hi ${firstName},
 Your order (#${order.id}) is now confirmed and moving to processing. You can track status here: ${trackUrl}
@@ -56,5 +56,5 @@ We'll notify you when it's shipped.
 
 Need help? Just reply to this message.
 
-Thank you for shopping with CoolCache!`.trim();
+Thank you for shopping with Petal + Pup!`.trim();
 }

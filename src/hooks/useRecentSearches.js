@@ -1,7 +1,7 @@
 // Hook to store recent searches and derive trending categories
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'coolcache_recent_searches_v1';
+const STORAGE_KEY = 'petal_plus_pup_recent_searches_v1';
 const MAX_TERMS = 100; // keep last 100
 
 const SEARCH_TO_CATEGORY_KEYWORDS = {

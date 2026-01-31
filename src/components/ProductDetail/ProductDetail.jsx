@@ -83,13 +83,13 @@ const ProductDetail = () => {
     description: product.description,
     category: Array.isArray(product.category) ? product.category.join(', ') : product.category,
     image: [imageUrl],
-    brand: { '@type': 'Brand', name: 'CoolCache' },
+    brand: { '@type': 'Brand', name: 'Petal + Pup' },
     offers: {
       '@type': 'Offer',
       priceCurrency: 'PKR',
       price: product.price,
       availability: isSoldOut ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
-      url: `https://www.coolcache.app/product/${product.slug || product.id}`,
+      url: `https://petal-plus-pup.vercel.app/product/${product.slug || product.id}`,
     }
   };
 

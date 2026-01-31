@@ -7,6 +7,6 @@ export default function robots() {
                 disallow: ['/admin', '/api'],
             },
         ],
-        sitemap: 'https://vanguard-store.com/sitemap.xml', // Update with your actual domain
+        sitemap: 'https://petal-plus-pup.vercel.app/sitemap.xml', // Update with your actual domain
     };
 }

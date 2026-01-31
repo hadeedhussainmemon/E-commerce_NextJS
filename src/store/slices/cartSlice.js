@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const loadCart = () => {
     if (typeof window === 'undefined') return [];
     try {
-        const saved = localStorage.getItem('coolcacheCart');
+        const saved = localStorage.getItem('petal_plus_pupCart');
         return saved ? JSON.parse(saved) : [];
     } catch (e) {
         return [];
@@ -39,7 +39,7 @@ const cartSlice = createSlice({
             }
 
             // Persist side-effect (could be middleware, but doing inline for simplicity as per user context style)
-            localStorage.setItem('coolcacheCart', JSON.stringify(state.items));
+            localStorage.setItem('petal_plus_pupCart', JSON.stringify(state.items));
         },
         updateQuantity: (state, action) => {
             const { productId, quantity } = action.payload;
@@ -52,7 +52,7 @@ const cartSlice = createSlice({
                 const item = state.items.find(i => i.id === productId);
                 if (item) item.quantity = quantity;
             }
-            localStorage.setItem('coolcacheCart', JSON.stringify(state.items));
+            localStorage.setItem('petal_plus_pupCart', JSON.stringify(state.items));
         },
         removeFromCart: (state, action) => {
             const productId = action.payload;
@@ -60,13 +60,13 @@ const cartSlice = createSlice({
             if (item) {
                 state.toast = { message: `${item.title} removed from cart`, type: 'info' };
                 state.items = state.items.filter(i => i.id !== productId);
-                localStorage.setItem('coolcacheCart', JSON.stringify(state.items));
+                localStorage.setItem('petal_plus_pupCart', JSON.stringify(state.items));
             }
         },
         clearCart: (state) => {
             state.items = [];
             state.toast = { message: 'Cart cleared', type: 'info' };
-            localStorage.setItem('coolcacheCart', JSON.stringify([]));
+            localStorage.setItem('petal_plus_pupCart', JSON.stringify([]));
         },
         toggleCart: (state) => {
             state.isOpen = !state.isOpen;

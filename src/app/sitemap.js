@@ -1,5 +1,5 @@
 export default function sitemap() {
-    const baseUrl = 'https://vanguard-store.com'; // Update with your actual domain
+    const baseUrl = 'https://petal-plus-pup.vercel.app'; // Update with your actual domain
 
     const routes = [
         '',

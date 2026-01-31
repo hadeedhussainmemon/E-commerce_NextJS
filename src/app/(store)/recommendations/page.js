@@ -1,8 +1,8 @@
 import AllRecommendations from "../../../components/AllRecommendations/AllRecommendations";
 
 export const metadata = {
-    title: "Discover | Vanguard - Personalized Recommendations",
-    description: "Curated product recommendations based on your browsing history and preferences.",
+    title: "My Orders | Petal + Pup - Order History",
+    description: "Start selling your products on Petal + Pup and reach thousands of customers.",
 };
 
 export default function RecommendationsPage() {

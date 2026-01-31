@@ -11,7 +11,7 @@ const RecommendedProducts = () => {
 
   useEffect(() => {
     // Get browsing history from localStorage
-    const viewedProducts = JSON.parse(localStorage.getItem('coolcacheViewHistory') || '[]');
+    const viewedProducts = JSON.parse(localStorage.getItem('petal_plus_pupViewHistory') || '[]');
     const API_BASE_URL = config.api.baseUrl;
 
     // Fetch recommendations based on viewed categories

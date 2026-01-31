@@ -30,7 +30,7 @@ export default function InstallPage() {
             <div className="w-24 h-24 bg-white rounded-3xl shadow-2xl mb-8 flex items-center justify-center">
                 <Image
                     src="/pwa-192x192.png"
-                    alt="CoolCache"
+                    alt="Petal + Pup"
                     width={80}
                     height={80}
                     className="rounded-2xl"
@@ -38,7 +38,7 @@ export default function InstallPage() {
             </div>
 
             <h1 className="text-3xl md:text-5xl font-bold mb-4 font-playfair">
-                Install CoolCache App
+                Install Petal + Pup App
             </h1>
             <p className="text-emerald-100 text-lg md:text-xl max-w-md mx-auto mb-10 leading-relaxed">
                 Get the best shopping experience with faster loading, offline access, and exclusive deals.
@@ -85,6 +85,7 @@ export default function InstallPage() {
                 {/* ALREADY INSTALLED / FALLBACK */}
                 {!isInstallable && !isIOS && (
                     <div className="text-center">
+                        <p className="text-xs text-center text-gray-400">Secure Checkout powered by Petal + Pup</p>
                         <p className="font-medium text-lg mb-4">✨ App is ready!</p>
                         <button
                             onClick={() => subscribe()}

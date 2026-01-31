@@ -10,7 +10,7 @@ const RecentlyViewed = () => {
         setMounted(true);
         try {
             // Parse history from existing localStorage key
-            const history = JSON.parse(localStorage.getItem('coolcacheViewHistory') || '[]');
+            const history = JSON.parse(localStorage.getItem('petal_plus_pupViewHistory') || '[]');
 
             // We only have basic info in history (id, title, category) plus maybe image/price if stored
             // But typically RecommendedProducts stored: { id, title, category, viewedAt }

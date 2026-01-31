@@ -92,10 +92,16 @@ const Navbar = () => {
 
             {/* Centered Logo */}
             <div className="absolute left-1/2 -translate-x-1/2 flex items-center h-full">
-              <Link href="/" className="flex flex-col items-center">
-                <span className="font-fashion-serif text-3xl font-black italic tracking-tighter text-black lowercase leading-none">
-                  petal <span className="text-gray-300 font-fashion-sans not-italic text-2xl font-light mx-1">+</span> pup
-                </span>
+              <Link href="/" className="flex items-center">
+                <div className="relative h-8 w-48">
+                  <Image
+                    src={LOGO_PATH}
+                    alt="Petal + Pup"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
               </Link>
             </div>
 
@@ -171,7 +177,9 @@ const Navbar = () => {
               className="fixed top-0 left-0 h-full w-[85%] max-w-sm bg-white z-[201] shadow-2xl overflow-y-auto"
             >
               <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                <span className="font-fashion-serif text-2xl font-black italic">petal + pup</span>
+                <div className="relative h-6 w-36">
+                  <Image src={LOGO_PATH} alt="Petal + Pup" fill className="object-contain" />
+                </div>
                 <button onClick={closeMenu} className="p-2 text-gray-500">
                   <X size={24} />
                 </button>
@@ -203,10 +211,6 @@ const Navbar = () => {
 
       <GlobalSearchOverlay isOpen={isSearchOverlayOpen} onClose={() => setIsSearchOverlayOpen(false)} />
     </>
-  );
-};
-
-export default Navbar;
   );
 };
 
