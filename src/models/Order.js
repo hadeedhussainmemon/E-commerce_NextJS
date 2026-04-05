@@ -1,42 +1,48 @@
 import mongoose from 'mongoose';
 
-const OrderSchema = new mongoose.Schema({
-    customer: {
-        name: String,
-        email: String,
-        phone: String,
-        address: String,
-        city: String,
-    },
-    items: [
-        {
-            productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
-            },
-            title: String,
-            quantity: Number,
-            price: Number,
-            color: String,
-            sellerId: {
-                type: String,
-                default: 'admin',
-            },
-        },
-    ],
-    total: {
-        type: Number,
-        required: true,
-    },
-    status: {
-        type: String,
-        enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
-        default: 'pending',
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+const orderItemSchema = new mongoose.Schema({
+  productId: Number,
+  title: String,
+  price: Number,
+  quantity: Number,
+  image: String
+}, { _id: false });
+
+const orderSchema = new mongoose.Schema({
+  // public order identifier (string) - use string to allow unique alphanumeric ids
+  // Use a sparse unique index so older documents without `id` do not cause
+  // duplicate-key failures when the index is built.
+  id: { type: String, index: { unique: true, sparse: true } },
+  // Idempotency key to prevent duplicate orders on rapid double submissions
+  requestId: { type: String, index: true },
+  customerName: String,
+  customerEmail: String,
+  customerPhone: String,
+  shippingAddress: String,
+  city: String,
+  postalCode: String,
+  items: [orderItemSchema],
+  subtotal: Number,
+  shippingCost: Number,
+  giftWrap: { type: Boolean, default: false },
+  giftWrapCost: { type: Number, default: 0 },
+  giftMessage: String,
+  total: Number,
+  couponCode: { type: String, default: null },
+  discountAmount: { type: Number, default: 0 },
+  notes: String,
+  status: { type: String, default: 'pending' },
+  paymentMethod: { type: String, default: 'COD' },
+  paymentStatus: { type: String, default: 'pending' },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}, { autoIndex: false });
+
+orderSchema.pre('save', function (next) {
+  this.updatedAt = new Date();
+  next();
 });
 
-export default mongoose.models.Order || mongoose.model('Order', OrderSchema);
+const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
+
+export default Order;

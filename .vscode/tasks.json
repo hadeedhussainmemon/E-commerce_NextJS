@@ -1,0 +1,50 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "install-deps",
+			"type": "shell",
+			"command": "npm install"
+		},
+		{
+			"label": "clean-install",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"if (Test-Path node_modules) { Remove-Item node_modules -Recurse -Force }; npm install"
+			]
+		},
+		{
+			"label": "force-install",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"install",
+				"--force"
+			]
+		},
+		{
+			"label": "enable-bin-links",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"config",
+				"set",
+				"bin-links",
+				"true"
+			]
+		},
+		{
+			"label": "reinstall-deps",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"install"
+			]
+		}
+	]
+}

@@ -1,34 +1,40 @@
-
-import HomeClient from '../../components/Home/HomeClient';
-import config from '../../config';
-
-// ⚡ Enable ISR: Revalidate page every 60 seconds
-export const revalidate = 60;
+import { Suspense } from 'react';
+import HomeClient from '@/components/store/Home/HomeClient';
+import config from '@/config';
+import SuspensefulCategoryGrid, { CategoryGridSkeleton } from '@/components/store/Home/SuspensefulCategoryGrid';
+import SuspensefulFeaturedProducts, { FeaturedProductsSkeleton } from '@/components/store/Home/SuspensefulFeaturedProducts';
 
 export const metadata = {
     title: `Home | ${config.appName}`,
     description: config.description,
 };
 
-import { getProducts, getCategories } from '@/lib/data';
-
-async function getData() {
-    try {
-        // Parallel Fetch for Performance using direct DB calls
-        const [productsData, categoriesData] = await Promise.all([
-            getProducts({ limit: 24, sort: 'featured' }),
-            getCategories()
-        ]);
-
-        return { productsData, categoriesData };
-    } catch (e) {
-        console.error('SSR Error:', e);
-        return { productsData: null, categoriesData: null };
-    }
-}
-
 export default async function HomePage() {
-    const { productsData, categoriesData } = await getData();
+    return (
+        <div className="bg-white">
+            <HomeClient>
+                {/* 
+                  Category Grid and Featured Products are streamed in via Suspense 
+                  This implements Phase 3: Streaming/Suspense from our modernization plan.
+                */}
+                <section className="border-t border-gray-100">
+                    <Suspense fallback={<CategoryGridSkeleton />}>
+                        <SuspensefulCategoryGrid />
+                    </Suspense>
+                </section>
 
-    return <HomeClient initialProducts={productsData} initialCategories={categoriesData} />;
+                <section id="featured-products" className="py-24 max-w-7xl mx-auto px-6 border-t border-gray-100">
+                    <div className="max-w-xl mb-20">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.5em] text-gray-400 mb-6 block">Our Collection</span>
+                        <h2 className="font-fashion-serif text-5xl md:text-7xl italic font-black text-black tracking-tighter leading-none">
+                            Shop Featured Pieces
+                        </h2>
+                    </div>
+                    <Suspense fallback={<FeaturedProductsSkeleton />}>
+                        <SuspensefulFeaturedProducts />
+                    </Suspense>
+                </section>
+            </HomeClient>
+        </div>
+    );
 }

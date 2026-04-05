@@ -1,22 +1,13 @@
-import { fetchProductFn } from '../../../../hooks/useProductQuery';
-import ProductDetailClient from '../../../../components/ProductDetail/ProductDetailClient';
-import config from '../../../../config';
+import { getProduct } from '@/lib/data';
+import ProductDetailClient from '@/components/store/ProductDetail/ProductDetailClient';
+import config from '@/config';
 
-// Server-side fetch for metadata
-async function getProduct(slug) {
-    try {
-        const base = config.api.baseUrl.replace(/\/$/, '');
-        const res = await fetch(`${base}/api/products/${slug}`);
-        if (!res.ok) return null;
-        return res.json();
-    } catch (e) {
-        console.error("Failed to fetch product for metadata", e);
-        return null;
-    }
-}
-
+/**
+ * Server Component: Product Page
+ * Uses direct DB access for instant hydration and SEO.
+ */
 export async function generateMetadata({ params }) {
-    const { slug } = await params; // Next.js 15: params is promise
+    const { slug } = await params;
     const product = await getProduct(slug);
 
     if (!product) {
@@ -26,7 +17,9 @@ export async function generateMetadata({ params }) {
         };
     }
 
-    const imageUrl = product.image ? (product.image.startsWith('http') ? product.image : `${config.api.baseUrl}${product.image}`) : `${config.api.baseUrl}/og-image.jpg`;
+    const imageUrl = product.image 
+        ? (product.image.startsWith('http') ? product.image : `${config.api.baseUrl}${product.image}`) 
+        : `${config.api.baseUrl}/og-image.jpg`;
 
     return {
         title: `${product.title} | ${config.appName}`,
@@ -38,8 +31,8 @@ export async function generateMetadata({ params }) {
             images: [
                 {
                     url: imageUrl,
-                    width: 800,
-                    height: 600,
+                    width: 1200,
+                    height: 630,
                     alt: product.title,
                 },
             ],
@@ -47,14 +40,24 @@ export async function generateMetadata({ params }) {
     };
 }
 
-// Enable ISR: Revalidate product page every hour (3600 seconds)
-export const revalidate = 3600;
+
 
 export default async function ProductPage({ params }) {
     const { slug } = await params;
 
-    // ⚡ Performance: Fetch on server for instant hydration
+    // ⚡ Direct DB Access (No internal fetch overhead)
     const product = await getProduct(slug);
+
+    if (!product) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <h1 className="font-fashion-serif text-6xl italic font-black text-black mb-6">404</h1>
+                    <p className="text-gray-400 uppercase tracking-widest text-xs font-bold">Piece Not Found</p>
+                </div>
+            </div>
+        );
+    }
 
     return <ProductDetailClient slug={slug} initialProduct={product} />;
 }

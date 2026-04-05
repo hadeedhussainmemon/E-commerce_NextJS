@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import config from '../config';
+import config from '@/config';
 
 const useProducts = ({ page = 1, pageSize = 12, signal, search } = {}) => {
   const [products, setProducts] = useState([]);

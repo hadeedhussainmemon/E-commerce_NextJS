@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
-import config from '../config';
+import config from '@/config';
 const API_BASE_URL = config.api.baseUrl;
 
 function urlBase64ToUint8Array(base64String) {

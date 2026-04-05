@@ -20,6 +20,8 @@ const nextConfig = {
       },
     ],
   },
+  reactCompiler: true,
+  cacheComponents: true, // Required for 'use cache' directives in lib/data.js
 };
 
 export default nextConfig;

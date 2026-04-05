@@ -101,9 +101,39 @@ section {
     scrollbar-width: none;
 }
 
-/* Fashion-style buttons */
+/* Elite Shimmer Effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 2.5s infinite;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 .btn-fashion {
-  @apply px-8 py-3 bg-black text-white text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gray-800 disabled:opacity-50;
+  @apply px-8 py-3 bg-black text-white text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gray-800 disabled:opacity-50 relative overflow-hidden;
 }
 
 .btn-fashion-outline {

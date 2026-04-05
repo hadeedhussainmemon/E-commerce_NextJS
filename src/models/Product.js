@@ -1,60 +1,85 @@
 import mongoose from 'mongoose';
 
-const ProductSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        required: true,
+        unique: true
+    },
     title: {
         type: String,
-        required: [true, 'Please provide a product title'],
-        maxlength: [60, 'Title cannot be more than 60 characters'],
-    },
-    slug: {
-        type: String,
-        unique: true,
-        sparse: true, // Allow older docs to lack it initially (though we should migrate them)
-    },
-    description: {
-        type: String,
-        required: [true, 'Please provide a product description'],
+        required: true
     },
     price: {
         type: Number,
-        required: [true, 'Please provide a product price'],
+        required: true
+    },
+    purchasePrice: {
+        type: Number,
+        default: 0
+    },
+    description: {
+        type: String,
+        required: true
     },
     image: {
         type: String,
-        required: [true, 'Please provide an image URL'],
+        required: true
+        // This will store either the local path (legacy) or Cloudinary URL (new)
     },
     category: {
-        type: String,
-        required: [true, 'Please provide a category'],
-    },
-    colors: {
         type: [String],
-        default: [],
+        required: true
+    },
+    material: {
+        type: String,
+        default: ''
     },
     stock: {
         type: Number,
-        default: 10, // Default stock for now
+        default: 0
     },
-    isFeatured: {
+    vendor: {
+        type: String,
+        default: 'Bilal Bhai'
+    },
+    isCustomizable: {
         type: Boolean,
-        default: false,
+        default: false
     },
     isVisible: {
         type: Boolean,
-        default: true,
+        default: true
     },
-    images: {
+    colors: {
         type: [String],
-        default: [],
+        default: []
     },
-    sellerId: {
+    slug: {
         type: String,
-        default: 'admin', // Super admin by default
+        unique: true
     },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
-export default mongoose.models.Product || mongoose.model('Product', ProductSchema);
+// Create compound index for search performance if needed, 
+// though simplistic regex/atlas search might be better for this scale.
+// Text index for search
+productSchema.index({ title: 'text', description: 'text', category: 'text' });
+
+// Performance indexes for common filters and sorts
+productSchema.index({ category: 1 });
+productSchema.index({ price: 1 });
+productSchema.index({ stock: 1 });
+// Slug index is already created by unique: true in schema
+
+const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
+
+export default Product;

@@ -1,5 +1,7 @@
+import config from '@/config';
+
 export default function sitemap() {
-    const baseUrl = 'https://petal-plus-pup.vercel.app'; // Update with your actual domain
+    const baseUrl = config.api.baseUrl; // Dynamically use the configured base URL
 
     const routes = [
         '',

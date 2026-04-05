@@ -1,4 +1,4 @@
-import AllCategories from "@/components/AllCategories/AllCategories";
+import AllCategories from "@/components/store/AllCategories/AllCategories";
 
 export const metadata = {
     title: "Shop by Category",

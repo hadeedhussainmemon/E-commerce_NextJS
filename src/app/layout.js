@@ -1,11 +1,11 @@
 import { Playfair_Display, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
-import config from "../config";
-import Providers from "../components/Providers";
-import ScrollProgress from "../components/UI/ScrollProgress";
-import { ToastProvider } from "../context/ToastContext";
-import NeuralCursor from "../components/UI/NeuralCursor";
-import FloatingHearts from "../components/UI/FloatingHearts";
+import config from "@/config";
+import Providers from "@/components/common/Providers";
+import ScrollProgress from "@/components/common/UI/ScrollProgress";
+import { ToastProvider } from "@/context/ToastContext";
+import NeuralCursor from "@/components/common/UI/NeuralCursor";
+import FloatingHearts from "@/components/common/UI/FloatingHearts";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -23,15 +23,16 @@ const montserrat = Montserrat({
 });
 
 export const metadata = {
+  metadataBase: new URL(config.api.baseUrl || 'http://localhost:3000'),
   title: {
-    default: "Petal + Pup | Modern Fashion & Lifestyle",
-    template: "%s | Petal + Pup"
+    default: `${config.appName} | ${config.tagline}`,
+    template: `%s | ${config.appName}`
   },
-  description: "Boutique fashion and minimalist lifestyle pieces for the discerning modern observer. Shop our curated collections online.",
-  keywords: ["fashion", "clothing", "dresses", "lifestyle", "boutique", "Petal + Pup"],
-  authors: [{ name: "Petal + Pup team" }],
-  creator: "Petal + Pup",
-  publisher: "Petal + Pup",
+  description: config.description,
+  keywords: ["fashion", "clothing", "dresses", "lifestyle", "boutique", config.appName],
+  authors: [{ name: `${config.appName} Team` }],
+  creator: config.appName,
+  publisher: config.appName,
   formatDetection: {
     email: false,
     address: false,
@@ -40,25 +41,40 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://petal-plus-pup.vercel.app",
-    siteName: "Petal + Pup",
+    url: config.api.baseUrl,
+    siteName: config.appName,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Petal + Pup Fashion Lookbook",
+        alt: `${config.appName} Fashion Lookbook`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Petal + Pup | Curated Fashion & Lifestyle",
-    description: "Discover minimalist elegance and boutique style curated for the modern observer.",
-    creator: "@petalpluspup",
+    title: `${config.appName} | Curated Fashion & Lifestyle`,
+    description: config.description,
+    creator: config.socials.twitter,
     images: ["/og-image.png"],
   },
   manifest: '/manifest.json',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': config.appName,
+  'url': config.api.baseUrl,
+  'logo': {
+    '@type': 'ImageObject',
+    'url': `${config.api.baseUrl}/logo.png`
+  },
+  'sameAs': [
+    `https://www.facebook.com/${config.socials.facebook}`,
+    `https://www.instagram.com/${config.socials.instagram}`
+  ]
 };
 
 export default function RootLayout({ children }) {
@@ -67,9 +83,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${playfair.variable} ${montserrat.variable} antialiased bg-white text-gray-900 font-sans`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Providers>
           <ToastProvider>
             <ScrollProgress />
+            <NeuralCursor />
+            <FloatingHearts />
             {children}
           </ToastProvider>
         </Providers>

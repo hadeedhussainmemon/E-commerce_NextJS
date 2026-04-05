@@ -1,4 +1,4 @@
-import FAQ from '@/components/Information/FAQ';
+import FAQ from '@/components/store/Information/FAQ';
 
 export const metadata = {
     title: 'FAQ',

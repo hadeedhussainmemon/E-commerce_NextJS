@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import dbConnect from '@/lib/db';
 import Coupon from '@/models/Coupon';
 import { jwtVerify } from 'jose';
@@ -8,7 +9,14 @@ const SECRET_KEY = new TextEncoder().encode(
 );
 
 async function verifyAuth(request) {
-    const token = request.cookies.get('adminToken')?.value || request.headers.get('authorization')?.split(' ')[1];
+    let token;
+    try {
+        const cookieStore = await cookies();
+        token = cookieStore.get('adminToken')?.value;
+    } catch (e) {
+        // Prerender bailout
+    }
+    token = token || request.headers.get('authorization')?.split(' ')[1];
     if (!token) return null;
     try {
         const { payload } = await jwtVerify(token, SECRET_KEY);

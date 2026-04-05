@@ -1,12 +1,12 @@
 /**
- * Global Configuration for Petal + Pup E-commerce Platform
+ * Global Configuration for CoolCache E-commerce Platform
  * Change values here to update the entire application.
  */
 
 const config = {
     // Branding
-    appName: "Petal + Pup",
-    appShortName: "Petal + Pup", // Used in mobile view or small spaces
+    appName: "CoolCache",
+    appShortName: "CoolCache", // Used in mobile view or small spaces
     // Signature: base64(Hadeed Hussain Memon)
     _sig: "SGFkZWVkIEh1c3NhaW4gTWVtb24=",
     tagline: "Curating The Modern Lifestyle",
@@ -23,9 +23,9 @@ const config = {
     },
 
     // API Configuration
-    // Note: These use NEXT_PUBLIC_ prefix for client-side availability
+    // Note: Internal routing now uses relative paths or direct DB access (Next.js 15)
     api: {
-        baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "https://e-commerce-next-js-xi-cyan.vercel.app/",
+        baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "", 
         endpoints: {
             products: "/api/products",
             categories: "/api/products/categories",

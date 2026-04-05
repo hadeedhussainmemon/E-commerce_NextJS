@@ -3,18 +3,34 @@
 import React, { useState } from 'react';
 import { Package, Search, Truck, CheckCircle } from 'lucide-react';
 
+import { trackOrder } from '@/lib/actions';
+
 export default function TrackOrderPage() {
     const [orderId, setOrderId] = useState('');
     const [isSearching, setIsSearching] = useState(false);
+    const [order, setOrder] = useState(null);
+    const [error, setError] = useState(null);
 
-    const handleTrack = (e) => {
+    const handleTrack = async (e) => {
         e.preventDefault();
         if (!orderId) return;
+        
         setIsSearching(true);
-        setTimeout(() => {
+        setError(null);
+        setOrder(null);
+
+        try {
+            const result = await trackOrder(orderId);
+            if (result.success) {
+                setOrder(result.order);
+            } else {
+                setError(result.error);
+            }
+        } catch (err) {
+            setError("An unexpected error occurred. Please try again.");
+        } finally {
             setIsSearching(false);
-            alert(`Tracking feature coming soon! You searched for: ${orderId}`);
-        }, 1500);
+        }
     };
 
     return (
@@ -32,6 +48,11 @@ export default function TrackOrderPage() {
 
                 <div className="bg-gray-50/50 p-8 md:p-12 border border-gray-50 mb-20">
                     <form onSubmit={handleTrack} className="space-y-10">
+                        {error && (
+                            <div className="p-4 bg-rose-50 border border-rose-100 text-rose-600 text-xs font-bold uppercase tracking-widest text-center">
+                                {error}
+                            </div>
+                        )}
                         <div className="space-y-4">
                             <label className="text-[10px] font-bold text-black uppercase tracking-[0.3em]">Order Identifier</label>
                             <div className="relative">
@@ -65,25 +86,43 @@ export default function TrackOrderPage() {
                     </form>
                 </div>
 
-                {/* Tracking Steps */}
-                <div className="relative">
-                    <div className="absolute top-7 left-0 w-full h-px bg-gray-100 hidden md:block"></div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10 text-center">
-                        {[
-                            { icon: CheckCircle, label: 'Confirmed', desc: 'Order is verified' },
-                            { icon: Package, label: 'Processing', desc: 'Quality assurance' },
-                            { icon: Truck, label: 'In Transit', desc: 'Out for delivery' }
-                        ].map((step, i) => (
-                            <div key={i} className="flex flex-col items-center">
-                                <div className="w-14 h-14 bg-white border border-gray-100 flex items-center justify-center mb-6 ring-8 ring-white">
-                                    <step.icon className="text-black" size={24} strokeWidth={1} />
-                                </div>
-                                <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-black mb-1">{step.label}</h3>
-                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{step.desc}</p>
+                {/* Display Order Status if found */}
+                {order && (
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-20 p-8 border border-black bg-white"
+                    >
+                        <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                            <div>
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order Status</p>
+                                <h3 className="font-fashion-serif text-2xl italic font-black text-black uppercase">{order.status}</h3>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                            <div className="text-right">
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tracking ID</p>
+                                <p className="font-bold text-black">#{order.id}</p>
+                            </div>
+                        </div>
+                        
+                        <div className="relative pt-8">
+                            <div className="absolute top-12 left-0 w-full h-px bg-gray-100 hidden md:block"></div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10 text-center">
+                                {[
+                                    { icon: CheckCircle, label: 'Confirmed', active: true },
+                                    { icon: Package, label: 'Processing', active: ['processing', 'shipped', 'delivered'].includes(order.status) },
+                                    { icon: Truck, label: 'In Transit', active: ['shipped', 'delivered'].includes(order.status) }
+                                ].map((step, i) => (
+                                    <div key={i} className={`flex flex-col items-center ${step.active ? 'opacity-100' : 'opacity-20'}`}>
+                                        <div className={`w-14 h-14 bg-white border ${step.active ? 'border-black' : 'border-gray-100'} flex items-center justify-center mb-6 ring-8 ring-white`}>
+                                            <step.icon className="text-black" size={24} strokeWidth={1} />
+                                        </div>
+                                        <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-black mb-1">{step.label}</h3>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import ContactUs from '@/components/Information/ContactUs';
+import ContactUs from '@/components/store/Information/ContactUs';
 
 export const metadata = {
     title: 'Contact Us',

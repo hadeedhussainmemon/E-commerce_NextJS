@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
 import { jwtVerify } from 'jose';
@@ -12,7 +13,14 @@ export async function GET(request) {
         await dbConnect();
 
         // Auth check
-        const token = request.cookies.get('adminToken')?.value || request.headers.get('authorization')?.split(' ')[1];
+        let token;
+        try {
+            const cookieStore = await cookies();
+            token = cookieStore.get('adminToken')?.value;
+        } catch (e) {
+            // Prerender bailout or missing context
+        }
+        token = token || request.headers.get('authorization')?.split(' ')[1];
         if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
         const { payload } = await jwtVerify(token, SECRET_KEY);

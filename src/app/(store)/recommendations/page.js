@@ -1,8 +1,8 @@
-import AllRecommendations from "../../../components/AllRecommendations/AllRecommendations";
+import AllRecommendations from "@/components/store/AllRecommendations/AllRecommendations";
 
 export const metadata = {
-    title: "My Orders | Petal + Pup - Order History",
-    description: "Start selling your products on Petal + Pup and reach thousands of customers.",
+    title: "Personalized Recommendations | CoolCache",
+    description: "Discover curated fashion and lifestyle pieces uniquely selected for you at CoolCache.",
 };
 
 export default function RecommendationsPage() {

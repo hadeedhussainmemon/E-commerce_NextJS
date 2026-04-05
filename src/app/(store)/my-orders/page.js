@@ -1,7 +1,9 @@
-import MyOrders from "../../../components/MyOrders/MyOrders";
+import MyOrders from "@/components/store/MyOrders/MyOrders";
+
+import config from "@/config";
 
 export const metadata = {
-    title: "My Orders | Petal + Pup - Order History",
+    title: `My Orders | ${config.appName} - Order History`,
     description: "Track and manage your orders",
 };
 

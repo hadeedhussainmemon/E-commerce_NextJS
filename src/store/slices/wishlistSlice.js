@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const loadWishlist = () => {
     if (typeof window === 'undefined') return [];
     try {
-        const saved = localStorage.getItem('petal_plus_pupWishlist');
+        const saved = localStorage.getItem('coolcache_wishlist');
         return saved ? JSON.parse(saved) : [];
     } catch {
         return [];
@@ -31,12 +31,12 @@ const wishlistSlice = createSlice({
                 state.items.push(product);
                 state.toast = { message: `${product.title} added to wishlist!`, type: 'success' };
             }
-            localStorage.setItem('petal_plus_pupWishlist', JSON.stringify(state.items));
+            localStorage.setItem('coolcache_wishlist', JSON.stringify(state.items));
         },
         clearWishlist: (state) => {
             state.items = [];
             state.toast = { message: 'Wishlist cleared', type: 'info' };
-            localStorage.setItem('petal_plus_pupWishlist', JSON.stringify([]));
+            localStorage.setItem('coolcache_wishlist', JSON.stringify([]));
         },
         clearToast: (state) => {
             state.toast = null;

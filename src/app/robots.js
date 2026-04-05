@@ -1,3 +1,5 @@
+import config from '@/config';
+
 export default function robots() {
     return {
         rules: [
@@ -7,6 +9,6 @@ export default function robots() {
                 disallow: ['/admin', '/api'],
             },
         ],
-        sitemap: 'https://petal-plus-pup.vercel.app/sitemap.xml', // Update with your actual domain
+        sitemap: `${config.api.baseUrl}/sitemap.xml`, // Update with your actual domain
     };
 }

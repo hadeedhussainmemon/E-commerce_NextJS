@@ -1,55 +1,98 @@
-
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import dbConnect from '@/lib/db';
 import Review from '@/models/Review';
+import { jwtVerify } from 'jose';
 
-export async function POST(request) {
+const SECRET_KEY = new TextEncoder().encode(
+    process.env.JWT_SECRET || 'your-fallback-secret-key-change-this-in-prod'
+);
+
+async function verifyToken(request) {
     try {
-        await dbConnect();
-        const body = await request.json();
-
-        // Basic validation
-        if (!body.productId || !body.rating) {
-            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        let token;
+        try {
+            const cookieStore = await cookies();
+            token = cookieStore.get('adminToken')?.value;
+        } catch (e) {
+            // Prerender bailout
         }
-
-        const review = await Review.create({
-            productId: body.productId,
-            user: body.user, // { name, email }
-            rating: body.rating,
-            comment: body.comment,
-            images: body.images || [],
-            status: 'Pending' // Requires admin approval usually
-        });
-
-        return NextResponse.json(review, { status: 201 });
-
+        token = token || request.headers.get('authorization')?.split(' ')[1];
+        if (!token) return null;
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        return payload;
     } catch (error) {
-        console.error('Create Review Error:', error);
-        return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
+        return null;
     }
 }
 
+// GET /api/reviews - Get all reviews with filters
 export async function GET(request) {
-    // List reviews for a product
     try {
         await dbConnect();
         const { searchParams } = new URL(request.url);
-        const productId = searchParams.get('productId');
         const status = searchParams.get('status');
 
-        let query = {};
-        if (productId) query.productId = productId;
-        if (status) query.status = status;
-        // Public usually only sees Approved
-        if (!status && !request.headers.get('Authorization')) {
-            query.status = 'Approved';
+        const payload = await verifyToken(request);
+        const query = {};
+
+        // Non-admin users only see approved reviews
+        if (!payload) {
+            query.status = 'approved';
+        } else if (status) {
+            query.status = status;
         }
 
         const reviews = await Review.find(query).sort({ createdAt: -1 });
         return NextResponse.json(reviews);
 
     } catch (error) {
-        return NextResponse.json({ error: 'Fetch failed' }, { status: 500 });
+        console.error('getAllReviews error:', error);
+        return NextResponse.json(
+            { message: 'Error fetching reviews', error: error.message },
+            { status: 500 }
+        );
+    }
+}
+
+// POST /api/reviews - Submit a new review (public)
+export async function POST(request) {
+    try {
+        await dbConnect();
+        const { name, email, productPurchased, rating, review } = await request.json();
+
+        // Validation
+        if (!name || !email || !rating || !review) {
+            return NextResponse.json(
+                { message: 'Missing required fields' },
+                { status: 400 }
+            );
+        }
+
+        if (review.length < 20) {
+            return NextResponse.json(
+                { message: 'Review must be at least 20 characters' },
+                { status: 400 }
+            );
+        }
+
+        const newReview = new Review({
+            name,
+            email,
+            productPurchased: productPurchased || '',
+            rating: Math.min(Math.max(parseInt(rating), 1), 5),
+            review,
+            status: 'pending'
+        });
+
+        await newReview.save();
+        return NextResponse.json(newReview, { status: 201 });
+
+    } catch (error) {
+        console.error('submitReview error:', error);
+        return NextResponse.json(
+            { message: 'Error submitting review', error: error.message },
+            { status: 500 }
+        );
     }
 }

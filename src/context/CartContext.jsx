@@ -10,7 +10,7 @@ import {
   clearCart as clearCartAction,
   setCartOpen,
   clearToast
-} from '../store/slices/cartSlice';
+} from '@/store/slices/cartSlice';
 
 // KEEP THE CONTEXT FOR BACKWARD COMPATIBILITY
 // Ideally, components should migrate to useCart completely, but this context provider

@@ -1,36 +1,47 @@
 import mongoose from 'mongoose';
 
-const ReviewSchema = new mongoose.Schema({
-    productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
-    },
-    user: {
-        name: String,
-        email: String,
-    },
-    rating: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 5
-    },
-    comment: String,
-    images: [String],
-    isVerifiedPurchase: {
-        type: Boolean,
-        default: false
-    },
-    status: {
-        type: String,
-        enum: ['Pending', 'Approved', 'Rejected'],
-        default: 'Pending'
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+const reviewSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true
+  },
+  productPurchased: {
+    type: String,
+    trim: true
+  },
+  rating: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5
+  },
+  review: {
+    type: String,
+    required: true,
+    minlength: 20
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending'
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-export default mongoose.models.Review || mongoose.model('Review', ReviewSchema);
+// Add indexes for fields we commonly filter/sort by to improve performance
+reviewSchema.index({ status: 1 });
+reviewSchema.index({ createdAt: -1 });
+
+const Review = mongoose.models.Review || mongoose.model('Review', reviewSchema);
+
+export default Review;

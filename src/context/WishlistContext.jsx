@@ -7,7 +7,7 @@ import {
   toggleWishlist as toggleWishlistAction,
   clearWishlist as clearWishlistAction,
   clearToast
-} from '../store/slices/wishlistSlice';
+} from '@/store/slices/wishlistSlice';
 
 const WishlistContext = createContext();
 

@@ -1,0 +1,434 @@
+"use client";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import config from '@/config';
+import { useCart } from '@/context/CartContext';
+import getImageUrl from '@/utils/imageUrl';
+import { motion, AnimatePresence } from "framer-motion";
+import CheckoutForm from '@/components/store/Checkout/CheckoutForm';
+import OrderSuccess from '@/components/store/Checkout/OrderSuccess';
+import { triggerPremiumFeedback } from '@/utils/feedback';
+import Magnetic from '@/components/common/UI/Magnetic';
+
+export default function Cart() {
+  const {
+    cartItems,
+    isCartOpen,
+    closeCart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+    getCartTotal
+  } = useCart();
+
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [completedOrder, setCompletedOrder] = useState(null);
+
+  // Coupon State
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState(null);
+  const [isValidating, setIsValidating] = useState(false);
+  const [showCouponInput, setShowCouponInput] = useState(false);
+
+  if (!isCartOpen) return null;
+
+  const handleCheckout = () => {
+    if (cartItems.length === 0) return;
+    setShowCheckout(true);
+  };
+
+  const handleCheckoutSuccess = (order) => {
+    setShowCheckout(false);
+    setCompletedOrder(order);
+  };
+
+  const handleCloseSuccess = () => {
+    setCompletedOrder(null);
+    closeCart();
+  };
+
+  const total = getCartTotal();
+
+  // Calculate final total with discount
+  const discountAmount = appliedCoupon ? appliedCoupon.calculatedDiscount : 0;
+  const finalTotal = Math.max(0, total - discountAmount);
+
+  if (completedOrder) {
+    return <OrderSuccess order={completedOrder} onClose={handleCloseSuccess} />;
+  }
+
+  // Handle Coupon Application
+  const handleApplyCoupon = async (e) => {
+    e.preventDefault();
+    if (!couponCode.trim()) return;
+
+    setIsValidating(true);
+    setCouponError(null);
+
+    try {
+      const API_BASE_URL = config.api.baseUrl;
+      const response = await fetch(`${API_BASE_URL} /api/coupons / validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: couponCode, cartTotal: total })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || 'Invalid coupon');
+
+      setAppliedCoupon(data);
+      setCouponCode('');
+      setShowCouponInput(false);
+    } catch (err) {
+      setCouponError(err.message);
+      setAppliedCoupon(null);
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode('');
+    setCouponError(null);
+  };
+
+  if (showCheckout) {
+    return (
+      <CheckoutForm
+        onBack={() => setShowCheckout(false)}
+        onSuccess={handleCheckoutSuccess}
+        appliedCoupon={appliedCoupon}
+      />
+    );
+  }
+
+  return (
+    <>
+      {/* Darkened Backdrop with Blur */}
+      <div
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] transition-all duration-300"
+        onClick={closeCart}
+      ></div>
+
+      {/* Main Cart Panel */}
+      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white/95 backdrop-blur-2xl shadow-2xl z-[60] transform transition-transform duration-300 ease-out flex flex-col border-l border-white/20">
+
+        {/* Gradient Header */}
+        <div className="relative px-6 py-5 bg-slate-900 shadow-lg shrink-0 border-b border-white/10">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/10 shadow-inner text-white">
+                <ShoppingBag className="w-5 h-5 drop-shadow-md" />
+              </div>
+              <div className="flex flex-col">
+                <h2 className="font-fashion-serif text-2xl italic font-black text-white tracking-tight">Your Selection</h2>
+                <span className="text-[10px] text-white/40 font-bold tracking-[0.2em] uppercase">
+                  {cartItems.length} {cartItems.length === 1 ? 'Piece' : 'Pieces'}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={closeCart}
+              className="p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-all active:scale-95"
+              aria-label="Close cart"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Scrollable Cart Items */}
+        <div className="flex-1 overflow-y-auto px-6 py-6 bg-gray-50/50 scrollbar-hide">
+          {cartItems.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-8 animate-fadeIn">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="relative"
+              >
+                <div className="w-40 h-40 bg-slate-50 rounded-full flex items-center justify-center shadow-inner relative overflow-hidden">
+                  <motion.div
+                    animate={{
+                      y: [0, -10, 0],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    className="z-10"
+                  >
+                    <ShoppingBag className="w-20 h-20 text-slate-300" />
+                  </motion.div>
+                  {/* Decorative floating particles */}
+                  <motion.div
+                    animate={{ y: [-10, 10, -10], x: [-5, 5, -5] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="absolute top-10 right-10 w-3 h-3 bg-emerald-200 rounded-full blur-[2px]"
+                  />
+                  <motion.div
+                    animate={{ y: [15, -15, 15], x: [10, -10, 10] }}
+                    transition={{ duration: 5, repeat: Infinity }}
+                    className="absolute bottom-12 left-8 w-4 h-4 bg-indigo-100 rounded-full blur-[3px]"
+                  />
+                </div>
+              </motion.div>
+              <div className="space-y-6">
+                <h3 className="text-5xl font-fashion-serif italic font-black text-black leading-tight">Selection <br /> Empty</h3>
+                <p className="text-gray-400 max-w-[240px] mx-auto text-[11px] font-bold uppercase tracking-widest leading-relaxed">Discover our premium collections and find something extraordinary today.</p>
+              </div>
+              <Magnetic>
+                <button
+                  onClick={() => {
+                    triggerPremiumFeedback('pop', 'light');
+                    closeCart();
+                  }}
+                  className="px-12 py-5 bg-black text-white text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-gray-900 transition-all shadow-2xl active:scale-95 flex items-center gap-4"
+                >
+                  Start Exploring
+                  <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                </button>
+              </Magnetic>
+            </div>
+          ) : (
+            <ul className="space-y-6">
+              <AnimatePresence initial={false}>
+                {cartItems.map((item, index) => (
+                  <motion.li
+                    key={item.id}
+                    layout
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="group relative flex gap-4"
+                  >
+                    {/* Product Image */}
+                    <div className="relative w-24 h-24 shrink-0 rounded-2xl bg-white border border-gray-100 overflow-hidden shadow-sm group-hover:shadow-md transition-all">
+                      <div className="relative w-full h-full p-2">
+                        <Image
+                          src={getImageUrl(item.image)}
+                          alt={item.title}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Details */}
+                    <div className="flex-1 flex flex-col justify-between py-1">
+                      <div className="flex justify-between items-start gap-2">
+                        <div>
+                          <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors">
+                            {item.title}
+                          </h3>
+                          <div className="mt-1 flex flex-wrap gap-2 text-xs text-gray-500">
+                            <span className="bg-white border border-gray-100 px-2 py-0.5 rounded-md shadow-sm">
+                              {item?.selectedOptions?.color && (
+                                <span className="flex items-center gap-1">
+                                  <span className="w-2 h-2 rounded-full inline-block border border-gray-200" style={{ background: item.selectedOptions.color }} />
+                                  {item.category}
+                                </span>
+                              ) || item.category}
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-gray-300 hover:text-red-500 transition-colors p-1 -mr-2"
+                          title="Remove item"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="flex items-end justify-between mt-2">
+                        {/* Modern Quantity Pill */}
+                        <div className="flex items-center bg-gray-100 rounded-full px-1 py-1 shadow-inner">
+                          <button
+                            onClick={() => decreaseQuantity(item.id)}
+                            className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" /></svg>
+                          </button>
+                          <span className="w-8 text-center text-sm font-bold text-gray-900 tabular-nums">{item.quantity}</span>
+                          <button
+                            onClick={() => increaseQuantity(item.id)}
+                            className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-600 hover:text-emerald-600 hover:shadow-sm transition-all text-xs active:scale-90"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+                          </button>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="text-sm font-bold text-gray-900">
+                            {(item.price * item.quantity).toLocaleString()} PKR
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.li>
+                ))}
+              </AnimatePresence>
+            </ul>
+          )}
+
+          {/* Cart Upsells (Experimental Wow Factor) */}
+          {cartItems.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-slate-100">
+              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Frequently Bought Together</h4>
+              <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="min-w-[140px] bg-white p-3 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="aspect-square bg-slate-50 rounded-xl mb-3 flex items-center justify-center text-2xl">🎁</div>
+                    <div className="text-xs font-bold text-slate-900 mb-1 line-clamp-1">Gift Wrap Service</div>
+                    <div className="text-[10px] text-emerald-600 font-bold mb-2">999 PKR</div>
+                    <button className="w-full text-[10px] font-black bg-slate-900 text-white py-2 rounded-lg active:scale-95 transition-transform">+ ADD</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer Summary */}
+        {cartItems.length > 0 && (
+          <div className="bg-white/80 backdrop-blur-md border-t border-gray-100 p-6 space-y-4 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-[70]">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center text-sm text-gray-500">
+                <span>Subtotal</span>
+                <span className="font-medium text-gray-900">{total} PKR</span>
+              </div>
+              <div className="flex justify-between items-center text-sm text-gray-500">
+                <span>Shipping</span>
+                <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Calculated at checkout</span>
+              </div>
+
+              {/* Free Shipping Progress */}
+              <div className="py-2">
+                {total >= 4999 ? (
+                  <div className="p-3 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl flex items-center gap-3 animate-pulse-soft relative overflow-hidden">
+                    <div className="absolute inset-0 bg-white/20 skew-x-12 animate-shine"></div>
+                    <div className="bg-emerald-100 p-1.5 rounded-full z-10">
+                      <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    <div className="z-10">
+                      <span className="text-sm text-emerald-800 font-bold block">Free Delivery Unlocked! 🎉</span>
+                      <span className="text-[10px] text-emerald-600 font-medium uppercase tracking-wider">Premium Shipping Included</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-gray-600">Add <span className="text-emerald-600 font-bold">{(4999 - total).toLocaleString()} {config.currency.code}</span> for Free Delivery</span>
+                      <span className="text-gray-400">{Math.min(100, (total / 4999) * 100).toFixed(0)}%</span>
+                    </div>
+                    <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                      <div
+                        className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-700 ease-out relative"
+                        style={{ width: `${Math.min(100, (total / 4999) * 100)}%` }}
+                      >
+                        <div className="absolute right-0 top-0 bottom-0 w-1 bg-white/50 blur-[1px]"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-gray-100 space-y-3">
+              {/* Coupon Section */}
+              {!appliedCoupon ? (
+                <div>
+                  {!showCouponInput ? (
+                    <button
+                      onClick={() => setShowCouponInput(true)}
+                      className="text-sm text-indigo-600 font-semibold hover:text-indigo-800 flex items-center gap-1"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
+                      Have a coupon?
+                    </button>
+                  ) : (
+                    <form onSubmit={handleApplyCoupon} className="space-y-2">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Enter code"
+                          value={couponCode}
+                          onChange={(e) => setCouponCode(e.target.value)}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-indigo-500 uppercase"
+                          autoFocus
+                        />
+                        <button
+                          type="submit"
+                          disabled={isValidating || !couponCode.trim()}
+                          className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50"
+                        >
+                          {isValidating ? '...' : 'Apply'}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-xs text-red-500 font-medium">{couponError}</p>}
+                      <button
+                        type="button"
+                        onClick={() => { setShowCouponInput(false); setCouponError(null); }}
+                        className="text-xs text-gray-400 hover:text-gray-600 underline"
+                      >
+                        Cancel
+                      </button>
+                    </form>
+                  )}
+                </div>
+              ) : (
+                <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-3 flex justify-between items-center group">
+                  <div>
+                    <p className="text-sm font-bold text-indigo-700 flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      {appliedCoupon.code} Applied
+                    </p>
+                    <p className="text-xs text-indigo-600">
+                      You saved {appliedCoupon.calculatedDiscount.toLocaleString()} PKR
+                    </p>
+                  </div>
+                  <button
+                    onClick={removeCoupon}
+                    className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                    title="Remove coupon"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </div>
+              )}
+
+              <div className="flex justify-between items-end pt-2">
+                <div>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-2">Total Selection</p>
+                  <p className="text-4xl font-fashion-serif italic font-black text-black tracking-tighter">
+                    {finalTotal.toLocaleString()} <span className="text-[10px] font-sans font-bold uppercase tracking-widest ml-2">PKR</span>
+                  </p>
+                  {appliedCoupon && (
+                    <p className="text-xs text-gray-400 line-through mt-1">{total.toLocaleString()} PKR</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <Magnetic>
+              <button
+                onClick={handleCheckout}
+                className="w-full py-6 bg-black text-white text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-gray-900 transition-all active:scale-95 shadow-2xl shadow-black/20"
+              >
+                Proceed to Checkout
+              </button>
+            </Magnetic>
+            <p className="text-[9px] text-center text-gray-300 font-bold uppercase tracking-widest">Secure Interaction Powered by {config.appName}</p>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}

@@ -1,4 +1,4 @@
-import ShippingPolicy from '@/components/Information/ShippingPolicy';
+import ShippingPolicy from '@/components/store/Information/ShippingPolicy';
 
 export const metadata = {
     title: 'Shipping Policy',

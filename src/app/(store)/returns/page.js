@@ -1,4 +1,4 @@
-import Returns from '@/components/Information/Returns';
+import Returns from '@/components/store/Information/Returns';
 
 export const metadata = {
     title: 'Returns & Exchanges',

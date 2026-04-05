@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import mongoose from 'mongoose';
@@ -10,7 +11,14 @@ const SECRET_KEY = new TextEncoder().encode(
 );
 
 async function verifyAuth(request) {
-    const token = request.cookies.get('adminToken')?.value || request.headers.get('authorization')?.split(' ')[1];
+    let token;
+    try {
+        const cookieStore = await cookies();
+        token = cookieStore.get('adminToken')?.value;
+    } catch (e) {
+        // Prerender bailout
+    }
+    token = token || request.headers.get('authorization')?.split(' ')[1];
     if (!token) return null;
     try {
         const { payload } = await jwtVerify(token, SECRET_KEY);
@@ -28,6 +36,8 @@ export async function GET(request, { params }) {
         let product;
         if (mongoose.Types.ObjectId.isValid(slug)) {
             product = await Product.findById(slug);
+        } else if (/^\d+$/.test(slug)) {
+            product = await Product.findOne({ id: parseInt(slug) });
         }
 
         if (!product) {
@@ -38,7 +48,9 @@ export async function GET(request, { params }) {
             return NextResponse.json({ error: 'Product not found' }, { status: 404 });
         }
 
-        return NextResponse.json(product);
+        const response = NextResponse.json(product);
+        response.headers.set('Cache-Control', 's-maxage=300, stale-while-revalidate=3600');
+        return response;
 
     } catch (error) {
         console.error('Product API Error:', error);

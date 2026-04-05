@@ -1,6 +1,6 @@
 {
-  "name": "Petal + Pup - Boutique Fashion & Minimalist Lifestyle",
-  "short_name": "Petal + Pup",
+  "name": "CoolCache - Boutique Fashion & Minimalist Lifestyle",
+  "short_name": "CoolCache",
   "description": "Boutique fashion and minimalist lifestyle pieces for the discerning modern observer. Shop our latest curated collections.",
   "start_url": "/",
   "display": "standalone",
@@ -83,7 +83,7 @@
     "lifestyle",
     "curated",
     "minimalist",
-    "Petal + Pup",
+    "CoolCache",
     "online shopping"
   ]
 }

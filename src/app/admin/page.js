@@ -1,64 +1,39 @@
-"use client";
+import { cookies } from 'next/headers';
+import dbConnect from '@/lib/db';
+import { getAdminStats, getOrders, getProducts } from '@/lib/data';
+import AdminClientShell from '@/components/admin/AdminClientShell';
 
-import { useEffect, useState } from 'react';
-import AdminLayout from '../../components/Admin/AdminLayout';
-import AdminOverview from '../../components/Admin/AdminOverview';
-import AdminProducts from '../../components/Admin/AdminProducts';
-import AdminOrders from '../../components/Admin/AdminOrders.optimized'; // Using optimized version if available
-import AdminLogin from '../../components/Admin/AdminLogin';
+/**
+ * Server Component: Admin Dashboard
+ * Fetches initial data directly from DB to avoid client-side waterfalls.
+ */
+export default async function AdminPage() {
+    await dbConnect();
 
-export default function AdminPage() {
-    const [user, setUser] = useState(null);
+    // 1. Fetch initial data for the dashboard
+    const [stats, ordersData, productsData] = await Promise.all([
+        getAdminStats(),
+        getOrders({ limit: 5, page: 1 }),
+        getProducts({ limit: 1000, showHidden: true })
+    ]);
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const res = await fetch('/api/auth/me');
-                if (res.ok) {
-                    const data = await res.json();
-                    setUser(data.user);
-                    setIsAuthenticated(true);
-                } else {
-                    // Check if token exists in localStorage as fallback or clear it
-                    const token = localStorage.getItem('adminToken');
-                    if (token) {
-                        // If token exists but /api/auth/me failed, it might be expired
-                        localStorage.removeItem('adminToken');
-                    }
-                }
-            } catch (err) {
-                console.error('Auth check error:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        checkAuth();
-    }, []);
+    // 2. Identify products with low stock (< 10)
+    const lowStockProducts = productsData.products.filter(p => p.stock < 10 && p.stock > 0);
 
-    const handleLogin = (token, userData) => {
-        localStorage.setItem('adminToken', token);
-        setUser(userData);
-        setIsAuthenticated(true);
-    };
-
-    if (loading) return null;
-
-    if (!isAuthenticated) {
-        return <AdminLogin onLogin={handleLogin} />;
-    }
-
-    const renderSection = () => {
-        switch (currentSection) {
-            case 'dashboard': return <AdminOverview user={user} onChangeSection={setCurrentSection} />;
-            case 'products': return <AdminProducts user={user} />;
-            case 'orders': return <AdminOrders user={user} />;
-            default: return <AdminOverview user={user} onChangeSection={setCurrentSection} />;
-        }
+    const initialData = {
+        stats: {
+            totalRevenue: stats.revenue,
+            totalProfit: stats.revenue * 0.3, // Example calculation
+            totalOrders: stats.totalOrders,
+            pendingOrders: stats.pendingOrders,
+            totalProducts: stats.totalProducts,
+            lowStockCount: lowStockProducts.length
+        },
+        recentOrders: ordersData.orders,
+        lowStockProducts: lowStockProducts.slice(0, 5)
     };
 
     return (
-        <AdminLayout user={user} section={currentSection} onSectionChange={setCurrentSection}>
-            {renderSection()}
-        </AdminLayout>
+        <AdminClientShell initialData={initialData} />
     );
 }

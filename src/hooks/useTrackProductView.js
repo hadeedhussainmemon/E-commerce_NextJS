@@ -6,7 +6,7 @@ export function useTrackProductView(productId, productData) {
         if (!productId || !productData) return;
 
         try {
-            const viewHistory = JSON.parse(localStorage.getItem('petal_plus_pupViewHistory') || '[]');
+            const viewHistory = JSON.parse(localStorage.getItem('coolcache_view_history') || '[]');
 
             // Add current product to history (max 50 items)
             const updated = [
@@ -19,7 +19,7 @@ export function useTrackProductView(productId, productData) {
                 ...viewHistory.filter(item => item.id !== productId)
             ].slice(0, 50);
 
-            localStorage.setItem('petal_plus_pupViewHistory', JSON.stringify(updated));
+            localStorage.setItem('coolcache_view_history', JSON.stringify(updated));
         } catch (error) {
             console.error('Error tracking view:', error);
         }
